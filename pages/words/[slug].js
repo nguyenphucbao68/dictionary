@@ -12,9 +12,10 @@ import { storeCollection, getDocCollection } from '../../lib/api';
 const ScrollToTop = dynamic(import('../../layout/scroll_to_top'), {
 	ssr: false
 });
+import { useRouter } from 'next/router';
 
-// import './index.scss';
 React.useLayoutEffect = React.useEffect;
+
 
 const Home = ({ definition, relatedWord }) => {
 	const [anim, setAnim] = useState('');
@@ -37,18 +38,18 @@ const Home = ({ definition, relatedWord }) => {
 			{/* <Provider sotre={store}> */}
 			<ScrollToTop />
 			<App>
-				<TransitionGroup>
+				{/* <TransitionGroup>
 					<CSSTransition
 						in={true}
 						timeout={100}
 						classNames={anim}
 						unmountOnExit
-					>
-						<div>
-							<Dictionary definition={definition} relatedWord={relatedWord} />
-						</div>
-					</CSSTransition>
-				</TransitionGroup>
+					> */}
+						{/* <div> */}
+							<Dictionary definition={definition} relatedWord={relatedWord}/>
+						{/* </div> */}
+					{/* </CSSTransition> */}
+				{/* </TransitionGroup> */}
 			</App>
 			{/* </Provider> */}
 		</>

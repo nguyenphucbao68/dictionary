@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Router  from 'next/router';
 import Breadcrumb from '../../../layout/breadcrumb';
 import {
 	Container,
@@ -21,11 +22,34 @@ import Head from 'next/head';
 import ErrorPage from 'next/error';
 import Link from 'next/link';
 import { Send, Clock } from 'react-feather';
+import useOutsideClick from "../../../lib/event";
+import { SkeletonSection } from './skeleton';
 
+Router.onRouteChangeStart = () => {
+	document.getElementById("skeleton-word")?.classList.remove("hidden");
+	document.getElementById("skeleton-word")?.classList.add("show");
+	document.getElementById("word-info")?.classList.remove("show");
+	document.getElementById("word-info")?.classList.add("hidden");
+}
+Router.onRouteChangeComplete = () => {
+	document.getElementById("skeleton-word")?.classList.remove("show");
+	document.getElementById("skeleton-word")?.classList.add("hidden");
+	document.getElementById("word-info")?.classList.remove("hidden");
+	document.getElementById("word-info")?.classList.add("show");
+}
+Router.onRouteChangeError = () => {
+	document.getElementById("skeleton-word")?.classList.remove("show");
+	document.getElementById("skeleton-word")?.classList.add("hidden");
+	document.getElementById("word-info")?.classList.remove("hidden");
+	document.getElementById("word-info")?.classList.add("show");
+}
 const Dictionary = ({ definition, relatedWord }) => {
 	const [BasicLineTab, setBasicLineTab] = useState('1');
 	// console.log(definition[0].meaning.noun);
 	// const router = useRouter();
+	// if(router.isFallback){
+	// 	return <div>Loading...</div>;
+	// }
 	if (
 		// !router.isFallback ||
 		// typeof definition?.slug === 'undefined' ||
@@ -35,6 +59,7 @@ const Dictionary = ({ definition, relatedWord }) => {
 		return <ErrorPage statusCode={404} />;
 	}
 
+	const ref = useRef();
 	const [daytimes, setDayTimes] = useState()
 	const today = new Date()
 	const curHr = today.getHours()
@@ -47,9 +72,21 @@ const Dictionary = ({ definition, relatedWord }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [keyword, setKeyword] = useState('');
 	const [listWord, setListWord] = useState([]);
+	const [showResults, setShowResults] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const handleChange = date => {
 		setDate(date)
 	};
+
+	const clickInputSearch = () => {
+		if(keyword === '') return;
+		setShowResults(true);
+	} 
+
+	useOutsideClick(ref, () => {
+		// alert('You clicked outside')
+		setShowResults(false)
+	  });
 
 	const onClickAudio = (url) => {
 		var audio = new Audio(url);
@@ -64,6 +101,7 @@ const Dictionary = ({ definition, relatedWord }) => {
 			const obj = res.json();
 			console.log('obj', await obj);
 			setListWord(await obj);
+			setShowResults(true);
 		} catch (error) {
 			console.log('err', error);
 		}
@@ -85,7 +123,6 @@ const Dictionary = ({ definition, relatedWord }) => {
 			setMeridiem('AM')
 		}
 	}, [])
-
 	return (
 		<>
 			<Head>
@@ -112,6 +149,9 @@ const Dictionary = ({ definition, relatedWord }) => {
 											id="keyword-search"
 											placeholder="Search eduDawn's Dictionary"
 											onChange={onChangeKeyWord}
+											ref={ref}
+											onClick={clickInputSearch}
+											autoComplete="off"
 										/>
 										<a
 											className="language-switcher"
@@ -124,14 +164,14 @@ const Dictionary = ({ definition, relatedWord }) => {
 										</button>
 									</div>
 									<div
-										className="dropdown-menu row show"
+										className={`dropdown-menu row ${showResults && 'show'}`}
 										id="related-words"
 										aria-labelledby="dropdownMenuButton"
 									>
 										<div className="col-md-6">
-											{listWord.filter((item, i) => i < (listWord.length / 2)).map((item) => (
+											{listWord.filter((item, i) => i < (listWord.length / 2)).map((item, i) => (
 												<>
-													<Link href={`/words/${item?.word}`}>
+													<Link href={`/words/${item?.word}`} key={i} onClick={() => setShowResults(false)}>
 														<a className="dropdown-item">
 															{item.word == keyword ? (<strong>{item?.word}</strong>) : item?.word}
 														</a>
@@ -142,9 +182,9 @@ const Dictionary = ({ definition, relatedWord }) => {
 
 										</div>
 										<div className="col-md-6">
-											{listWord.filter((item, i) => i >= (listWord.length / 2)).map((item) => (
+											{listWord.filter((item, i) => i >= (listWord.length / 2)).map((item, i) => (
 												<>
-													<Link href={`/words/${item?.word}`}>
+													<Link href={`/words/${item?.word}`} key={i} onClick={() => setShowResults(false)}>
 														<a className="dropdown-item">
 															{item?.word}
 														</a>
@@ -160,7 +200,8 @@ const Dictionary = ({ definition, relatedWord }) => {
 				</Row>
 			</Container>
 			<Breadcrumb parent='Dashboard' title='Default' />
-			<Container fluid={true}>
+			<SkeletonSection />
+			<Container fluid={true} id='word-info' key='word-info'>
 				<Row>
 					<Col md='9'>
 						<Card>
@@ -185,7 +226,7 @@ const Dictionary = ({ definition, relatedWord }) => {
 												{item?.name.toUpperCase()}
 											</h3>
 											<ol className='meaning-section'>
-												<MeaningSection item={item} />
+												<MeaningSection item={item} key={i} />
 											</ol>
 											<hr />
 										</div>
@@ -193,7 +234,6 @@ const Dictionary = ({ definition, relatedWord }) => {
 								)}
 							</CardBody>
 						</Card>
-						{/* <DataTables /> */}
 					</Col>
 
 					<Col md='3'>
