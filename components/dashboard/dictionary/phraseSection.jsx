@@ -12,9 +12,10 @@ export const PhraseSection = ({ item }) => {
                         <div className='definition-phrase'>
                             {itemWord?.definition}
                         </div>
-                        <div className='shortEx phrase'>
+                        { itemWord?.example && <div className='shortEx phrase'>
                             <em>‘{itemWord?.example}’</em>
-                        </div>
+                        </div> }
+                        
                         <Accordion>
                             <div
                                 className='default-according style-1'

@@ -3,7 +3,11 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Provider } from 'react-redux';
 import { wrapper } from '../store';
+import "nprogress/nprogress.css";
 // const wrapper = dynamic(import('../store'), { ssr: false });
+// const TopProgressBar = dynamic(() => import("../components/app/TopProgressBar"), {
+// 	ssr: false,
+// });
 
 function MyApp({ Component, pageProps }) {
 	return (

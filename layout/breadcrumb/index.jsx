@@ -13,14 +13,14 @@ const Breadcrumbs = (props) => {
 						<Col xs='6'>
 							<h3>{props.title}</h3>
 							<Breadcrumb>
-								<BreadcrumbItem>
+								<BreadcrumbItem key='home'>
 									<Link href='/dashboard/default'>
 										<a>
 											<Home />
 										</a>
 									</Link>
 								</BreadcrumbItem>
-								<BreadcrumbItem>{props.parent}</BreadcrumbItem>
+								<BreadcrumbItem key='parent'>{props.parent}</BreadcrumbItem>
 							</Breadcrumb>
 						</Col>
 						<Bookmark />
