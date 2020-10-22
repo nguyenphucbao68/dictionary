@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import Router  from 'next/router';
 
-export const SkeletonSection = () => {
+const SkeletonSection = () => {
     return (
         <>
             <Container fluid={true} id='skeleton-word' className='hidden' key='skeleton-word'>
@@ -93,3 +93,4 @@ export const SkeletonSection = () => {
         </>
     )
 }
+export default SkeletonSection;

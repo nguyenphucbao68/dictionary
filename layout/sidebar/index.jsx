@@ -160,7 +160,7 @@ const Sidebar = (props) => {
 											<a
 												className={`nav-link menu-title  ${menuItem.active ? 'active' : ''
 													}`}
-												href='#javascript'
+												href={menuItem.path}
 												onClick={() => toggletNavActive(menuItem)}
 											>
 												<menuItem.icon />

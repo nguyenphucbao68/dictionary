@@ -7,13 +7,14 @@ export const WordSection = ({ item }) => {
             {/* {JSON.stringify(definition[0].meaning[item])} */}
             {item?.data?.map(
                 (itemWord, i) => (
-                    <li key={i}>
-                        <span className='meaning-word'>
+                    <li key={i} className={!itemWord?.definition ? 'ignore-order' : ''}>
+                        {itemWord?.definition && <span className='meaning-word'>
                             {itemWord?.definition}
-                        </span>
-                        <div className='shortEx'>
-                            <em>‘{itemWord?.example}’</em>
-                        </div>
+                        </span>}
+                        {itemWord?.example && <div className='shortEx'>
+                            <em>{itemWord?.example}</em>
+                        </div>}
+                        
                         <Accordion>
                             <div
                                 className='default-according style-1'

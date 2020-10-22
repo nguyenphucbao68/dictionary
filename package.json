@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "start:be": "cd backend && php -S localhost:8080",
+    "dev": "set NODE_ENV=development && node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "set NODE_ENV=production && node server.js"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -49,5 +50,6 @@
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.6",
     "url-loader": "^4.1.0"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

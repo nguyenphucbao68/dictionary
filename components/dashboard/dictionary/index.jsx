@@ -23,7 +23,7 @@ import ErrorPage from 'next/error';
 import Link from 'next/link';
 import { Send, Clock } from 'react-feather';
 import useOutsideClick from "../../../lib/event";
-import { SkeletonSection } from './skeleton';
+import SkeletonSection from './skeleton';
 
 Router.onRouteChangeStart = () => {
 	document.getElementById("skeleton-word")?.classList.remove("hidden");
@@ -97,13 +97,12 @@ const Dictionary = ({ definition, relatedWord }) => {
 		const keyword = e.target?.value;
 		setKeyword(e.target?.value);
 		try {
-			const res = await fetch(`http://localhost/restful/index.php/search/${keyword}/8`);
+			const res = await fetch(`/api/index.php/search/${keyword}/8`);
 			const obj = res.json();
-			console.log('obj', await obj);
 			setListWord(await obj);
 			setShowResults(true);
 		} catch (error) {
-			console.log('err', error);
+			// console.log('err', error);
 		}
 
 	}
@@ -147,7 +146,7 @@ const Dictionary = ({ definition, relatedWord }) => {
 											className="form-control"
 											aria-label="Text input with segmented dropdown button"
 											id="keyword-search"
-											placeholder="Search eduDawn's Dictionary"
+											placeholder="Search Athoni's Dictionary"
 											onChange={onChangeKeyWord}
 											ref={ref}
 											onClick={clickInputSearch}
@@ -155,7 +154,7 @@ const Dictionary = ({ definition, relatedWord }) => {
 										/>
 										<a
 											className="language-switcher"
-											onClick={() => ModalLanguageSwitcher()}
+											// onClick={() => ModalLanguageSwitcher()}
 										>
 											English - English
     </a>
@@ -204,22 +203,23 @@ const Dictionary = ({ definition, relatedWord }) => {
 			<Container fluid={true} id='word-info' key='word-info'>
 				<Row>
 					<Col md='9'>
-						<Card>
+						{definition.map((data, i) => (
+							<Card>
 							<CardHeader>
 								<h1>
-									{definition[0].word}
+									{data.word}
 									{/* <span className='uk-text-small'>noun</span> */}
 								</h1>
 								<div>
 									<span className='speaker-word'>
-										<i className='txt-primary icofont icofont-audio' onClick={() => onClickAudio(definition[0].pronunciation)}></i>{' '}
-										{definition[0].phonetic}
+										<i className='txt-primary icofont icofont-audio' onClick={() => onClickAudio(data.pronunciation)}></i>{' '}
+										{data.phonetic}
 									</span>
 
 								</div>
 							</CardHeader>
 							<CardBody className='content-words'>
-								{definition[0].meaning.map(
+								{data.meaning.map(
 									(item, i) => (
 										<div className='meaningSection' key={i}>
 											<h3 className='sec'>
@@ -234,6 +234,8 @@ const Dictionary = ({ definition, relatedWord }) => {
 								)}
 							</CardBody>
 						</Card>
+						))}
+						
 					</Col>
 
 					<Col md='3'>

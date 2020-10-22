@@ -187,3 +187,15 @@
 .search-words .dropdown-item {
 	font-size: 16px !important;
 }
+.logo-wrapper {
+	padding: 23px 30px;
+}
+.logo-wrapper img {
+	width: 50%;
+	margin-top: -8px;
+	margin-left: 43px;
+}
+.ignore-order:before {
+	content: '' !important;
+	display: block !important;
+}
