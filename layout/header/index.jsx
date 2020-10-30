@@ -97,7 +97,7 @@ const Header = (props) => {
 
 	return (
 		<>
-			<div className='page-main-header'>
+			<div className='page-main-header close_icon'>
 				<Row className='main-header-right m-0'>
 					<Form
 						className='form-inline search-full'

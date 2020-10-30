@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import Router from 'next/router';
 import Breadcrumb from '../../../layout/breadcrumb';
 import {
@@ -15,40 +15,46 @@ import {
 	NavLink,
 	TabContent,
 	TabPane,
-	Dropdown,
-	DropdownMenu,
-	DropdownItem,
-	Button,
 } from 'reactstrap';
-import { MeaningSection } from './meaningSection';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import Link from 'next/link';
 import { Send, Clock } from 'react-feather';
 import useOutsideClick from '../../../lib/event';
 import SkeletonSection from './skeleton';
+import dynamic from 'next/dynamic';
+
 import YoutubeResources from './youtubeResources';
 import SideBarPage from '../../app/SideBar';
+{
+	/*  */
+}
+// const YoutubeResources = dynamic(() => import('./youtubeResources'), {
+// 	loading: () => <SkeletonSection />,
+// });
 
 Router.onRouteChangeStart = () => {
-	document.getElementById('skeleton-word')?.classList.remove('hidden');
-	document.getElementById('skeleton-word')?.classList.add('show');
-	document.getElementById('word-info')?.classList.remove('show');
-	document.getElementById('word-info')?.classList.add('hidden');
+	// if (window.runned) return;
+	document.getElementById('skeleton-pronounce')?.classList.remove('hidden');
+	document.getElementById('skeleton-pronounce')?.classList.add('show');
+	document.getElementById('pronounce-info')?.classList.remove('show');
+	document.getElementById('pronounce-info')?.classList.add('hidden');
 };
 Router.onRouteChangeComplete = () => {
-	document.getElementById('skeleton-word')?.classList.remove('show');
-	document.getElementById('skeleton-word')?.classList.add('hidden');
-	document.getElementById('word-info')?.classList.remove('hidden');
-	document.getElementById('word-info')?.classList.add('show');
+	document.getElementById('skeleton-pronounce')?.classList.remove('show');
+	document.getElementById('skeleton-pronounce')?.classList.add('hidden');
+	document.getElementById('pronounce-info')?.classList.remove('hidden');
+	document.getElementById('pronounce-info')?.classList.add('show');
 };
 Router.onRouteChangeError = () => {
-	document.getElementById('skeleton-word')?.classList.remove('show');
-	document.getElementById('skeleton-word')?.classList.add('hidden');
-	document.getElementById('word-info')?.classList.remove('hidden');
-	document.getElementById('word-info')?.classList.add('show');
+	document.getElementById('skeleton-pronounce')?.classList.remove('show');
+	document.getElementById('skeleton-pronounce')?.classList.add('hidden');
+	document.getElementById('pronounce-info')?.classList.remove('hidden');
+	document.getElementById('pronounce-info')?.classList.add('show');
 };
-const Dictionary = ({ definition, relatedWord, word }) => {
+
+const isServer = typeof window === 'undefined';
+const Pronounce = ({ pronounce, subTitle, word }) => {
 	const [BasicLineTab, setBasicLineTab] = useState('1');
 	// console.log(definition[0].meaning.noun);
 	// const router = useRouter();
@@ -58,8 +64,8 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 	if (
 		// !router.isFallback ||
 		// typeof definition?.slug === 'undefined' ||
-		!definition ||
-		!definition.length
+		!pronounce ||
+		!pronounce.length
 	) {
 		return <ErrorPage statusCode={404} />;
 	}
@@ -83,6 +89,14 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 		setDate(date);
 	};
 	const [VerticleTab, setVerticleTab] = useState('2');
+
+	// useEffect(() => {
+	// 	document.getElementById('skeleton-pronounce')?.classList.remove('hidden');
+	// 	document.getElementById('skeleton-pronounce')?.classList.add('show');
+	// 	document.getElementById('pronounce-info')?.classList.remove('show');
+	// 	document.getElementById('pronounce-info')?.classList.add('hidden');
+	// 	window.runned = true;
+	// }, []);
 
 	const clickInputSearch = () => {
 		if (keyword === '') return;
@@ -139,7 +153,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 					rel='stylesheet'
 				/>
 			</Head>
-			<Container fluid={true}>
+			<Container fluid={true} key='container1'>
 				<Row className='appointment-sec mt-2'>
 					<Col md='12' className='chat-default'>
 						<Card>
@@ -177,7 +191,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 										id='related-words'
 										aria-labelledby='dropdownMenuButton'
 									>
-										<div className='col-md-6'>
+										<div className='col-md-6' key='col1'>
 											{listWord
 												.filter(
 													(item, i) => i < listWord.length / 2
@@ -185,7 +199,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 												.map((item, i) => (
 													<>
 														<Link
-															href={`/words/${item?.word}`}
+															href={`/pronounce/${item?.word}`}
 															key={i}
 															onClick={() =>
 																setShowResults(false)
@@ -202,7 +216,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 													</>
 												))}
 										</div>
-										<div className='col-md-6'>
+										<div className='col-md-6' key='col2'>
 											{listWord
 												.filter(
 													(item, i) => i >= listWord.length / 2
@@ -210,7 +224,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 												.map((item, i) => (
 													<>
 														<Link
-															href={`/words/${item?.word}`}
+															href={`/pronounce/${item?.word}`}
 															key={i}
 															onClick={() =>
 																setShowResults(false)
@@ -231,50 +245,17 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 				</Row>
 			</Container>
 			<Breadcrumb parent='Dashboard' title='Default' />
-			<SkeletonSection />
-			<Container fluid={true} id='word-info' key='word-info'>
+			<Container fluid={true} id='word-info' key='container2'>
 				<Row>
-					<Col md='2'>
-						<SideBarPage currentPage='details' word={word} />
+					<Col md='2' key='md2'>
+						<SideBarPage currentPage='pronounce' word={word} />
 					</Col>
-					<Col md='7'>
-						{definition.map((data, i) => (
-							<Card>
-								<CardHeader>
-									<h1>
-										{data.word}
-										{/* <span className='uk-text-small'>noun</span> */}
-									</h1>
-									<div>
-										<span className='speaker-word'>
-											<i
-												className='txt-primary icofont icofont-audio'
-												onClick={() =>
-													onClickAudio(data.pronunciation)
-												}
-											></i>{' '}
-											{data.phonetic}
-										</span>
-									</div>
-								</CardHeader>
-								<CardBody className='content-words'>
-									{data.meaning.map((item, i) => (
-										<div className='meaningSection' key={i}>
-											<h3 className='sec'>
-												{item?.name.toUpperCase()}
-											</h3>
-											<ol className='meaning-section'>
-												<MeaningSection item={item} key={i} />
-											</ol>
-											<hr />
-										</div>
-									))}
-								</CardBody>
-							</Card>
-						))}
+					<Col md='7' key='md7'>
+						<SkeletonSection />
+						<YoutubeResources pronounce={pronounce} subTitle={subTitle} />
 					</Col>
 
-					<Col md='3'>
+					<Col md='3' key='md3'>
 						<h4>Other Results</h4>
 						<Card className='m-b-0 related-section'>
 							<Nav className='m-b-0' tabs>
@@ -290,19 +271,7 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 							</Nav>
 							<TabContent activeTab={BasicLineTab}>
 								<TabPane className='fade show' tabId='1'>
-									<ListGroup>
-										{relatedWord?.map((item, i) => (
-											<ListGroupItem
-												className='btn-square btn btn-outline-light txt-dark'
-												action
-												key={i}
-											>
-												<Link href={item.word}>
-													<a>{item.word}</a>
-												</Link>
-											</ListGroupItem>
-										))}
-									</ListGroup>
+									<ListGroup>...</ListGroup>
 								</TabPane>
 							</TabContent>
 						</Card>
@@ -390,4 +359,4 @@ const Dictionary = ({ definition, relatedWord, word }) => {
 	);
 };
 
-export default Dictionary;
+export default Pronounce;
