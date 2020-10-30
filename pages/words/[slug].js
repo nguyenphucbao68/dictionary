@@ -10,14 +10,13 @@ import { findDefinitions } from '../../lib/dictionary';
 import { storeCollection, getDocCollection } from '../../lib/api';
 // import Store from '../store';
 const ScrollToTop = dynamic(import('../../layout/scroll_to_top'), {
-	ssr: false
+	ssr: false,
 });
 import { useRouter } from 'next/router';
 
 React.useLayoutEffect = React.useEffect;
 
-
-const Home = ({ definition, relatedWord }) => {
+const Home = ({ definition, relatedWord, word }) => {
 	const [anim, setAnim] = useState('');
 	// localStorage.getItem('animation') ||
 	const animation = ConfigDB.data.router_animation || 'fade';
@@ -36,7 +35,7 @@ const Home = ({ definition, relatedWord }) => {
 	return (
 		<>
 			{/* <Provider sotre={store}> */}
-			<ScrollToTop />
+			{/* <ScrollToTop /> */}
 			<App>
 				{/* <TransitionGroup>
 					<CSSTransition
@@ -45,10 +44,14 @@ const Home = ({ definition, relatedWord }) => {
 						classNames={anim}
 						unmountOnExit
 					> */}
-						{/* <div> */}
-							<Dictionary definition={definition} relatedWord={relatedWord}/>
-						{/* </div> */}
-					{/* </CSSTransition> */}
+				{/* <div> */}
+				<Dictionary
+					definition={definition}
+					relatedWord={relatedWord}
+					word={word}
+				/>
+				{/* </div> */}
+				{/* </CSSTransition> */}
 				{/* </TransitionGroup> */}
 			</App>
 			{/* </Provider> */}
@@ -59,13 +62,21 @@ export async function getServerSideProps({ params }) {
 	const getDocWord = await getDocCollection(params.slug);
 	if (getDocWord.data?.length) {
 		return {
-			props: { definition: getDocWord.data, relatedWord: getDocWord.relatedWords }
+			props: {
+				definition: getDocWord.data,
+				relatedWord: getDocWord.relatedWords,
+				word: params.slug,
+			},
 		};
 	}
 	const definition = await findDefinitions(params.slug, 'en');
 	storeCollection(params.slug, definition);
 	return {
-		props: { definition: definition.data, relatedWord: definition.relatedWords }
+		props: {
+			definition: definition.data,
+			relatedWord: definition.relatedWords,
+			word: params.slug,
+		},
 	};
 }
 export default Home;

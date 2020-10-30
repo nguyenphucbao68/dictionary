@@ -29,7 +29,7 @@ const Sidebar = (props) => {
 			return items;
 		});
 		// setSidebartoogle(true);
-		// openCloseSidebard(sidebartoogle);
+		openCloseSidebar(sidebartoogle);
 		// eslint-disable-next-line
 	}, []);
 

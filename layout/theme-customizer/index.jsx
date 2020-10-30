@@ -129,7 +129,7 @@ const Themecustomizer = (props) => {
 			document.querySelector('.page-body-wrapper').className =
 				'page-body-wrapper ' + body_sidebar_type;
 			document.querySelector('.page-main-header').className =
-				'page-main-header ';
+				'page-main-header close_icon';
 		}
 
 		//set sidebar setting
