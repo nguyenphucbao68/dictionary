@@ -266,3 +266,11 @@
 .slick-prev {
 	background: #8c69fb !important;
 }
+.react-kanban-column {
+	width: 90%;
+}
+
+.difference-brief {
+	padding-left: 20px !important;
+	list-style-type: decimal !important;
+}

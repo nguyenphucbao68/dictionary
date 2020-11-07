@@ -26,6 +26,17 @@ const SideBarPage = ({ currentPage, word }) => {
 						</NavLink>
 					</Link>
 				</NavItem>
+				<NavItem key='menu3'>
+					<Link href={`/difference/${word}`}>
+						<NavLink
+							// href='#javascript'
+							className={currentPage === 'difference' ? 'active' : ''}
+						>
+							<i className='pe-7s-video'></i>
+							Difference
+						</NavLink>
+					</Link>
+				</NavItem>
 			</Nav>
 		</>
 	);

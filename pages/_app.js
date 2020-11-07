@@ -39,14 +39,14 @@ function MyApp({ Component, pageProps }) {
 				<link
 					rel='stylesheet'
 					type='text/css'
-					href='../assets/css/getBootstrap.min.css'
+					href='/assets/css/getBootstrap.min.css'
 				/>
 				<link
 					rel='stylesheet'
 					type='text/css'
-					href='../assets/css/styleReact.min.css'
+					href='/assets/css/styleReact.min.css'
 				/>
-				<link rel='stylesheet' href='../test.css' />
+				<link rel='stylesheet' href='/test.css' />
 			</Head>
 			<Component {...pageProps} />
 			<link
