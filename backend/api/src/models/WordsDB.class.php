@@ -3,14 +3,13 @@ require __DIR__ . '/../../configDB.php';
 
   class WordsDB {    
     private $pdo;
-
+    private $currentLanguage = array("en_en", "en_vi");
     public function connect(){
       $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
 
       $pdo = new PDO($connect_str, DB_USER, DB_PASSWORD);
 
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
       $this->pdo = $pdo;
     }
 
@@ -106,8 +105,9 @@ require __DIR__ . '/../../configDB.php';
       $res = $stmt->execute();      
     }   
 
-    public function findByKeyword($keyword, $limit = 8){
-      $sql = "SELECT * FROM words WHERE word LIKE :keyword LIMIT :limit";
+    public function findByKeyword($keyword, $language, $limit = 8){
+      if(!in_array($language, $this->currentLanguage)) throw new Error("Error");
+      $sql = "SELECT * FROM $language WHERE word LIKE :keyword LIMIT :limit";
       $this->connect();
 
       $stmt = $this->pdo->prepare($sql);
@@ -118,6 +118,17 @@ require __DIR__ . '/../../configDB.php';
       $res = $stmt->execute(); 
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    private function mysql_escape_mimic($inp) { 
+      if(is_array($inp)) 
+          return array_map(__METHOD__, $inp); 
+  
+      if(!empty($inp) && is_string($inp)) { 
+          return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp); 
+      } 
+  
+      return $inp; 
+    } 
 
     public function update(Book $book){
       $sql = "UPDATE words SET word = :word, created_at = :created_at WHERE id = :id";

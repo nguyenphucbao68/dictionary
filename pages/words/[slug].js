@@ -34,27 +34,14 @@ const Home = ({ definition, relatedWord, word }) => {
 
 	return (
 		<>
-			{/* <Provider sotre={store}> */}
 			{/* <ScrollToTop /> */}
 			<App>
-				{/* <TransitionGroup>
-					<CSSTransition
-						in={true}
-						timeout={100}
-						classNames={anim}
-						unmountOnExit
-					> */}
-				{/* <div> */}
 				<Dictionary
 					definition={definition}
 					relatedWord={relatedWord}
 					word={word}
 				/>
-				{/* </div> */}
-				{/* </CSSTransition> */}
-				{/* </TransitionGroup> */}
 			</App>
-			{/* </Provider> */}
 		</>
 	);
 };

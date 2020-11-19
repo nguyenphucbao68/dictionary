@@ -4,22 +4,47 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta
-			name="description"
-			content="Cuba admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities."
-		/>
-		<meta
-			name="keywords"
-			content="admin template, Cuba admin template, dashboard template, flat admin template, responsive admin template, web app"
-		/>
-		<meta name="author" content="pixelstrap" />
 		<link rel="icon" href="assets/images/favicon.png" type="image/x-icon" />
 		<link
 			rel="shortcut icon"
 			href="assets/images/favicon.png"
 			type="image/x-icon"
 		/>
-		<title>Cuba - Premium Admin Template</title>
+		<title>Look up Now | Athoni Dictionary</title>
+    <!-- Google font-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="description"
+      content="Athoni Dictionary - American English audio pronunciation, Vietnamese dictionary, English dictionary"
+    />
+    <meta
+      name="keywords"
+      content="free dictionary online, english, thesaurus, business, british, uk, american, us, spanish, turkish, definition, define, meaning, spelling, translate, translation, pronounce, pronunciation, pronounciation, audio, conjugation, inflection"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,minimum-scale=1,initial-scale=1"
+    />
+    <meta property="og:url" content="https://athoni.com/dictionary" />
+    <meta
+      property="og:title"
+      content="Athoni Dictioanry - English dictionary, Vietnamese Dictionary"
+    />
+    <meta
+      property="og:description"
+      content="Athoni Dictionary - American English audio pronunciation, Vietnamese dictionary, English dictionary"
+    />
+    <link rel="canonical" href="https://athoni.com/dictionary" />
 		<!-- Google font-->
 		<link
 			href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
@@ -483,18 +508,19 @@ $input.on('keyup', function () {
 	var keyword = $input.val();
 					if(!keyword) return;
 					const limit = 10;
-					fetch(`/api/index.php/search/${keyword}/${limit}`)
+					const language = 'en_en';
+					fetch(`/api/index.php/search/${language}/${keyword}/${limit}`)
 						.then(res => res.json())
 						.then(data => {
 							var firstCol = '';
 							var secondCol = '';
 							data.map((item, i) => {
 								if(i % 2 == 0){
-									firstCol += `<a class="dropdown-item" href="/words/${item?.word}">
+									firstCol += `<a class="dropdown-item" href="/dict/${language}/${item?.word}">
 															${item.word == keyword ? (`<strong>${item?.word}</strong>`) : item?.word}
 														</a>`;
 								}else{
-									secondCol += `<a class="dropdown-item" href="/words/${item?.word}">
+									secondCol += `<a class="dropdown-item" href="/dict/${language}/${item?.word}">
 															${item.word == keyword ? (`<strong>${item?.word}</strong>`) : item?.word}
 														</a>`;
 								}

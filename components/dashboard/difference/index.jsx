@@ -76,14 +76,6 @@ const Difference = ({ difference }) => {
 	};
 	const [VerticleTab, setVerticleTab] = useState('2');
 
-	// useEffect(() => {
-	// 	document.getElementById('skeleton-pronounce')?.classList.remove('hidden');
-	// 	document.getElementById('skeleton-pronounce')?.classList.add('show');
-	// 	document.getElementById('pronounce-info')?.classList.remove('show');
-	// 	document.getElementById('pronounce-info')?.classList.add('hidden');
-	// 	window.runned = true;
-	// }, []);
-
 	const clickInputSearch = () => {
 		if (keyword === '') return;
 		setShowResults(true);

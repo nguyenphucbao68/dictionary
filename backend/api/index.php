@@ -126,18 +126,19 @@ $app->get('/complete/{keyword}/{limit}', function (Request $request, Response $r
 });
 
 // search words
-$app->get('/search/{keyword}/{limit}', function (Request $request, Response $response) {
+$app->get('/search/{language}/{keyword}/{limit}', function (Request $request, Response $response) {
   try {
     $keyword = $request->getAttribute('keyword');
     $limit = $request->getAttribute('limit');
+    $language = $request->getAttribute('language');
     // picking a book
     $wordsDb = new WordsDB();    
     // print_r($wordsDb->findByWord($keyword));
     $keyword2 = $keyword;
-    $word = $wordsDb->findByKeyword($keyword, $limit);
+    $word = $wordsDb->findByKeyword($keyword, $language, $limit);
     while(count($word) <= 5){
       $keyword = substr($keyword, 0, -1);
-      $word = $wordsDb->findByKeyword($keyword, $limit);
+      $word = $wordsDb->findByKeyword($keyword, $language, $limit);
     }
     $keyword = $keyword == '' ? $keyword2 : $keyword;
 
