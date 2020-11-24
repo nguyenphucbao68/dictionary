@@ -39,11 +39,34 @@ $app->get('/cat/{cat}', function (Request $request, Response $response) {
   }
 });
 
-$app->get('/cat', function (Request $request, Response $response) {    
+$app->get('/{language}/cat/{page}', function (Request $request, Response $response) {    
   try {
     // picking words from database 
     $wordsDb = new WordsDB();
-    $words = $wordsDb->getCatAll(CATEGORIES_PER_PAGE, WORDS_PER_PAGE);
+    $language = $request->getAttribute('language');
+    $page = $request->getAttribute('page');
+    $limit = 960;
+    $words = $wordsDb->getCat($page, $language, $limit);
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->get('/{language}/cat', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    $wordsDb = new WordsDB();
+    $language = $request->getAttribute('language');
+    $words = $wordsDb->getCatAll($language);
 
     // custom json response
     $response->withStatus(200);

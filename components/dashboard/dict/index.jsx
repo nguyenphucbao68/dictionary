@@ -188,7 +188,7 @@ const Dictionary = ({ definition, word, language }) => {
                     <button type="button" className="btn btn-light">
                       <img
                         width={31}
-                        src="../assets/images/landing/search-icon.png"
+                        src="/assets/images/landing/search-icon.png"
                       />
                     </button>
                   </div>
@@ -294,12 +294,12 @@ const Dictionary = ({ definition, word, language }) => {
                         action
                         key={i}
                       >
-                        <Link
+                        <a
                           href={`/dict/${language}/${item.word}`}
                           as={`/dict/${language}/${item.word}`}
                         >
                           <a>{item.word}</a>
-                        </Link>
+                        </a>
                       </ListGroupItem>
                     ))}
                   </ListGroup>
@@ -336,7 +336,7 @@ const Dictionary = ({ definition, word, language }) => {
                   <div className="profile-vector">
                     <img
                       className="img-fluid"
-                      src="../assets/images/dashboard/welcome.png"
+                      src="/assets/images/dashboard/welcome.png"
                       alt=""
                     />
                   </div>

@@ -13,14 +13,17 @@ require __DIR__ . '/../../configDB.php';
       $this->pdo = $pdo;
     }
 
-    public function getCat($cat, $wordLimit){
-      $sql = "SELECT type, COUNT(type) as numcount, (ceiling(COUNT(type) / $wordLimit)) as pageCount FROM `words` WHERE type='$cat'";
+    public function getCat($page, $language, $limit){
+      $sql = "SELECT * FROM ".$this->mysql_escape_mimic($language)." WHERE page=:page LIMIT :limit";
       $this->connect();
 
-      $stmt = $this->pdo->query($sql);
+      $stmt = $this->pdo->prepare($sql);
 
       $this->pdo = null;
-      return $stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt->bindValue(":page", (int)$page, PDO::PARAM_INT);
+      $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+      $res = $stmt->execute(); 
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getWordsByCat($cats){
@@ -33,8 +36,8 @@ require __DIR__ . '/../../configDB.php';
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getCatAll($limit, $wordLimit){
-      $sql = "SELECT DISTINCT type, COUNT(type) as numcount, (ceiling(COUNT(type) / $wordLimit)) as pageCount FROM `words` GROUP BY type LIMIT $limit";
+    public function getCatAll($language){
+      $sql = "SELECT page from ".$this->mysql_escape_mimic($language)." GROUP BY page";
       $this->connect();
 
       $stmt = $this->pdo->query($sql);
@@ -94,7 +97,7 @@ require __DIR__ . '/../../configDB.php';
       $query = '';
       $query_parts = array();
       for($x=0; $x<count($list); $x++){
-          $query_parts[] = "(default, '" . mysql_escape_string($list[$x]) . "', '".$type."', '" . $date . "')";
+          $query_parts[] = "(default, '" . $this->mysql_escape_string($list[$x]) . "', '".$type."', '" . $date . "')";
       };
       $query .= implode(',', $query_parts);
       $sql = "INSERT INTO words Values $query";
