@@ -21,8 +21,9 @@ class Sitemap extends React.Component {
   static async getInitialProps({ res, query }) {
     try {
       const { lang, page } = query;
+      var pageAddress = page.substr(0, page.indexOf('.xml'));
       const request = await fetch(
-        `${process.env.ORIGIN_URL}/api/index.php/${lang}/cat/${page}`
+        `${process.env.ORIGIN_URL}/api/index.php/${lang}/cat/${pageAddress}`
       );
       const data = await request.json();
       res.setHeader('Content-Type', 'text/xml');

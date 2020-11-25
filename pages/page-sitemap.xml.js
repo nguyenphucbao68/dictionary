@@ -1,19 +1,19 @@
 import React from 'react';
 
 const createURL = (link) => {
-  return `
-<sitemap>
-      <loc>${link}</loc>
-    </sitemap>`;
+  return `<url>
+  <loc>${link}</loc>
+  <changefreq>daily</changefreq>
+<priority>1.0</priority>
+</url>`;
 };
 
 // TODO: update
 const createSitemap = () => `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
-    ${createURL(`${process.env.ORIGIN_URL}/dictionary-sitemap.xml`)}
-    
-  </sitemapindex>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${createURL(`${process.env.ORIGIN_URL}`)}
+    ${createURL(`${process.env.ORIGIN_URL}/dictionary`)}
+  </urlset>
 `;
 
 class Sitemap extends React.Component {
