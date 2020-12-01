@@ -29,6 +29,8 @@ import useOutsideClick from '../../../lib/event';
 import SideBarPage from '../../app/SideBar';
 import SkeletonSection from './skeleton';
 import settings from '../../../config/settingsConfig';
+import { NextSeo, BreadcrumbJsonLd } from 'next-seo';
+
 Router.onRouteChangeStart = () => {
   document.getElementById('skeleton-word')?.classList.remove('hidden');
   document.getElementById('skeleton-word')?.classList.add('show');
@@ -148,10 +150,8 @@ const Dictionary = ({ definition, word, language }) => {
           href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,300;1,400&display=swap"
           rel="stylesheet"
         />
-        <title>{word} | meaning in the Athoni English Dictionary</title>
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="description" content={definition.meta.desc.trim()} />
         <meta
           name="keywords"
           content={`${word} definition, dictionary, english, british, american, business, british english, thesaurus, define test, test meaning, what is ${word}, spelling, conjugation, audio pronunciation, free, online, english.`}
@@ -161,17 +161,70 @@ const Dictionary = ({ definition, word, language }) => {
           name="viewport"
           content="width=device-width,minimum-scale=1,initial-scale=1"
         />
-        <meta
-          property="og:url"
-          content={`https://www.athoni.com/dict/${language}/${word}`}
-        />
-        <meta
-          property="og:title"
-          content="Athoni Dictioanry - English dictionary, Vietnamese Dictionary"
-        />
-        <meta property="og:description" content={definition.meta.desc.trim()} />
-        <link rel="canonical" href="https://www.athoni.com/dictionary" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://www.athoni.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.athoni.com/dict/${language}/{search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }`,
+          }}
+        ></script>
+        <link href="https://www.athoni.com" rel="publisher" />
       </Head>
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: 'Home',
+            item: 'https://www.athoni.com',
+          },
+          {
+            position: 2,
+            name: settings.languageData.find((item) => item.prefix == language)
+              .name,
+            item: 'https://www.athoni.com',
+          },
+          {
+            position: 3,
+            name: word,
+            item: `https://www.athoni.com/dict/${language}/${word}`,
+          },
+        ]}
+      />
+      <NextSeo
+        title={word}
+        titleTemplate="%s | meaning in the Athoni English Dictionary"
+        description={definition.meta.desc.trim()}
+        canonical={`https://www.athoni.com/dict/${language}/${word}`}
+        openGraph={{
+          type: 'website',
+          url: `https://www.athoni.com/dict/${language}/${word}`,
+          title: `${word} | meaning in the Athoni English Dictionary`,
+          description: definition.meta.desc.trim(),
+          images: [
+            {
+              url: 'assets/images/athoni-bg.png',
+              width: 800,
+              height: 600,
+              alt: 'Athoni Dictionary',
+            },
+          ],
+          site_name: 'Athoni Dictionary',
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
+      />
       <Container fluid={true}>
         <Row className="appointment-sec mt-2">
           <Col md="12" className="chat-default">
