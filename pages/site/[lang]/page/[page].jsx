@@ -4,17 +4,15 @@ const EXTERNAL_DATA_URL = `${process.env.ORIGIN_URL}/site/en_en/list`;
 
 // TODO: update
 const createSitemap = (data, lang) => `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    ${data
-      .map(
-        ({ word }) => `
-        <url>
-          <loc>${`${process.env.ORIGIN_URL}/dict/${lang}/${escape(word)}`}</loc>
-          <changefreq>daily</changefreq>
-        </url>
-      `
-      )
-      .join('')}
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${data
+    .map(
+      ({ word }) => `
+    <url>
+      <loc>${`${process.env.ORIGIN_URL}/dict/${lang}/${escape(word)}`}</loc>
+      <changefreq>daily</changefreq>
+    </url>`
+    )
+    .join('')}
   </urlset>
 `;
 

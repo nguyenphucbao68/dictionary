@@ -15,9 +15,10 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Button,
 } from 'reactstrap';
 import Head from 'next/head';
@@ -27,6 +28,7 @@ import { Send, Clock } from 'react-feather';
 import useOutsideClick from '../../../lib/event';
 import SideBarPage from '../../app/SideBar';
 import SkeletonSection from './skeleton';
+import settings from '../../../config/settingsConfig';
 Router.onRouteChangeStart = () => {
   document.getElementById('skeleton-word')?.classList.remove('hidden');
   document.getElementById('skeleton-word')?.classList.add('show');
@@ -126,6 +128,15 @@ const Dictionary = ({ definition, word, language }) => {
       setMeridiem('AM');
     }
   }, []);
+  const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
+  const [modal, setModal] = useState(false);
+  const ModalLanguageSwitcher = () => setModal(!modal);
+  const changeCurLanguage = (e) => {
+    e.preventDefault();
+    console.log(e.target?.getAttribute('prefix'));
+    setCurLanguage(e.target?.getAttribute('prefix'));
+    setModal(false);
+  };
   return (
     <>
       <Head>
@@ -152,14 +163,14 @@ const Dictionary = ({ definition, word, language }) => {
         />
         <meta
           property="og:url"
-          content={`https://athoni.com/dict/${language}/${word}`}
+          content={`https://www.athoni.com/dict/${language}/${word}`}
         />
         <meta
           property="og:title"
           content="Athoni Dictioanry - English dictionary, Vietnamese Dictionary"
         />
         <meta property="og:description" content={definition.meta.desc.trim()} />
-        <link rel="canonical" href="https://athoni.com/dictionary" />
+        <link rel="canonical" href="https://www.athoni.com/dictionary" />
       </Head>
       <Container fluid={true}>
         <Row className="appointment-sec mt-2">
@@ -181,10 +192,38 @@ const Dictionary = ({ definition, word, language }) => {
                     />
                     <a
                       className="language-switcher"
-                      // onClick={() => ModalLanguageSwitcher()}
+                      onClick={ModalLanguageSwitcher}
+                      href="#javascript"
                     >
-                      English - English
+                      {
+                        settings.languageData.find(
+                          (item) => item.prefix == curLanguage
+                        ).name
+                      }
                     </a>
+                    <Modal isOpen={modal} toggle={ModalLanguageSwitcher}>
+                      <ModalHeader toggle={ModalLanguageSwitcher}>
+                        Language Switcher
+                      </ModalHeader>
+                      <ListGroup>
+                        {settings.languageData.map(({ name, prefix }) => (
+                          <ListGroupItem
+                            className="list-group-item-action"
+                            active={prefix == curLanguage}
+                            prefix={prefix}
+                            key={prefix}
+                            onClick={changeCurLanguage}
+                          >
+                            {name}
+                          </ListGroupItem>
+                        ))}
+                      </ListGroup>
+                      <ModalFooter>
+                        <Button color="primary" onClick={ModalLanguageSwitcher}>
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </Modal>
                     <button type="button" className="btn btn-light">
                       <img
                         width={31}
@@ -240,7 +279,13 @@ const Dictionary = ({ definition, word, language }) => {
           </Col>
         </Row>
       </Container>
-      <Breadcrumb parent="Dashboard" title="Default" />
+      <Breadcrumb
+        parent={
+          settings.languageData.find((item) => item.prefix == curLanguage).name
+        }
+        title="Definition"
+        word={word}
+      />
       <SkeletonSection />
       <Container fluid={true} id="word-info" key="word-info">
         <Row>
