@@ -3,7 +3,7 @@ require __DIR__ . '/../../configDB.php';
 
   class WordsDB {    
     private $pdo;
-    private $currentLanguage = array("en_en", "en_vi");
+    private $currentLanguage = array("en_en", "en_vn");
     public function connect(){
       $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
 
@@ -13,15 +13,16 @@ require __DIR__ . '/../../configDB.php';
       $this->pdo = $pdo;
     }
 
-    public function getCat($page, $language, $limit){
-      $sql = "SELECT * FROM ".$this->mysql_escape_mimic($language)." WHERE page=:page LIMIT :limit";
+    public function getCat($pageStart, $pageEnd, $language){
+      $sql = "SELECT * FROM ".$this->mysql_escape_mimic($language)." WHERE page>=:pageStart and page<=:pageEnd ORDER BY page ASC";
       $this->connect();
 
       $stmt = $this->pdo->prepare($sql);
 
       $this->pdo = null;
-      $stmt->bindValue(":page", (int)$page, PDO::PARAM_INT);
-      $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+      $stmt->bindValue(":pageStart", (int)$pageStart, PDO::PARAM_INT);
+      $stmt->bindValue(":pageEnd", (int)$pageEnd, PDO::PARAM_INT);
+      // $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
       $res = $stmt->execute(); 
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

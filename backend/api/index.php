@@ -39,14 +39,15 @@ $app->get('/cat/{cat}', function (Request $request, Response $response) {
   }
 });
 
-$app->get('/{language}/cat/{page}', function (Request $request, Response $response) {    
+$app->get('/{language}/cat/{pageStart}/{pageEnd}', function (Request $request, Response $response) {    
   try {
     // picking words from database 
     $wordsDb = new WordsDB();
     $language = $request->getAttribute('language');
-    $page = $request->getAttribute('page');
-    $limit = 960;
-    $words = $wordsDb->getCat($page, $language, $limit);
+    $pageStart = $request->getAttribute('pageStart');
+    $pageEnd = $request->getAttribute('pageEnd');
+    // $limit = 960;
+    $words = $wordsDb->getCat($pageStart, $pageEnd, $language);
 
     // custom json response
     $response->withStatus(200);

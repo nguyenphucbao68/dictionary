@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 // import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ConfigDB from '../../../data/customizer/config';
 import dynamic from 'next/dynamic';
-import { getDefinitions } from '../../../lib/dictionary';
+import { getDefinitions, getDefinitions2 } from '../../../lib/dictionary';
 import { storeCollection, getDocCollection } from '../../../lib/api';
 // import Store from '../../store';
 const ScrollToTop = dynamic(import('../../../layout/scroll_to_top'), {
@@ -44,7 +44,7 @@ const Home = ({ definition, language, word }) => {
 export async function getServerSideProps({ params }) {
   const { word, language } = params;
   const getDocWord = await getDocCollection(word, language);
-  if (getDocWord.data?.length) {
+  if (getDocWord.data?.data) {
     return {
       props: {
         definition: getDocWord.data,
@@ -56,7 +56,7 @@ export async function getServerSideProps({ params }) {
   const definition = await getDefinitions(word, language);
   storeCollection(word, language, definition);
   return {
-    props: { definition: definition.data, language, word },
+    props: { definition: definition?.data, language, word },
   };
 }
 export default Home;

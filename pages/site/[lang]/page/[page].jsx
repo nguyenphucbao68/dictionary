@@ -9,7 +9,8 @@ const createSitemap = (data, lang) => `<?xml version="1.0" encoding="UTF-8"?>
       .map(
         ({ word }) => `
         <url>
-          <loc>${`${process.env.ORIGIN_URL}/dict/${lang}/${word}`}</loc>
+          <loc>${`${process.env.ORIGIN_URL}/dict/${lang}/${escape(word)}`}</loc>
+          <changefreq>daily</changefreq>
         </url>
       `
       )
@@ -23,7 +24,9 @@ class Sitemap extends React.Component {
       const { lang, page } = query;
       var pageAddress = page.substr(0, page.indexOf('.xml'));
       const request = await fetch(
-        `${process.env.ORIGIN_URL}/api/index.php/${lang}/cat/${pageAddress}`
+        `${process.env.ORIGIN_URL}/api/index.php/${lang}/cat/${
+          pageAddress * 10
+        }/${pageAddress * 10 + 10}`
       );
       const data = await request.json();
       res.setHeader('Content-Type', 'text/xml');
