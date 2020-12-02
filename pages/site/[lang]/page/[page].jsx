@@ -1,4 +1,5 @@
 import React from 'react';
+import settings from '../../../../config/settingsConfig';
 
 const EXTERNAL_DATA_URL = `${process.env.ORIGIN_URL}/site/en_en/list`;
 
@@ -20,11 +21,17 @@ class Sitemap extends React.Component {
   static async getInitialProps({ res, query }) {
     try {
       const { lang, page } = query;
+      const infoLanguage = settings.languageData.find(
+        (item) => item.prefix == lang
+      );
       var pageAddress = page.substr(0, page.indexOf('.xml'));
       const request = await fetch(
         `${process.env.ORIGIN_URL}/api/index.php/${lang}/cat/${
-          pageAddress * 10
-        }/${pageAddress * 10 + 10}`
+          pageAddress * infoLanguage.siteMapPageList
+        }/${
+          pageAddress * infoLanguage.siteMapPageList +
+          infoLanguage.siteMapPageList
+        }`
       );
       const data = await request.json();
       res.setHeader('Content-Type', 'text/xml');

@@ -25,7 +25,18 @@ const SkeletonSection = () => {
         key="skeleton-word"
       >
         <Row>
-          <Col md="9">
+          <Col md="2">
+            <Nav className="nav flex-column nav-pills">
+              <NavItem>
+                <NavLink
+                // href='#javascript'
+                >
+                  <Skeleton />
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Col>
+          <Col md="7">
             <Card>
               <CardHeader>
                 <h1>

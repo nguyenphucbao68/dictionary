@@ -3,14 +3,13 @@ const next = require('next');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const port = process.env.PORT || 3000;
-const dev = process.env.NODE_ENV.trim() === 'development';
+const dev = process.env.NODE_ENV === 'development';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const path = require('path');
 
 const apiPaths = {
   '/api': {
-    target: 'http://[::1]:8080',
+    target: dev ? `http://[::1]:8080` : 'https://api.athoni.com',
     changeOrigin: true,
   },
 };
@@ -33,10 +32,6 @@ app
     server.all('*', (req, res) => {
       return handle(req, res);
     });
-    // console.log(path.join(__dirname+'/public/dictionary.html'));
-    // server.get('/dictionary',(req,res) => {
-    //   res.sendFile(path.join(__dirname+'/public/dictionary.html'));
-    // });
 
     server.listen(port, (err) => {
       if (err) throw err;

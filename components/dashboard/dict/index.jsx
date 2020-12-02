@@ -103,7 +103,9 @@ const Dictionary = ({ definition, word, language }) => {
     const keyword = e.target?.value;
     setKeyword(e.target?.value);
     try {
-      const res = await fetch(`/api/index.php/search/${language}/${keyword}/8`);
+      const res = await fetch(
+        `/api/index.php/search/${curLanguage}/${keyword}/8`
+      );
       const obj = res.json();
       setListWord(await obj);
       setShowResults(true);
@@ -113,9 +115,16 @@ const Dictionary = ({ definition, word, language }) => {
   };
 
   useEffect(() => {
-    window.hide = () => {
-      alert('bao');
-    };
+    document.getElementById('skeleton-word')?.classList.remove('hidden');
+    document.getElementById('skeleton-word')?.classList.add('show');
+    document.getElementById('word-info')?.classList.remove('show');
+    document.getElementById('word-info')?.classList.add('hidden');
+    setTimeout(() => {
+      document.getElementById('skeleton-word')?.classList.remove('show');
+      document.getElementById('skeleton-word')?.classList.add('hidden');
+      document.getElementById('word-info')?.classList.remove('hidden');
+      document.getElementById('word-info')?.classList.add('show');
+    }, 100);
     if (curHr < 12) {
       setDayTimes('Good Morning');
     } else if (curHr < 18) {
@@ -135,10 +144,12 @@ const Dictionary = ({ definition, word, language }) => {
   const ModalLanguageSwitcher = () => setModal(!modal);
   const changeCurLanguage = (e) => {
     e.preventDefault();
-    console.log(e.target?.getAttribute('prefix'));
     setCurLanguage(e.target?.getAttribute('prefix'));
     setModal(false);
   };
+  const getInfoLanguage = settings.languageData.find(
+    (item) => item.prefix == language
+  );
   return (
     <>
       <Head>
@@ -152,10 +163,7 @@ const Dictionary = ({ definition, word, language }) => {
         />
         <meta charset="utf-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta
-          name="keywords"
-          content={`${word} definition, dictionary, english, british, american, business, british english, thesaurus, define test, test meaning, what is ${word}, spelling, conjugation, audio pronunciation, free, online, english.`}
-        />
+        <meta name="keywords" content={getInfoLanguage.keywordList(word)} />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta
           name="viewport"
@@ -188,8 +196,7 @@ const Dictionary = ({ definition, word, language }) => {
           },
           {
             position: 2,
-            name: settings.languageData.find((item) => item.prefix == language)
-              .name,
+            name: getInfoLanguage.name,
             item: 'https://www.athoni.com',
           },
           {
@@ -201,17 +208,17 @@ const Dictionary = ({ definition, word, language }) => {
       />
       <NextSeo
         title={word}
-        titleTemplate="%s | meaning in the Athoni English Dictionary"
+        titleTemplate={getInfoLanguage.titleTemplate}
         description={definition.meta.desc.trim()}
         canonical={`https://www.athoni.com/dict/${language}/${word}`}
         openGraph={{
           type: 'website',
           url: `https://www.athoni.com/dict/${language}/${word}`,
-          title: `${word} | meaning in the Athoni English Dictionary`,
+          title: getInfoLanguage.titleTemplateFunc(word),
           description: definition.meta.desc.trim(),
           images: [
             {
-              url: 'assets/images/athoni-bg.png',
+              url: 'https://www.athoni.com/assets/images/athoni-bg.png',
               width: 800,
               height: 600,
               alt: 'Athoni Dictionary',
@@ -333,9 +340,7 @@ const Dictionary = ({ definition, word, language }) => {
         </Row>
       </Container>
       <Breadcrumb
-        parent={
-          settings.languageData.find((item) => item.prefix == curLanguage).name
-        }
+        parent={getInfoLanguage.name}
         title="Definition"
         word={word}
       />

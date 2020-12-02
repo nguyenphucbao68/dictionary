@@ -1,4 +1,5 @@
 import React from 'react';
+import settings from '../config/settingsConfig';
 const createURL = (link) => {
   return `
 <sitemap>
@@ -12,10 +13,10 @@ ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
       var s = '';
       for (let i = 0; i < language.length; i++) {
         const item = language[i];
-        for (let j = 0; j < item?.data?.length / 10; j++) {
+        for (let j = 0; j < item?.data?.length / item.siteMapPageList; j++) {
           const { page } = item?.data[j];
           s += `<sitemap>
-          <loc>${`${process.env.ORIGIN_URL}/site/${item.name}/page/${page}.xml`}</loc>
+          <loc>${`${process.env.ORIGIN_URL}/site/${item.prefix}/page/${page}.xml`}</loc>
         </sitemap>`;
         }
       }
@@ -27,13 +28,14 @@ ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
 class Sitemap extends React.Component {
   static async getInitialProps({ res }) {
     try {
-      var language = ['en_en'];
       var obj = [];
-      for (let i = 0; i < language.length; i++) {
-        const item = language[i];
-        var objLang = { name: item };
+      // var language = ['en_en', 'en_vn'];
+
+      for (let i = 0; i < settings.languageData.length; i++) {
+        var objLang = settings.languageData[i];
+        // var objLang = { name: prefix };
         const request = await fetch(
-          `${process.env.ORIGIN_URL}/api/index.php/${item}/cat`
+          `${process.env.ORIGIN_URL}/api/index.php/${objLang.prefix}/cat`
         );
         const posts = await request.json();
         objLang.data = posts;
