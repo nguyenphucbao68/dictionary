@@ -20,7 +20,7 @@ const initial_state = {
   animation: "",
 };
 
-export default (state = initial_state, action) => {
+const Redux = (state = initial_state, action) => {
   switch (action.type) {
     case ADD_COSTOMIZER:
       return { ...state, loading: false, customizer: ConfigDB.data };
@@ -69,3 +69,4 @@ export default (state = initial_state, action) => {
       return { ...state };
   }
 };
+export default Redux;
