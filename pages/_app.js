@@ -1,14 +1,7 @@
 import Head from "next/head";
-// import withRedux from 'next-redux-wrapper';
 import { useEffect } from "react";
 import { wrapper } from "../store";
-// import 'nprogress/nprogress.css';
 import ReactGA from "react-ga";
-
-// const wrapper = dynamic(import('../store'), { ssr: false });
-// const TopProgressBar = dynamic(() => import("../components/app/TopProgressBar"), {
-// 	ssr: false,
-// });
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -71,20 +64,20 @@ function MyApp({ Component, pageProps }) {
           as="font"
           href="/assets/fonts/font-awesome/fontawesome-webfont.woff2"
           type="font/woff2"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
         <link
           rel="preload"
           as="font"
           href="/assets/fonts/pe7-icon/Pe-icon-7-stroke.woff"
           type="font/woff2"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
         <link
           rel="preload"
           as="font"
           href="/assets/fonts/ico/icofont.ttf"
-          crossorigin="anonymous"
+          crossOrigin="anonymous"
         />
       </Head>
       <Component {...pageProps} />

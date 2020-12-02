@@ -2,7 +2,7 @@ import Dictionary from "../../../components/dashboard/dict";
 import App from "../../../components/app";
 import React, { useState, useEffect } from "react";
 import ConfigDB from "../../../data/customizer/config";
-import { getDefinitions, getDefinitions2 } from "../../../lib/dictionary";
+import { getDefinitions } from "../../../lib/dictionary";
 import { storeCollection, getDocCollection } from "../../../lib/api";
 
 React.useLayoutEffect = React.useEffect;

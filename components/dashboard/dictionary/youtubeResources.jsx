@@ -44,7 +44,7 @@ const YoutubeResources = () => {
             <div className="slider-frame">
               <div className="img-slider">
                 <div className="bg-overlay">
-                  <button class="btn btn-primary btn-sm">Watch</button>
+                  <button className="btn btn-primary btn-sm">Watch</button>
                 </div>
               </div>
               test1
@@ -93,35 +93,35 @@ const YoutubeResources = () => {
                 <Accordion.Collapse eventKey="0">
                   <ListGroup className="moreExample">
                     <ListGroupItem key={1}>
-                      <span class="badge badge-primary">1:00</span> Quis ex aute
-                      nisi culpa commodo cillum culpa minim voluptate.
+                      <span className="badge badge-primary">1:00</span> Quis ex
+                      aute nisi culpa commodo cillum culpa minim voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={2}>
-                      <span class="badge badge-primary">1:15</span> Quis ex aute
-                      nisi culpa commodo cillum culpa minim voluptate.
+                      <span className="badge badge-primary">1:15</span> Quis ex
+                      aute nisi culpa commodo cillum culpa minim voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={3}>
-                      <span class="badge badge-primary">1:30</span>
+                      <span className="badge badge-primary">1:30</span>
                       Quis ex aute nisi culpa commodo cillum culpa minim
                       voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={4}>
-                      <span class="badge badge-primary">2:00</span>
+                      <span className="badge badge-primary">2:00</span>
                       Quis ex aute nisi culpa commodo cillum culpa minim
                       voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={5}>
-                      <span class="badge badge-primary">2:00</span>
+                      <span className="badge badge-primary">2:00</span>
                       Quis ex aute nisi culpa commodo cillum culpa minim
                       voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={6}>
-                      <span class="badge badge-primary">2:00</span>
+                      <span className="badge badge-primary">2:00</span>
                       Quis ex aute nisi culpa commodo cillum culpa minim
                       voluptate.
                     </ListGroupItem>
                     <ListGroupItem key={7}>
-                      <span class="badge badge-primary">2:00</span>
+                      <span className="badge badge-primary">2:00</span>
                       Quis ex aute nisi culpa commodo cillum culpa minim
                       voluptate.
                     </ListGroupItem>

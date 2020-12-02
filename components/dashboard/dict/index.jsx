@@ -31,22 +31,22 @@ import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 
 Router.onRouteChangeStart = () => {
-  document.getElementById("skeleton-word")?.classList.remove("hidden");
-  document.getElementById("skeleton-word")?.classList.add("show");
-  document.getElementById("word-info")?.classList.remove("show");
-  document.getElementById("word-info")?.classList.add("hidden");
+  document.getElementById("skeleton-word").classList.remove("hidden");
+  document.getElementById("skeleton-word").classList.add("show");
+  document.getElementById("word-info").classList.remove("show");
+  document.getElementById("word-info").classList.add("hidden");
 };
 Router.onRouteChangeComplete = () => {
-  document.getElementById("skeleton-word")?.classList.remove("show");
-  document.getElementById("skeleton-word")?.classList.add("hidden");
-  document.getElementById("word-info")?.classList.remove("hidden");
-  document.getElementById("word-info")?.classList.add("show");
+  document.getElementById("skeleton-word").classList.remove("show");
+  document.getElementById("skeleton-word").classList.add("hidden");
+  document.getElementById("word-info").classList.remove("hidden");
+  document.getElementById("word-info").classList.add("show");
 };
 Router.onRouteChangeError = () => {
-  document.getElementById("skeleton-word")?.classList.remove("show");
-  document.getElementById("skeleton-word")?.classList.add("hidden");
-  document.getElementById("word-info")?.classList.remove("hidden");
-  document.getElementById("word-info")?.classList.add("show");
+  document.getElementById("skeleton-word").classList.remove("show");
+  document.getElementById("skeleton-word").classList.add("hidden");
+  document.getElementById("word-info").classList.remove("hidden");
+  document.getElementById("word-info").classList.add("show");
 };
 const Dictionary = ({ definition, word, language }) => {
   const [BasicLineTab, setBasicLineTab] = useState("1");
@@ -64,15 +64,15 @@ const Dictionary = ({ definition, word, language }) => {
   const [date, setDate] = useState({ date: new Date() });
   // eslint-disable-next-line
   const [startDate, setStartDate] = useState(new Date());
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const handleChange = (date) => {
-    setDate(date);
-  };
-  const [VerticleTab, setVerticleTab] = useState("2");
+  // const [loading, setLoading] = useState(false);
+  // const handleChange = (date) => {
+  //   setDate(date);
+  // };
+  // const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
     if (keyword === "") return;
@@ -90,8 +90,8 @@ const Dictionary = ({ definition, word, language }) => {
   };
 
   const onChangeKeyWord = async (e) => {
-    const keyword = e.target?.value;
-    setKeyword(e.target?.value);
+    const keyword = e.target.value;
+    setKeyword(e.target.value);
     try {
       const res = await fetch(
         `/api/index.php/search/${curLanguage}/${keyword}/8`,
@@ -105,15 +105,15 @@ const Dictionary = ({ definition, word, language }) => {
   };
 
   useEffect(() => {
-    document.getElementById("skeleton-word")?.classList.remove("hidden");
-    document.getElementById("skeleton-word")?.classList.add("show");
-    document.getElementById("word-info")?.classList.remove("show");
-    document.getElementById("word-info")?.classList.add("hidden");
+    document.getElementById("skeleton-word").classList.remove("hidden");
+    document.getElementById("skeleton-word").classList.add("show");
+    document.getElementById("word-info").classList.remove("show");
+    document.getElementById("word-info").classList.add("hidden");
     setTimeout(() => {
-      document.getElementById("skeleton-word")?.classList.remove("show");
-      document.getElementById("skeleton-word")?.classList.add("hidden");
-      document.getElementById("word-info")?.classList.remove("hidden");
-      document.getElementById("word-info")?.classList.add("show");
+      document.getElementById("skeleton-word").classList.remove("show");
+      document.getElementById("skeleton-word").classList.add("hidden");
+      document.getElementById("word-info").classList.remove("hidden");
+      document.getElementById("word-info").classList.add("show");
     }, 100);
     if (curHr < 12) {
       setDayTimes("Good Morning");
@@ -134,7 +134,7 @@ const Dictionary = ({ definition, word, language }) => {
   const ModalLanguageSwitcher = () => setModal(!modal);
   const changeCurLanguage = (e) => {
     e.preventDefault();
-    setCurLanguage(e.target?.getAttribute("prefix"));
+    setCurLanguage(e.target.getAttribute("prefix"));
     setModal(false);
   };
   const getInfoLanguage = settings.languageData.find(
