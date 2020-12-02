@@ -377,7 +377,7 @@ const Dictionary = ({ definition, word, language }) => {
                           href={`/dict/${language}/${item.word}`}
                           as={`/dict/${language}/${item.word}`}
                         >
-                          <a>{item.word}</a>
+                          {item.word}
                         </a>
                       </ListGroupItem>
                     ))}

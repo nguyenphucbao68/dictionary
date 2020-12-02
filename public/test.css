@@ -304,7 +304,7 @@ h2 .mw-headline {
   font-family: Roboto;
 }
 .content-words h5{
-  display: list-item;                                              */
+  display: list-item;                                              
     list-style-type: disc;      
     list-style-position: inside;
 }

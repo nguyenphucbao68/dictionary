@@ -1,13 +1,11 @@
 import Head from "next/head";
-import { useEffect } from "react";
 import { wrapper } from "../store";
 import ReactGA from "react-ga";
-
+import "../public/assets/css/getBootstrap.min.css";
+import "../public/assets/css/styleReact.min.css";
+import "../public/content.min.css";
+ReactGA.initialize("G-CK92BFCYQB");
 function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    ReactGA.initialize("G-CK92BFCYQB");
-    ReactGA.pageview("/");
-  }, []);
   return (
     <>
       <Head>
@@ -28,24 +26,6 @@ function MyApp({ Component, pageProps }) {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
 
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/assets/css/getBootstrap.min.css"
-        />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/assets/css/styleReact.min.css"
-        />
-        <link rel="stylesheet" href="/test.css" />
-        <link rel="preload" href="/assets/css/styleReact.min.css" as="style" />
-        <link
-          rel="preload"
-          href="/assets/css/getBootstrap.min.css"
-          as="style"
-        />
-        <link rel="preload" href="/test.css" as="style" />
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />

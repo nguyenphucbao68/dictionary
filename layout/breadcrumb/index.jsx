@@ -20,7 +20,7 @@ const Breadcrumbs = (props) => {
                   </Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem key="parent">{props.parent}</BreadcrumbItem>
-                <BreadcrumbItem key="parent">{props.word}</BreadcrumbItem>
+                <BreadcrumbItem key="word">{props.word}</BreadcrumbItem>
               </Breadcrumb>
             </Col>
             <Bookmark />

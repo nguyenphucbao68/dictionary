@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import ConfigDB from "../../../data/customizer/config";
 import { getDefinitions } from "../../../lib/dictionary";
 import { storeCollection, getDocCollection } from "../../../lib/api";
+import ReactGA from "react-ga";
 
 React.useLayoutEffect = React.useEffect;
 const Home = ({ definition, language, word }) => {
@@ -11,6 +12,7 @@ const Home = ({ definition, language, word }) => {
   const animation = ConfigDB.data.router_animation || "fade";
 
   useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
     const abortController = new AbortController();
     setAnim(animation);
     console.ignoredYellowBox = ["Warning: Each", "Warning: Failed"];
