@@ -1,4 +1,4 @@
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from "react-loading-skeleton";
 import {
   Container,
   Row,
@@ -13,7 +13,7 @@ import {
   NavLink,
   TabContent,
   TabPane,
-} from 'reactstrap';
+} from "reactstrap";
 
 const SkeletonSection = () => {
   return (
@@ -45,7 +45,7 @@ const SkeletonSection = () => {
                 </h1>
                 <div>
                   <span className="speaker-word">
-                    <i className="txt-primary icofont icofont-audio"></i>{' '}
+                    <i className="txt-primary icofont icofont-audio"></i>{" "}
                     <Skeleton />
                   </span>
                 </div>

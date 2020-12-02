@@ -1,28 +1,28 @@
-import Pronounce from '../../components/dashboard/pronounce';
-import App from '../../components/app';
-import React, { useState, useEffect } from 'react';
-import ConfigDB from '../../data/customizer/config';
-import dynamic from 'next/dynamic';
+import Pronounce from "../../components/dashboard/pronounce";
+import App from "../../components/app";
+import React, { useState, useEffect } from "react";
+import ConfigDB from "../../data/customizer/config";
+import dynamic from "next/dynamic";
 import {
   searchWordOnYoutube,
   getSubtitleFromVideo,
-} from '../../lib/dictionary';
-import { storeCollection, getDocCollection } from '../../lib/api';
-const ScrollToTop = dynamic(import('../../layout/scroll_to_top'), {
+} from "../../lib/dictionary";
+import { storeCollection, getDocCollection } from "../../lib/api";
+const ScrollToTop = dynamic(import("../../layout/scroll_to_top"), {
   ssr: false,
 });
 
 React.useLayoutEffect = React.useEffect;
 
 const Home = ({ pronounce, subTitle, word }) => {
-  const [anim, setAnim] = useState('');
+  const [anim, setAnim] = useState("");
   // localStorage.getItem('animation') ||
-  const animation = ConfigDB.data.router_animation || 'fade';
+  const animation = ConfigDB.data.router_animation || "fade";
 
   useEffect(() => {
     const abortController = new AbortController();
     setAnim(animation);
-    console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+    console.ignoredYellowBox = ["Warning: Each", "Warning: Failed"];
     console.disableYellowBox = true;
     return function cleanup() {
       abortController.abort();
@@ -40,7 +40,7 @@ const Home = ({ pronounce, subTitle, word }) => {
   );
 };
 export async function getServerSideProps({ params }) {
-  const getDocWord = await getDocCollection(params.slug, 'en_en', 'pronounce');
+  const getDocWord = await getDocCollection(params.slug, "en_en", "pronounce");
 
   if (getDocWord.data?.length) {
     const subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
@@ -56,7 +56,7 @@ export async function getServerSideProps({ params }) {
   const youList = await searchWordOnYoutube(params.slug);
   const subTitle = await getSubtitleFromVideo(youList?.data[0]?.code);
 
-  storeCollection(params.slug, 'en_en', youList, 'pronounce');
+  storeCollection(params.slug, "en_en", youList, "pronounce");
   return {
     props: {
       pronounce: youList?.data,

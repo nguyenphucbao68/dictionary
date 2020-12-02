@@ -1,20 +1,27 @@
-import Head from 'next/head';
+import Head from "next/head";
 // import withRedux from 'next-redux-wrapper';
-import dynamic from 'next/dynamic';
-import { Provider } from 'react-redux';
-import { wrapper } from '../store';
-import 'nprogress/nprogress.css';
+import { useEffect } from "react";
+import { wrapper } from "../store";
+// import 'nprogress/nprogress.css';
+import ReactGA from "react-ga";
+
 // const wrapper = dynamic(import('../store'), { ssr: false });
 // const TopProgressBar = dynamic(() => import("../components/app/TopProgressBar"), {
 // 	ssr: false,
 // });
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    ReactGA.initialize("G-CK92BFCYQB");
+    ReactGA.pageview("/");
+  }, []);
   return (
     <>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="theme-color" content="#000000" />
         {/* Google font*/}
         <link
@@ -39,6 +46,46 @@ function MyApp({ Component, pageProps }) {
           href="/assets/css/styleReact.min.css"
         />
         <link rel="stylesheet" href="/test.css" />
+        <link rel="preload" href="/assets/css/styleReact.min.css" as="style" />
+        <link
+          rel="preload"
+          href="/assets/css/getBootstrap.min.css"
+          as="style"
+        />
+        <link rel="preload" href="/test.css" as="style" />
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com/"
+          crossOrigin="true"
+        />
+        <link
+          rel="preconnect"
+          href="https://cdnjs.cloudflare.com/"
+          crossOrigin="true"
+        />
+        <link
+          rel="preload"
+          as="font"
+          href="/assets/fonts/font-awesome/fontawesome-webfont.woff2"
+          type="font/woff2"
+          crossorigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          href="/assets/fonts/pe7-icon/Pe-icon-7-stroke.woff"
+          type="font/woff2"
+          crossorigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="font"
+          href="/assets/fonts/ico/icofont.ttf"
+          crossorigin="anonymous"
+        />
       </Head>
       <Component {...pageProps} />
       <link

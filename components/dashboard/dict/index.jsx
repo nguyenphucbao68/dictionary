@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Router from 'next/router';
-import Breadcrumb from '../../../layout/breadcrumb';
+import React, { useState, useEffect, useRef } from "react";
+import Router from "next/router";
+import Breadcrumb from "../../../layout/breadcrumb";
 import {
   Container,
   Row,
@@ -17,50 +17,40 @@ import {
   TabPane,
   Modal,
   ModalHeader,
-  ModalBody,
   ModalFooter,
   Button,
-} from 'reactstrap';
-import Head from 'next/head';
-import ErrorPage from 'next/error';
-import Link from 'next/link';
-import { Send, Clock } from 'react-feather';
-import useOutsideClick from '../../../lib/event';
-import SideBarPage from '../../app/SideBar';
-import SkeletonSection from './skeleton';
-import settings from '../../../config/settingsConfig';
-import { NextSeo, BreadcrumbJsonLd } from 'next-seo';
+} from "reactstrap";
+import Head from "next/head";
+import ErrorPage from "next/error";
+import Link from "next/link";
+import { Clock } from "react-feather";
+import useOutsideClick from "../../../lib/event";
+import SideBarPage from "../../app/SideBar";
+import SkeletonSection from "./skeleton";
+import settings from "../../../config/settingsConfig";
+import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 
 Router.onRouteChangeStart = () => {
-  document.getElementById('skeleton-word')?.classList.remove('hidden');
-  document.getElementById('skeleton-word')?.classList.add('show');
-  document.getElementById('word-info')?.classList.remove('show');
-  document.getElementById('word-info')?.classList.add('hidden');
+  document.getElementById("skeleton-word")?.classList.remove("hidden");
+  document.getElementById("skeleton-word")?.classList.add("show");
+  document.getElementById("word-info")?.classList.remove("show");
+  document.getElementById("word-info")?.classList.add("hidden");
 };
 Router.onRouteChangeComplete = () => {
-  document.getElementById('skeleton-word')?.classList.remove('show');
-  document.getElementById('skeleton-word')?.classList.add('hidden');
-  document.getElementById('word-info')?.classList.remove('hidden');
-  document.getElementById('word-info')?.classList.add('show');
+  document.getElementById("skeleton-word")?.classList.remove("show");
+  document.getElementById("skeleton-word")?.classList.add("hidden");
+  document.getElementById("word-info")?.classList.remove("hidden");
+  document.getElementById("word-info")?.classList.add("show");
 };
 Router.onRouteChangeError = () => {
-  document.getElementById('skeleton-word')?.classList.remove('show');
-  document.getElementById('skeleton-word')?.classList.add('hidden');
-  document.getElementById('word-info')?.classList.remove('hidden');
-  document.getElementById('word-info')?.classList.add('show');
+  document.getElementById("skeleton-word")?.classList.remove("show");
+  document.getElementById("skeleton-word")?.classList.add("hidden");
+  document.getElementById("word-info")?.classList.remove("hidden");
+  document.getElementById("word-info")?.classList.add("show");
 };
 const Dictionary = ({ definition, word, language }) => {
-  const [BasicLineTab, setBasicLineTab] = useState('1');
-  // console.log(definition[0].meaning.noun);
-  // const router = useRouter();
-  // if(router.isFallback){
-  // 	return <div>Loading...</div>;
-  // }
-  if (
-    // !router.isFallback ||
-    // typeof definition?.slug === 'undefined' ||
-    !definition
-  ) {
+  const [BasicLineTab, setBasicLineTab] = useState("1");
+  if (!definition) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -69,23 +59,23 @@ const Dictionary = ({ definition, word, language }) => {
   const today = new Date();
   const curHr = today.getHours();
   const curMi = today.getMinutes();
-  const [meridiem, setMeridiem] = useState('AM');
+  const [meridiem, setMeridiem] = useState("AM");
   // eslint-disable-next-line
   const [date, setDate] = useState({ date: new Date() });
   // eslint-disable-next-line
   const [startDate, setStartDate] = useState(new Date());
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleChange = (date) => {
     setDate(date);
   };
-  const [VerticleTab, setVerticleTab] = useState('2');
+  const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
-    if (keyword === '') return;
+    if (keyword === "") return;
     setShowResults(true);
   };
 
@@ -104,7 +94,7 @@ const Dictionary = ({ definition, word, language }) => {
     setKeyword(e.target?.value);
     try {
       const res = await fetch(
-        `/api/index.php/search/${curLanguage}/${keyword}/8`
+        `/api/index.php/search/${curLanguage}/${keyword}/8`,
       );
       const obj = res.json();
       setListWord(await obj);
@@ -115,28 +105,28 @@ const Dictionary = ({ definition, word, language }) => {
   };
 
   useEffect(() => {
-    document.getElementById('skeleton-word')?.classList.remove('hidden');
-    document.getElementById('skeleton-word')?.classList.add('show');
-    document.getElementById('word-info')?.classList.remove('show');
-    document.getElementById('word-info')?.classList.add('hidden');
+    document.getElementById("skeleton-word")?.classList.remove("hidden");
+    document.getElementById("skeleton-word")?.classList.add("show");
+    document.getElementById("word-info")?.classList.remove("show");
+    document.getElementById("word-info")?.classList.add("hidden");
     setTimeout(() => {
-      document.getElementById('skeleton-word')?.classList.remove('show');
-      document.getElementById('skeleton-word')?.classList.add('hidden');
-      document.getElementById('word-info')?.classList.remove('hidden');
-      document.getElementById('word-info')?.classList.add('show');
+      document.getElementById("skeleton-word")?.classList.remove("show");
+      document.getElementById("skeleton-word")?.classList.add("hidden");
+      document.getElementById("word-info")?.classList.remove("hidden");
+      document.getElementById("word-info")?.classList.add("show");
     }, 100);
     if (curHr < 12) {
-      setDayTimes('Good Morning');
+      setDayTimes("Good Morning");
     } else if (curHr < 18) {
-      setDayTimes('Good Afternoon');
+      setDayTimes("Good Afternoon");
     } else {
-      setDayTimes('Good Evening');
+      setDayTimes("Good Evening");
     }
 
     if (curHr >= 12) {
-      setMeridiem('PM');
+      setMeridiem("PM");
     } else {
-      setMeridiem('AM');
+      setMeridiem("AM");
     }
   }, []);
   const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
@@ -144,31 +134,17 @@ const Dictionary = ({ definition, word, language }) => {
   const ModalLanguageSwitcher = () => setModal(!modal);
   const changeCurLanguage = (e) => {
     e.preventDefault();
-    setCurLanguage(e.target?.getAttribute('prefix'));
+    setCurLanguage(e.target?.getAttribute("prefix"));
     setModal(false);
   };
   const getInfoLanguage = settings.languageData.find(
-    (item) => item.prefix == language
+    (item) => item.prefix == language,
   );
   return (
     <>
       <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Gentium+Basic:ital@1&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,300;1,400&display=swap"
-          rel="stylesheet"
-        />
-        <meta charset="utf-8" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="keywords" content={getInfoLanguage.keywordList(word)} />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-          name="viewport"
-          content="width=device-width,minimum-scale=1,initial-scale=1"
-        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -191,13 +167,13 @@ const Dictionary = ({ definition, word, language }) => {
         itemListElements={[
           {
             position: 1,
-            name: 'Home',
-            item: 'https://www.athoni.com',
+            name: "Home",
+            item: "https://www.athoni.com",
           },
           {
             position: 2,
             name: getInfoLanguage.name,
-            item: 'https://www.athoni.com',
+            item: "https://www.athoni.com",
           },
           {
             position: 3,
@@ -212,24 +188,24 @@ const Dictionary = ({ definition, word, language }) => {
         description={definition.meta.desc.trim()}
         canonical={`https://www.athoni.com/dict/${language}/${word}`}
         openGraph={{
-          type: 'website',
+          type: "website",
           url: `https://www.athoni.com/dict/${language}/${word}`,
           title: getInfoLanguage.titleTemplateFunc(word),
           description: definition.meta.desc.trim(),
           images: [
             {
-              url: 'https://www.athoni.com/assets/images/athoni-bg.png',
+              url: "https://www.athoni.com/assets/images/athoni-bg.png",
               width: 800,
               height: 600,
-              alt: 'Athoni Dictionary',
+              alt: "Athoni Dictionary",
             },
           ],
-          site_name: 'Athoni Dictionary',
+          site_name: "Athoni Dictionary",
         }}
         twitter={{
-          handle: '@handle',
-          site: '@site',
-          cardType: 'summary_large_image',
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
         }}
       />
       <Container fluid={true}>
@@ -257,7 +233,7 @@ const Dictionary = ({ definition, word, language }) => {
                     >
                       {
                         settings.languageData.find(
-                          (item) => item.prefix == curLanguage
+                          (item) => item.prefix == curLanguage,
                         ).name
                       }
                     </a>
@@ -292,7 +268,7 @@ const Dictionary = ({ definition, word, language }) => {
                     </button>
                   </div>
                   <div
-                    className={`dropdown-menu row ${showResults && 'show'}`}
+                    className={`dropdown-menu row ${showResults && "show"}`}
                     id="related-words"
                     aria-labelledby="dropdownMenuButton"
                   >
@@ -381,8 +357,8 @@ const Dictionary = ({ definition, word, language }) => {
                 <NavItem>
                   <NavLink
                     href="#javascript"
-                    className={BasicLineTab === '1' ? 'active' : ''}
-                    onClick={() => setBasicLineTab('1')}
+                    className={BasicLineTab === "1" ? "active" : ""}
+                    onClick={() => setBasicLineTab("1")}
                   >
                     Matches
                   </NavLink>
@@ -422,11 +398,11 @@ const Dictionary = ({ definition, word, language }) => {
                   <div className="badge-groups w-100">
                     <div className="badge f-12">
                       <Clock
-                        style={{ width: '16px', height: '16px' }}
+                        style={{ width: "16px", height: "16px" }}
                         className="mr-1"
                       />
                       <span id="txt">
-                        {curHr}:{curMi < 10 ? '0' + curMi : curMi} {meridiem}
+                        {curHr}:{curMi < 10 ? "0" + curMi : curMi} {meridiem}
                       </span>
                     </div>
                     <div className="badge f-12">
@@ -444,8 +420,8 @@ const Dictionary = ({ definition, word, language }) => {
                     />
                   </div>
                   <h4 className="f-w-600">
-                    {' '}
-                    comfortable{' '}
+                    {" "}
+                    comfortable{" "}
                     <span className="right-circle">
                       <i className="fa fa-check-circle f-14 middle"></i>
                     </span>

@@ -1,7 +1,7 @@
-import {combineReducers} from 'redux'
-import Customizer from './customizer/reducer'
+import { combineReducers } from "redux";
+import Customizer from "./customizer/reducer";
 const reducers = combineReducers({
-    Customizer
+  Customizer,
 });
 
 export default reducers;

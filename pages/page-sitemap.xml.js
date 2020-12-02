@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const createURL = (link) => {
   return `<url>
@@ -19,12 +19,12 @@ const createSitemap = () => `<?xml version="1.0" encoding="UTF-8"?>
 class Sitemap extends React.Component {
   static async getInitialProps({ res }) {
     try {
-      res.setHeader('Content-Type', 'text/xml');
+      res.setHeader("Content-Type", "text/xml");
       res.write(createSitemap());
       res.end();
     } catch (error) {
       console.log(error);
-      res.write('Not Found!');
+      res.write("Not Found!");
       res.end();
     }
   }

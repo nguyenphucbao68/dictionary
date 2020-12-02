@@ -1,9 +1,8 @@
-import React from 'react';
-import Bookmark from '../bookmark';
-import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { Home } from 'react-feather';
-// import {Link} from 'react-router-dom'
-import Link from 'next/link';
+import React from "react";
+import Bookmark from "../bookmark";
+import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Home } from "react-feather";
+import Link from "next/link";
 const Breadcrumbs = (props) => {
   return (
     <>

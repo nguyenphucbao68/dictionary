@@ -1,30 +1,19 @@
-import Dictionary from '../../../components/dashboard/dict';
-import App from '../../../components/app';
-// const { store } = dynamic(import('../store'), { ssr: false });
-import React, { useState, useEffect } from 'react';
-// import ScrollToTop from '../../layout/scroll_to_top';
-// import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import ConfigDB from '../../../data/customizer/config';
-import dynamic from 'next/dynamic';
-import { getDefinitions, getDefinitions2 } from '../../../lib/dictionary';
-import { storeCollection, getDocCollection } from '../../../lib/api';
-// import Store from '../../store';
-const ScrollToTop = dynamic(import('../../../layout/scroll_to_top'), {
-  ssr: false,
-});
-import { useRouter } from 'next/router';
+import Dictionary from "../../../components/dashboard/dict";
+import App from "../../../components/app";
+import React, { useState, useEffect } from "react";
+import ConfigDB from "../../../data/customizer/config";
+import { getDefinitions, getDefinitions2 } from "../../../lib/dictionary";
+import { storeCollection, getDocCollection } from "../../../lib/api";
 
 React.useLayoutEffect = React.useEffect;
-// definition?, relatedWord?, word
 const Home = ({ definition, language, word }) => {
-  const [anim, setAnim] = useState('');
-  // localStorage.getItem('animation') ||
-  const animation = ConfigDB.data.router_animation || 'fade';
+  const [anim, setAnim] = useState("");
+  const animation = ConfigDB.data.router_animation || "fade";
 
   useEffect(() => {
     const abortController = new AbortController();
     setAnim(animation);
-    console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+    console.ignoredYellowBox = ["Warning: Each", "Warning: Failed"];
     console.disableYellowBox = true;
     return function cleanup() {
       abortController.abort();

@@ -1,5 +1,5 @@
-import React from 'react';
-import settings from '../config/settingsConfig';
+import React from "react";
+import settings from "../config/settingsConfig";
 const createURL = (link) => {
   return `
 <sitemap>
@@ -10,7 +10,7 @@ const createSitemap = (language) => `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
     ${(function () {
-      var s = '';
+      var s = "";
       for (let i = 0; i < language.length; i++) {
         const item = language[i];
         for (let j = 0; j < item?.data?.length / item.siteMapPageList; j++) {
@@ -35,18 +35,18 @@ class Sitemap extends React.Component {
         var objLang = settings.languageData[i];
         // var objLang = { name: prefix };
         const request = await fetch(
-          `${process.env.ORIGIN_URL}/api/index.php/${objLang.prefix}/cat`
+          `${process.env.ORIGIN_URL}/api/index.php/${objLang.prefix}/cat`,
         );
         const posts = await request.json();
         objLang.data = posts;
         obj.push(objLang);
       }
-      res.setHeader('Content-Type', 'text/xml');
+      res.setHeader("Content-Type", "text/xml");
       res.write(createSitemap(obj));
       res.end();
     } catch (error) {
       console.log(error);
-      res.write('Not Found!');
+      res.write("Not Found!");
       res.end();
     }
   }

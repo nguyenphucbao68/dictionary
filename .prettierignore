@@ -1,0 +1,8 @@
+# FrontEnd Ignore
+.next
+public
+css
+backend
+assets
+node_modules
+

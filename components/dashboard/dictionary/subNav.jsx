@@ -1,93 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import { Box } from 'react-feather';
+import React, { useState, useEffect } from "react";
+import { Box } from "react-feather";
 
 export const SubNavToggle = ({ definition }) => {
-	const [expanded, setexpanded] = useState([]);
+  const [expanded, setexpanded] = useState([]);
 
-	useEffect(() => {
-		var listToggle = [];
-		definition.map((item, key) => {
-			if (key == 0) {
-				listToggle.push({ expanded: true, isOpen: true });
-			} else {
-				listToggle.push({ expanded: false, isOpen: false });
-			}
-		});
-		setexpanded(listToggle);
-		console.log('đã chạy');
-	}, [definition]);
+  useEffect(() => {
+    var listToggle = [];
+    definition.map((item, key) => {
+      if (key == 0) {
+        listToggle.push({ expanded: true, isOpen: true });
+      } else {
+        listToggle.push({ expanded: false, isOpen: false });
+      }
+    });
+    setexpanded(listToggle);
+    console.log("đã chạy");
+  }, [definition]);
 
-	const setExpand = (key) => {
-		let newData = expanded;
-		for (let i = 0; i < newData.length; i++) {
-			if (i != key) newData[i].expanded = false;
-		}
-		if (newData[key].isOpen == true) {
-			newData[key].isOpen = false;
-			newData[key].expanded = !newData[key].expanded;
-		} else {
-			newData[key].isOpen = true;
-			newData[key].expanded = !newData[key].expanded;
-		}
-		console.log(newData);
-		setexpanded(newData);
-	};
+  const setExpand = (key) => {
+    let newData = expanded;
+    for (let i = 0; i < newData.length; i++) {
+      if (i != key) newData[i].expanded = false;
+    }
+    if (newData[key].isOpen == true) {
+      newData[key].isOpen = false;
+      newData[key].expanded = !newData[key].expanded;
+    } else {
+      newData[key].isOpen = true;
+      newData[key].expanded = !newData[key].expanded;
+    }
+    console.log(newData);
+    setexpanded(newData);
+  };
 
-	// const Advance = () => {
-	// 	setexpanded2(false);
-	// 	if (isOpen1 === true) {
-	// 		setIsOpen1(false);
-	// 		setexpanded1(!expanded1);
-	// 	} else {
-	// 		setIsOpen1(true);
-	// 		setIsOpen2(false);
-	// 		setexpanded1(!expanded1);
-	// 	}
-	// };
-	// const Tables = () => {
-	// 	setexpanded1(false);
-	// 	if (isOpen2 === true) {
-	// 		setIsOpen2(false);
-	// 		setexpanded2(!expanded2);
-	// 	} else {
-	// 		setIsOpen1(false);
-	// 		setIsOpen2(true);
-	// 		setexpanded2(!expanded2);
-	// 	}
-	// };
+  // const Advance = () => {
+  // 	setexpanded2(false);
+  // 	if (isOpen1 === true) {
+  // 		setIsOpen1(false);
+  // 		setexpanded1(!expanded1);
+  // 	} else {
+  // 		setIsOpen1(true);
+  // 		setIsOpen2(false);
+  // 		setexpanded1(!expanded1);
+  // 	}
+  // };
+  // const Tables = () => {
+  // 	setexpanded1(false);
+  // 	if (isOpen2 === true) {
+  // 		setIsOpen2(false);
+  // 		setexpanded2(!expanded2);
+  // 	} else {
+  // 		setIsOpen1(false);
+  // 		setIsOpen2(true);
+  // 		setexpanded2(!expanded2);
+  // 	}
+  // };
 
-	return (
-		<>
-			{definition?.map((item, key) => (
-				<>
-					<li key={key}>
-						<button
-							className='btn btn-link text-muted'
-							data-toggle='collapse'
-							data-target={`#definition${key}`}
-							onClick={() => setExpand(key)}
-							aria-expanded={expanded[key]?.expanded}
-							key={key}
-						>
-							<Box />
-							<span> {item.word}</span>
-						</button>
-						<ul
-							className={` collapse ${
-								expanded[key]?.isOpen ? 'show' : ''
-							}`}
-							id={`definition${key}`}
-						>
-							<li className='pl-navs-inline'>
-								<a href='#javascript'>
-									<i className='fa fa-angle-right'></i>Scrollable
-								</a>
-							</li>
-						</ul>
-					</li>
-				</>
-			))}
-			{/* <li>
+  return (
+    <>
+      {definition?.map((item, key) => (
+        <>
+          <li key={key}>
+            <button
+              className="btn btn-link text-muted"
+              data-toggle="collapse"
+              data-target={`#definition${key}`}
+              onClick={() => setExpand(key)}
+              aria-expanded={expanded[key]?.expanded}
+              key={key}
+            >
+              <Box />
+              <span> {item.word}</span>
+            </button>
+            <ul
+              className={` collapse ${expanded[key]?.isOpen ? "show" : ""}`}
+              id={`definition${key}`}
+            >
+              <li className="pl-navs-inline">
+                <a href="#javascript">
+                  <i className="fa fa-angle-right"></i>Scrollable
+                </a>
+              </li>
+            </ul>
+          </li>
+        </>
+      ))}
+      {/* <li>
 				<button
 					className='btn btn-link text-muted'
 					data-toggle='collapse'
@@ -166,6 +164,6 @@ export const SubNavToggle = ({ definition }) => {
 					</li>
 				</ul>
 			</li> */}
-		</>
-	);
+    </>
+  );
 };

@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Form, Row } from 'reactstrap';
-import { X } from 'react-feather';
-import { MENUITEMS } from '../sidebar/menu';
-import LeftHeader from './leftbar';
-import RightHeader from './rightbar';
+import React, { useState, useEffect, useCallback } from "react";
+import { Form, Row } from "reactstrap";
+import { X } from "react-feather";
+import { MENUITEMS } from "../sidebar/menu";
+import LeftHeader from "./leftbar";
+import RightHeader from "./rightbar";
 // import {Link} from 'react-router-dom'
-import Link from 'next/link';
+import Link from "next/link";
 const Header = (props) => {
   // eslint-disable-next-line
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
-  const [searchValue, setsearchValue] = useState('');
+  const [searchValue, setsearchValue] = useState("");
   // eslint-disable-next-line
   const [searchResult, setSearchResult] = useState(false);
   // eslint-disable-next-line
@@ -17,14 +17,14 @@ const Header = (props) => {
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
-      setsearchValue('');
+      setsearchValue("");
     }
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
+    document.addEventListener("keydown", escFunction, false);
     return () => {
-      document.removeEventListener('keydown', escFunction, false);
+      document.removeEventListener("keydown", escFunction, false);
     };
   }, [escFunction]);
 
@@ -35,7 +35,7 @@ const Header = (props) => {
     mainmenu.filter((menuItems) => {
       if (
         menuItems.title.toLowerCase().includes(keyword) &&
-        menuItems.type === 'link'
+        menuItems.type === "link"
       ) {
         items.push(menuItems);
       }
@@ -43,7 +43,7 @@ const Header = (props) => {
       menuItems.children.filter((subItems) => {
         if (
           subItems.title.toLowerCase().includes(keyword) &&
-          subItems.type === 'link'
+          subItems.type === "link"
         ) {
           subItems.icon = menuItems.icon;
           items.push(subItems);
@@ -67,31 +67,31 @@ const Header = (props) => {
   const checkSearchResultEmpty = (items) => {
     if (!items.length) {
       setSearchResultEmpty(true);
-      document.querySelector('.empty-menu').classList.add('is-open');
+      document.querySelector(".empty-menu").classList.add("is-open");
     } else {
       setSearchResultEmpty(false);
-      document.querySelector('.empty-menu').classList.remove('is-open');
+      document.querySelector(".empty-menu").classList.remove("is-open");
     }
   };
 
   const addFix = () => {
     setSearchResult(true);
-    document.querySelector('.Typeahead-menu').classList.add('is-open');
-    if (localStorage.getItem('layout_version') === 'dark-only') {
-      document.body.className = 'dark-only offcanvas';
+    document.querySelector(".Typeahead-menu").classList.add("is-open");
+    if (localStorage.getItem("layout_version") === "dark-only") {
+      document.body.className = "dark-only offcanvas";
     } else {
-      document.body.className = 'offcanvas';
+      document.body.className = "offcanvas";
     }
   };
 
   const removeFix = () => {
     setSearchResult(false);
-    setsearchValue('');
-    document.querySelector('.Typeahead-menu').classList.remove('is-open');
-    if (localStorage.getItem('layout_version') === 'dark-only') {
-      document.body.className = 'dark-only';
+    setsearchValue("");
+    document.querySelector(".Typeahead-menu").classList.remove("is-open");
+    if (localStorage.getItem("layout_version") === "dark-only") {
+      document.body.className = "dark-only";
     } else {
-      document.body.className = 'light';
+      document.body.className = "light";
     }
   };
 
@@ -121,8 +121,8 @@ const Header = (props) => {
                     className="close-search"
                     onClick={() =>
                       document
-                        .querySelector('.search-full')
-                        .classList.remove('open')
+                        .querySelector(".search-full")
+                        .classList.remove("open")
                     }
                   />
                 </div>
@@ -151,7 +151,7 @@ const Header = (props) => {
                           </div>
                         );
                       })
-                    : ''}
+                    : ""}
                 </div>
                 <div className="Typeahead-menu empty-menu">
                   <div className="tt-dataset tt-dataset-0">

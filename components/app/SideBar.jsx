@@ -1,5 +1,5 @@
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import Link from 'next/link';
+import { Nav, NavItem, NavLink } from "reactstrap";
+import Link from "next/link";
 {
   /* <NavItem key='menu2'>
 					<Link href={`/pronounce/${word}`}>
@@ -33,7 +33,7 @@ const SideBarPage = ({ currentPage, word }) => {
           <Link href={`/words/${word}`}>
             <NavLink
               // href='#javascript'
-              className={currentPage === 'details' ? 'active' : ''}
+              className={currentPage === "details" ? "active" : ""}
             >
               <i className="pe-7s-info"></i>
               Details
