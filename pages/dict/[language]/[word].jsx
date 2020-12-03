@@ -1,28 +1,11 @@
 import Dictionary from "../../../components/dashboard/dict";
 import App from "../../../components/app";
-import React, { useState, useEffect } from "react";
-import ConfigDB from "../../../data/customizer/config";
+import React from "react";
 import { getDefinitions } from "../../../lib/dictionary";
 import { storeCollection, getDocCollection } from "../../../lib/api";
-import ReactGA from "react-ga";
 
 React.useLayoutEffect = React.useEffect;
 const Home = ({ definition, language, word }) => {
-  const [anim, setAnim] = useState("");
-  const animation = ConfigDB.data.router_animation || "fade";
-
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-    const abortController = new AbortController();
-    setAnim(animation);
-    console.ignoredYellowBox = ["Warning: Each", "Warning: Failed"];
-    console.disableYellowBox = true;
-    return function cleanup() {
-      abortController.abort();
-    };
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <>
       {/* <ScrollToTop /> */}
@@ -34,8 +17,10 @@ const Home = ({ definition, language, word }) => {
 };
 export async function getServerSideProps({ params }) {
   const { word, language } = params;
+  // console.time("start");
   const getDocWord = await getDocCollection(word, language);
   if (getDocWord.data?.data) {
+    // console.timeEnd("start");
     return {
       props: {
         definition: getDocWord.data,

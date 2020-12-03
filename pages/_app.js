@@ -1,10 +1,8 @@
 import Head from "next/head";
-import { wrapper } from "../store";
-import ReactGA from "react-ga";
+// import { wrapper } from "../store";
 import "../public/assets/css/getBootstrap.min.css";
 import "../public/assets/css/styleReact.min.css";
 import "../public/content.min.css";
-ReactGA.initialize("G-CK92BFCYQB");
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -29,6 +27,12 @@ function MyApp({ Component, pageProps }) {
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link
+          rel="preconnect"
+          href="https://www.googletagmanager.com"
+          crossOrigin="true"
+        />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com/"
@@ -40,24 +44,28 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="true"
         />
         <link
-          rel="preload"
+          rel="prefetch"
           as="font"
           href="/assets/fonts/font-awesome/fontawesome-webfont.woff2"
-          type="font/woff2"
-          crossOrigin="anonymous"
         />
         <link
-          rel="preload"
+          rel="prefetch"
           as="font"
           href="/assets/fonts/pe7-icon/Pe-icon-7-stroke.woff"
-          type="font/woff2"
-          crossOrigin="anonymous"
         />
-        <link
-          rel="preload"
-          as="font"
-          href="/assets/fonts/ico/icofont.ttf"
-          crossOrigin="anonymous"
+        <link rel="prefetch" as="font" href="/assets/fonts/ico/icofont.ttf" />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-CK92BFCYQB"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CK92BFCYQB');`,
+          }}
         />
       </Head>
       <Component {...pageProps} />
@@ -70,4 +78,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

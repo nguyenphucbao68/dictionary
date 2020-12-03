@@ -5,7 +5,17 @@ module.exports = withImages(
     async redirects() {
       return [
         {
-          source: "/words",
+          source: "/dict/en_en",
+          destination: "/",
+          permanent: true,
+        },
+        {
+          source: "/dict/en_vn",
+          destination: "/",
+          permanent: true,
+        },
+        {
+          source: "/dict",
           destination: "/",
           permanent: true,
         },
@@ -13,10 +23,3 @@ module.exports = withImages(
     },
   }),
 );
-// }
-// withCSS(
-// 	withSass({
-// 		target: 'serverless',
-// 		cssModules: true,
-// 	})
-// )

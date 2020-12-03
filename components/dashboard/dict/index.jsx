@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Router from "next/router";
 import Breadcrumb from "../../../layout/breadcrumb";
 import {
@@ -23,7 +23,6 @@ import {
 import Head from "next/head";
 import ErrorPage from "next/error";
 import Link from "next/link";
-import { Clock } from "react-feather";
 import useOutsideClick from "../../../lib/event";
 import SideBarPage from "../../app/SideBar";
 import SkeletonSection from "./skeleton";
@@ -55,23 +54,9 @@ const Dictionary = ({ definition, word, language }) => {
   }
 
   const ref = useRef();
-  const [daytimes, setDayTimes] = useState();
-  const today = new Date();
-  const curHr = today.getHours();
-  const curMi = today.getMinutes();
-  const [meridiem, setMeridiem] = useState("AM");
-  // eslint-disable-next-line
-  const [date, setDate] = useState({ date: new Date() });
-  // eslint-disable-next-line
-  const [startDate, setStartDate] = useState(new Date());
-  // const [dropdownOpen, setDropdownOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const handleChange = (date) => {
-  //   setDate(date);
-  // };
   // const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
@@ -80,14 +65,13 @@ const Dictionary = ({ definition, word, language }) => {
   };
 
   useOutsideClick(ref, () => {
-    // alert('You clicked outside')
     setShowResults(false);
   });
 
-  const onClickAudio = (url) => {
-    var audio = new Audio(url);
-    audio.play();
-  };
+  // const onClickAudio = (url) => {
+  //   var audio = new Audio(url);
+  //   audio.play();
+  // };
 
   const onChangeKeyWord = async (e) => {
     const keyword = e.target.value;
@@ -103,32 +87,6 @@ const Dictionary = ({ definition, word, language }) => {
       // console.log('err', error);
     }
   };
-
-  useEffect(() => {
-    document.getElementById("skeleton-word").classList.remove("hidden");
-    document.getElementById("skeleton-word").classList.add("show");
-    document.getElementById("word-info").classList.remove("show");
-    document.getElementById("word-info").classList.add("hidden");
-    setTimeout(() => {
-      document.getElementById("skeleton-word").classList.remove("show");
-      document.getElementById("skeleton-word").classList.add("hidden");
-      document.getElementById("word-info").classList.remove("hidden");
-      document.getElementById("word-info").classList.add("show");
-    }, 100);
-    if (curHr < 12) {
-      setDayTimes("Good Morning");
-    } else if (curHr < 18) {
-      setDayTimes("Good Afternoon");
-    } else {
-      setDayTimes("Good Evening");
-    }
-
-    if (curHr >= 12) {
-      setMeridiem("PM");
-    } else {
-      setMeridiem("AM");
-    }
-  }, []);
   const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
   const [modal, setModal] = useState(false);
   const ModalLanguageSwitcher = () => setModal(!modal);
@@ -218,7 +176,7 @@ const Dictionary = ({ definition, word, language }) => {
                     <input
                       type="text"
                       className="form-control"
-                      aria-label="Text input with segmented dropdown button"
+                      aria-label="Search Athoni's Dictionary"
                       id="keyword-search"
                       placeholder="Search Athoni's Dictionary"
                       onChange={onChangeKeyWord}
@@ -226,6 +184,7 @@ const Dictionary = ({ definition, word, language }) => {
                       onClick={clickInputSearch}
                       autoComplete="off"
                     />
+
                     <a
                       className="language-switcher"
                       onClick={ModalLanguageSwitcher}
@@ -260,10 +219,15 @@ const Dictionary = ({ definition, word, language }) => {
                         </Button>
                       </ModalFooter>
                     </Modal>
-                    <button type="button" className="btn btn-light">
+                    <button
+                      type="button"
+                      className="btn btn-light"
+                      aria-label="Search..."
+                    >
                       <img
+                        src={require("../../../public/assets/images/landing/search-icon.png")}
+                        alt=""
                         width={31}
-                        src="/assets/images/landing/search-icon.png"
                       />
                     </button>
                   </div>
@@ -388,6 +352,7 @@ const Dictionary = ({ definition, word, language }) => {
             <button
               className="mt-3 btn btn-outline-primary btn-lg"
               id="view-more"
+              aria-label="View More"
             >
               Xem thêm
             </button>
@@ -396,15 +361,6 @@ const Dictionary = ({ definition, word, language }) => {
               <CardBody>
                 <div className="media">
                   <div className="badge-groups w-100">
-                    <div className="badge f-12">
-                      <Clock
-                        style={{ width: "16px", height: "16px" }}
-                        className="mr-1"
-                      />
-                      <span id="txt">
-                        {curHr}:{curMi < 10 ? "0" + curMi : curMi} {meridiem}
-                      </span>
-                    </div>
                     <div className="badge f-12">
                       <i className="fa fa-spin fa-cog f-14"></i>
                     </div>
@@ -415,7 +371,7 @@ const Dictionary = ({ definition, word, language }) => {
                   <div className="profile-vector">
                     <img
                       className="img-fluid"
-                      src="/assets/images/dashboard/welcome.png"
+                      src={require("../../../public/assets/images/dashboard/welcome.png")}
                       alt=""
                     />
                   </div>
