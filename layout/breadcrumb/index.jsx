@@ -1,5 +1,4 @@
 import React from "react";
-import Bookmark from "../bookmark";
 import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Home } from "react-feather";
 import Link from "next/link";
@@ -31,7 +30,6 @@ const Breadcrumbs = (props) => {
                 </BreadcrumbItem>
               </Breadcrumb>
             </Col>
-            <Bookmark />
           </Row>
         </div>
       </Container>

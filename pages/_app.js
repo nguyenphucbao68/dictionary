@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }) {
           href="https://cdnjs.cloudflare.com/"
           crossOrigin="true"
         />
-        <link
+        {/* <link
           rel="prefetch"
           as="font"
           href="/assets/fonts/font-awesome/fontawesome-webfont.woff2"
@@ -52,8 +52,8 @@ function MyApp({ Component, pageProps }) {
           rel="prefetch"
           as="font"
           href="/assets/fonts/pe7-icon/Pe-icon-7-stroke.woff"
-        />
-        <link rel="prefetch" as="font" href="/assets/fonts/ico/icofont.ttf" />
+        /> */}
+        {/* <link rel="prefetch" as="font" href="/assets/fonts/ico/icofont.ttf" /> */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-CK92BFCYQB"
