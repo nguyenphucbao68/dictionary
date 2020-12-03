@@ -2,6 +2,7 @@ const withCss = require("@zeit/next-css");
 const withImages = require("next-images");
 module.exports = withImages(
   withCss({
+    inlineImageLimit: 16384,
     async redirects() {
       return [
         {

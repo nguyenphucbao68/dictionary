@@ -1,6 +1,6 @@
 import Head from "next/head";
 // import { wrapper } fromy "../store";
-import "../public/assets/css/getBootstrap.min.css";
+import "../public/assets/css/style.min.css";
 import "../public/assets/css/styleReact.min.css";
 import "../public/content.min.css";
 function MyApp({ Component, pageProps }) {
