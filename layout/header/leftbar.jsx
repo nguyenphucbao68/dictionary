@@ -1,10 +1,8 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
-import { X, Layers, Grid } from "react-feather";
+import { Grid } from "react-feather";
 // import { Link } from 'react-router-dom'
 import Link from "next/link";
-import { errorPages, authPages, usefullPages, comingsoonPages } from "./pages";
-import configDB from "../../data/customizer/config";
 const Leftbar = (props) => {
   const [bonusui, setBonusUI] = useState(false);
   const [sidebartoogle, setSidebartoogle] = useState(true);
@@ -138,144 +136,7 @@ const Leftbar = (props) => {
           <Grid className="status_toggle middle" id="sidebar-toggle" />
         </div>
       </div>
-      <Col className="left-menu-header horizontal-wrapper pl-0">
-        {/* <ul className='horizontal-menu'>
-					<li className='mega-menu'>
-						<a
-							className={`nav-link ${bonusui ? 'active' : ''}`}
-							href='#javascript'
-							onClick={() => ToggleBonusUI(bonusui)}
-						>
-							<Layers />
-							<span>Bonus Ui</span>
-						</a>
-						<div
-							className='mega-menu-container menu-content'
-							style={bonusui ? { display: '' } : { display: 'none' }}
-						>
-							<Container fluid={true}>
-								<Row>
-									<Col
-										className='mega-box'
-										onClick={() => responsiveMegaBox1(megaboxtoggle1)}
-									>
-										<div className='mobile-title d-none'>
-											<h5>Mega menu</h5>
-											<X onClick={() => responsiveMegaMenuclose()} />
-										</div>
-										<div className='link-section icon'>
-											<div
-												className={`${
-													megaboxtoggle1 ? 'active' : ''
-												}`}
-											>
-												<h6>Error Page</h6>
-											</div>
-											<ul
-												className={`${
-													megaboxtoggle1 ? 'd-none' : ''
-												}`}
-											>
-												{errorPages.map((pagesItem, i) => (
-													<li key={i}>
-														<Link href={pagesItem.path}>
-															<a>{pagesItem.title}</a>
-														</Link>
-													</li>
-												))}
-											</ul>
-										</div>
-									</Col>
-									<Col
-										className='mega-box'
-										onClick={() => responsiveMegaBox2(megaboxtoggle2)}
-									>
-										<div className='link-section doted'>
-											<div
-												className={`${
-													megaboxtoggle2 ? 'active' : ''
-												}`}
-											>
-												<h6>Authentication</h6>
-											</div>
-											<ul
-												className={`${
-													megaboxtoggle2 ? 'd-none' : ''
-												}`}
-											>
-												{authPages.map((pagesItem, i) => (
-													<li key={i}>
-														<Link href={pagesItem.path}>
-															<a>{pagesItem.title}</a>
-														</Link>
-													</li>
-												))}
-											</ul>
-										</div>
-									</Col>
-									<Col
-										className='mega-box'
-										onClick={() => responsiveMegaBox3(megaboxtoggle3)}
-									>
-										<div className='link-section dashed'>
-											<div
-												className={`${
-													megaboxtoggle3 ? 'active' : ''
-												}`}
-											>
-												<h6>Usefull Pages</h6>
-											</div>
-											<ul
-												className={`${
-													megaboxtoggle3 ? 'd-none' : ''
-												}`}
-											>
-												{usefullPages.map((pagesItem, i) => (
-													<li key={i}>
-														<Link href={pagesItem.path}>
-															<a>{pagesItem.title}</a>
-														</Link>
-													</li>
-												))}
-											</ul>
-										</div>
-									</Col>
-									<Col
-										className='mega-box'
-										onClick={() => responsiveMegaBox4(megaboxtoggle4)}
-									>
-										<div className='link-section'>
-											<div
-												className={`${
-													megaboxtoggle4 ? 'active' : ''
-												}`}
-											>
-												<h6>Coming Soon</h6>
-											</div>
-											<ul
-												className={`svg-icon ${
-													megaboxtoggle4 ? 'd-none' : ''
-												}`}
-											>
-												{comingsoonPages.map((pagesItem, i) => (
-													<li key={i}>
-														<Link href={pagesItem.path}>
-															<a>
-																<pagesItem.icon />
-																Coming-soon
-															</a>
-														</Link>
-													</li>
-												))}
-											</ul>
-										</div>
-									</Col>
-								</Row>
-							</Container>
-						</div>
-					</li>
-				</ul> */}
-      </Col>
+      <Col className="left-menu-header horizontal-wrapper pl-0"></Col>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import Head from "next/head";
-// import { wrapper } from "../store";
+// import { wrapper } fromy "../store";
 import "../public/assets/css/getBootstrap.min.css";
 import "../public/assets/css/styleReact.min.css";
 import "../public/content.min.css";

@@ -8,7 +8,6 @@ React.useLayoutEffect = React.useEffect;
 const Home = ({ definition, language, word }) => {
   return (
     <>
-      {/* <ScrollToTop /> */}
       <App>
         <Dictionary definition={definition} language={language} word={word} />
       </App>

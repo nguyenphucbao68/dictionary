@@ -282,6 +282,7 @@ const Dictionary = ({ definition, word, language }) => {
       <Breadcrumb
         parent={getInfoLanguage.name}
         title="Definition"
+        language={language}
         word={word}
       />
       <SkeletonSection />
@@ -396,21 +397,6 @@ const Dictionary = ({ definition, word, language }) => {
           </Col>
         </Row>
       </Container>
-
-      <style jsx global>{`
-        .uk-text-small {
-          font-size: 0.8rem !important;
-          line-height: 1.5;
-        }
-
-        .related-section {
-          border-bottom-left-radius: 0px !important;
-          border-bottom-right-radius: 0px !important;
-        }
-        #view-more {
-          width: 100%;
-        }
-      `}</style>
     </>
   );
 };

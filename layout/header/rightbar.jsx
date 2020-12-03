@@ -32,10 +32,8 @@ setTranslations({ en, es, pt, fr, du, cn, ae });
 setDefaultLanguage("en");
 setLanguageCookie();
 
-const Rightbar = (props) => {
-  const [searchresponsive, setSearchresponsive] = useState(false);
+const Rightbar = () => {
   const [langdropdown, setLangdropdown] = useState(false);
-  const [moonlight, setMoonlight] = useState(false);
   const [selected, setSelected] = useState("en");
 
   const handleSetLanguage = (key) => {
@@ -43,70 +41,11 @@ const Rightbar = (props) => {
     setSelected(key);
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("layout_version") === "dark-only") {
-      setMoonlight(true);
-    }
-  }, []);
-
-  const logOut = () => {
-    localStorage.removeItem("profileURL");
-  };
-
-  //full screen function
-  function goFull() {
-    if (
-      (document.fullScreenElement && document.fullScreenElement !== null) ||
-      (!document.mozFullScreen && !document.webkitIsFullScreen)
-    ) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(
-          Element.ALLOW_KEYBOARD_INPUT,
-        );
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-  }
-
-  const SeacrhResposive = (searchresponsive) => {
-    if (searchresponsive) {
-      setSearchresponsive(!searchresponsive);
-      document.querySelector(".search-full").classList.add("open");
-      document.querySelector(".more_lang").classList.remove("active");
-    } else {
-      setSearchresponsive(!searchresponsive);
-      document.querySelector(".search-full").classList.remove("open");
-    }
-  };
-
   const LanguageSelection = (language) => {
     if (language) {
       setLangdropdown(!language);
     } else {
       setLangdropdown(!language);
-    }
-  };
-
-  const MoonlightToggle = (light) => {
-    if (light) {
-      setMoonlight(!light);
-      document.body.className = "light";
-      localStorage.setItem("layout_version", "light");
-    } else {
-      setMoonlight(!light);
-      document.body.className = "dark-only";
-      localStorage.setItem("layout_version", "dark-only");
     }
   };
 
