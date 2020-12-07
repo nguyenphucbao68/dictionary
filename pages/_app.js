@@ -2,7 +2,8 @@ import Head from "next/head";
 // import { wrapper } fromy "../store";
 import "../public/assets/css/style.min.css";
 import "../public/assets/css/styleReact.min.css";
-import "../public/content.min.css";
+// import "../public/content.min.css";
+import "../public/test.css";
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -43,6 +44,7 @@ function MyApp({ Component, pageProps }) {
           href="https://cdnjs.cloudflare.com/"
           crossOrigin="true"
         />
+        <meta name="revisit-after" content="1 days" />
         {/* <link
           rel="prefetch"
           as="font"

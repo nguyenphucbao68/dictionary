@@ -14,7 +14,6 @@ export const SubNavToggle = ({ definition }) => {
       }
     });
     setexpanded(listToggle);
-    console.log("đã chạy");
   }, [definition]);
 
   const setExpand = (key) => {
@@ -29,7 +28,6 @@ export const SubNavToggle = ({ definition }) => {
       newData[key].isOpen = true;
       newData[key].expanded = !newData[key].expanded;
     }
-    console.log(newData);
     setexpanded(newData);
   };
 

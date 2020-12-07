@@ -75,6 +75,7 @@ const Dictionary = ({ definition, word, language }) => {
 
   const onChangeKeyWord = async (e) => {
     const keyword = e.target.value;
+    if (keyword == "") return;
     setKeyword(e.target.value);
     try {
       const res = await fetch(

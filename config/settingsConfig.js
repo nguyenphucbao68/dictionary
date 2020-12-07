@@ -1,6 +1,16 @@
 const settings = {
   url: "https://www.athoni.com",
   defaultLanguageData: "en_en",
+  pronounce: {
+    name: "English - English",
+    titleTemplate: "How to pronounce '%s' in English - Youtube - Athoni",
+    titleTemplateFunc: (word) =>
+      `How to pronounce '${word}' at Youtube - Athoni Dictionary`,
+    keywordList: (word) =>
+      `${word}, How to pronounce ${word} in English, Youtube, Athoni`,
+    description: (word) =>
+      `${word} - Pronounce - Take advantage of videos on youtube to make English learning materials at athoni.com`,
+  },
   languageData: [
     {
       name: "English - English",
