@@ -6,7 +6,10 @@ const createURL = (link) => {
       <loc>${link}</loc>
     </sitemap>`;
 };
-const createSitemap = (language) => `<?xml version="1.0" encoding="UTF-8"?>
+const createSitemap = (
+  language,
+  pronounceData,
+) => `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
     ${(function () {
@@ -20,6 +23,17 @@ ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
         </sitemap>`;
         }
       }
+      for (
+        let i = 0;
+        i < pronounceData?.data?.length / pronounceData.siteMapPageList;
+        i++
+      ) {
+        const { page } = pronounceData?.data[i];
+        s += `<sitemap>
+        <loc>${`${process.env.ORIGIN_URL}/site/pronounce/${page}.xml`}</loc>
+      </sitemap>`;
+      }
+
       return s;
     })()}
   </sitemapindex>
@@ -29,11 +43,16 @@ class Sitemap extends React.Component {
   static async getInitialProps({ res }) {
     try {
       var obj = [];
-      // var language = ['en_en', 'en_vn'];
 
+      // pronounce
+      var pronounceData = settings.pronounce;
+      const request = await fetch(
+        `${process.env.ORIGIN_URL}/api/index.php/en_en/cat`,
+      );
+      pronounceData.data = await request.json();
+      // dictionary
       for (let i = 0; i < settings.languageData.length; i++) {
         var objLang = settings.languageData[i];
-        // var objLang = { name: prefix };
         const request = await fetch(
           `${process.env.ORIGIN_URL}/api/index.php/${objLang.prefix}/cat`,
         );
@@ -42,7 +61,7 @@ class Sitemap extends React.Component {
         obj.push(objLang);
       }
       res.setHeader("Content-Type", "text/xml");
-      res.write(createSitemap(obj));
+      res.write(createSitemap(obj, pronounceData));
       res.end();
     } catch (error) {
       console.log(error);

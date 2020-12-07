@@ -451,8 +451,8 @@ const Pronounce = ({ pronounce, subTitle, word }) => {
                   className={pillDarkTab === "2" ? "active" : ""}
                   onClick={() => setpillDarkTab("2")}
                 >
-                  <i className="icofont icofont-man-in-glasses"></i>
-                  Tutorial
+                  <i className="icofont icofont-book-alt"></i>
+                  Definition
                 </NavLink>
               </NavItem>
             </Nav>

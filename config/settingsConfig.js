@@ -3,7 +3,9 @@ const settings = {
   defaultLanguageData: "en_en",
   pronounce: {
     name: "English - English",
+    prefix: "en_en",
     titleTemplate: "How to pronounce '%s' in English - Youtube - Athoni",
+    siteMapPageList: 50,
     titleTemplateFunc: (word) =>
       `How to pronounce '${word}' at Youtube - Athoni Dictionary`,
     keywordList: (word) =>

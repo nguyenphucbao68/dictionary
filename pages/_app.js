@@ -2,8 +2,8 @@ import Head from "next/head";
 // import { wrapper } fromy "../store";
 import "../public/assets/css/style.min.css";
 import "../public/assets/css/styleReact.min.css";
-// import "../public/content.min.css";
-import "../public/test.css";
+import "../public/content.min.css";
+// import "../public/test.css";
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -45,17 +45,6 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="true"
         />
         <meta name="revisit-after" content="1 days" />
-        {/* <link
-          rel="prefetch"
-          as="font"
-          href="/assets/fonts/font-awesome/fontawesome-webfont.woff2"
-        />
-        <link
-          rel="prefetch"
-          as="font"
-          href="/assets/fonts/pe7-icon/Pe-icon-7-stroke.woff"
-        /> */}
-        {/* <link rel="prefetch" as="font" href="/assets/fonts/ico/icofont.ttf" /> */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-CK92BFCYQB"
