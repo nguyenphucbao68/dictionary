@@ -13,6 +13,8 @@ const createSitemap = () => `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${createURL(`${process.env.ORIGIN_URL}`)}
     ${createURL(`${process.env.ORIGIN_URL}/dictionary`)}
+    ${createURL(`${process.env.ORIGIN_URL}/contact-us`)}
+    ${createURL(`${process.env.ORIGIN_URL}/terms-of-use`)}
   </urlset>
 `;
 

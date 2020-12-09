@@ -19,9 +19,9 @@ app
   .then(() => {
     const server = express();
 
-    server.get(["/dictionary"], (req, res) => {
-      res.sendFile(__dirname + "/public/dictionary.html");
-    });
+    // server.get(["/dictionary"], (req, res) => {
+    //   res.sendFile(__dirname + "/public/dictionary.html");
+    // });
 
     server.get(["/"], (req, res) => {
       res.sendFile(__dirname + "/public/index.html");

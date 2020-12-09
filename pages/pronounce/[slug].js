@@ -1,4 +1,4 @@
-import Pronounce from "../../components/dashboard/Pronounce";
+import Pronounce from "../../components/dashboard/pronounce";
 import App from "../../components/app";
 import React from "react";
 import {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Router from "next/router";
 import Breadcrumb from "../../../layout/breadcrumb";
 import {
@@ -6,28 +6,21 @@ import {
   Row,
   Col,
   Card,
-  CardHeader,
   CardBody,
   ListGroup,
   ListGroupItem,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
   Modal,
   ModalHeader,
   ModalFooter,
   Button,
 } from "reactstrap";
 import Head from "next/head";
-import ErrorPage from "next/error";
 import Link from "next/link";
 import useOutsideClick from "../../../lib/event";
-import SideBarPage from "../../app/SideBar";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
+import { Clock, Volume2 } from "react-feather";
 
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-word").classList.remove("hidden");
@@ -47,17 +40,11 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.remove("hidden");
   document.getElementById("word-info").classList.add("show");
 };
-const Dictionary = ({ definition, word, language }) => {
-  const [BasicLineTab, setBasicLineTab] = useState("1");
-  if (!definition) {
-    return <ErrorPage statusCode={404} />;
-  }
-
+const HomeSearch = () => {
   const ref = useRef();
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  // const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
     if (keyword === "") return;
@@ -96,13 +83,40 @@ const Dictionary = ({ definition, word, language }) => {
     setCurLanguage(e.target.getAttribute("prefix"));
     setModal(false);
   };
-  const getInfoLanguage = settings.languageData.find(
-    (item) => item.prefix == language,
-  );
+  const [daytimes, setDayTimes] = useState();
+  const today = new Date();
+  const curHr = today.getHours();
+  const curMi = today.getMinutes();
+  const [meridiem, setMeridiem] = useState("AM");
+  // eslint-disable-next-line
+  const [date, setDate] = useState({ date: new Date() });
+  // eslint-disable-next-line
+  const [startDate, setStartDate] = useState(new Date());
+  const handleChange = (date) => {
+    setDate(date);
+  };
+  useEffect(() => {
+    if (curHr < 12) {
+      setDayTimes("Good Morning");
+    } else if (curHr < 18) {
+      setDayTimes("Good Afternoon");
+    } else {
+      setDayTimes("Good Evening");
+    }
+
+    if (curHr >= 12) {
+      setMeridiem("PM");
+    } else {
+      setMeridiem("AM");
+    }
+
+    // eslint-disable-next-line
+  }, []);
+  const getInfoLanguage = settings.homeDictionary;
   return (
     <>
       <Head>
-        <meta name="keywords" content={getInfoLanguage.keywordList(word)} />
+        <meta name="keywords" content={getInfoLanguage.keywordList()} />
 
         <script
           type="application/ld+json"
@@ -114,7 +128,7 @@ const Dictionary = ({ definition, word, language }) => {
           "url": "https://www.athoni.com/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.athoni.com/dict/${language}/{search_term_string}",
+            "target": "https://www.athoni.com/dict/en_en/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }`,
@@ -134,23 +148,17 @@ const Dictionary = ({ definition, word, language }) => {
             name: getInfoLanguage.name,
             item: "https://www.athoni.com/dictionary",
           },
-          {
-            position: 3,
-            name: word,
-            item: `https://www.athoni.com/dict/${language}/${word}`,
-          },
         ]}
       />
       <NextSeo
-        title={word}
-        titleTemplate={getInfoLanguage.titleTemplate}
-        description={definition.meta.desc.trim()}
-        canonical={`https://www.athoni.com/dict/${language}/${word}`}
+        title={getInfoLanguage.titleTemplate}
+        description={getInfoLanguage.desc}
+        canonical={`https://www.athoni.com/dictionary`}
         openGraph={{
           type: "website",
-          url: `https://www.athoni.com/dict/${language}/${word}`,
-          title: getInfoLanguage.titleTemplateFunc(word),
-          description: definition.meta.desc.trim(),
+          url: `https://www.athoni.com/dictionary`,
+          title: getInfoLanguage.titleTemplate,
+          description: getInfoLanguage.des,
           images: [
             {
               url: "https://www.athoni.com/assets/images/athoni-bg.png",
@@ -243,7 +251,7 @@ const Dictionary = ({ definition, word, language }) => {
                         .map((item, i) => (
                           <>
                             <Link
-                              href={`/dict/${language}/${item?.word}`}
+                              href={`/dict/${curLanguage}/${item?.word}`}
                               key={i}
                               onClick={() => setShowResults(false)}
                             >
@@ -264,7 +272,7 @@ const Dictionary = ({ definition, word, language }) => {
                         .map((item, i) => (
                           <>
                             <Link
-                              href={`/dict/${language}/${item?.word}`}
+                              href={`/dict/${curLanguage}/${item?.word}`}
                               key={i}
                               onClick={() => setShowResults(false)}
                             >
@@ -281,114 +289,120 @@ const Dictionary = ({ definition, word, language }) => {
         </Row>
       </Container>
       <Breadcrumb
-        parent={getInfoLanguage.name}
-        title="Definition"
+        parent="Dictionary"
         urlParent="dictionary"
-        language={language}
-        word={word}
+        title="Introduction"
       />
       <SkeletonSection />
-      <Container fluid={true} id="word-info" key="word-info">
+      <Container fluid={true}>
         <Row>
-          <Col md="2">
-            <SideBarPage currentPage="details" word={word} />
+          <Col md="8">
+            <div className="card intro-text">
+              <div className="card-body">
+                <h2>Introduction to Athoni Dictionary</h2>
+                <ul>
+                  <li>
+                    <b>Multilingual Dictionary: </b> The languages ​​of the
+                    dictionary include Japanese, English, Vietnamese, French, ..
+                    and more updated. Specialized dictionary.
+                  </li>
+                  <li>
+                    <b>Multi-function Dictionary: </b> A unique feature of the
+                    dictionary. It can be expanded to find news, songs, and the
+                    corresponding vocabulary. Compare the differences between
+                    the two words.
+                  </li>
+                  <li>
+                    <b>How to Pronounce - Youtube System: </b> Is a system to
+                    look up those words on subtitles of each video. Helps you to
+                    have an overview when the word is in a specific context.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <Row>
+              <Col md="6">
+                <div className="card intro-text">
+                  <div className="card-body">
+                    <h2>English dictionaries</h2>
+                    <ul>
+                      <li>English - English</li>
+                      <li>English - Vietnamese</li>
+                    </ul>
+                  </div>
+                </div>
+              </Col>
+              <Col md="6">
+                <div className="card intro-text">
+                  <div className="card-body">
+                    <h2>Popular Words</h2>
+                    <ul>
+                      {[
+                        "Test",
+                        "Father",
+                        "Question",
+                        "Think",
+                        "Word",
+                        "Run",
+                      ].map((item, i) => (
+                        <li key={i}>
+                          <Link href={`/dict/en_en/${item}`}>{item}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </Col>
-          <Col md="7">
-            <Card>
-              <CardHeader>
-                <h1>
-                  {definition.word}
-                  {/* <span className='uk-text-small'>noun</span> */}
-                </h1>
-                {/* <div>
-                  <span className="speaker-word">
-                    <i
-                      className="txt-primary icofont icofont-audio"
-                      //   onClick={() => onClickAudio(data.pronunciation)}
-                    ></i>{' '}
-                    {/* {data.phonetic} 
-                  </span>
-                </div> */}
-              </CardHeader>
-              <CardBody
-                className="content-words"
-                dangerouslySetInnerHTML={{ __html: definition.data }}
-              ></CardBody>
-            </Card>
-          </Col>
-
-          <Col md="3">
-            <h4>Other Results</h4>
-            <Card className="m-b-0 related-section">
-              <Nav className="m-b-0" tabs>
-                <NavItem>
-                  <NavLink
-                    href="#javascript"
-                    className={BasicLineTab === "1" ? "active" : ""}
-                    onClick={() => setBasicLineTab("1")}
-                  >
-                    Matches
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <TabContent activeTab={BasicLineTab}>
-                <TabPane className="fade show" tabId="1">
-                  <ListGroup>
-                    {definition?.relatedWords?.map((item, i) => (
-                      <ListGroupItem
-                        className="btn-square btn btn-outline-light txt-dark"
-                        action
-                        key={i}
-                      >
-                        <a
-                          href={`/dict/${language}/${item.word}`}
-                          as={`/dict/${language}/${item.word}`}
-                        >
-                          {item.word}
-                        </a>
-                      </ListGroupItem>
-                    ))}
-                  </ListGroup>
-                </TabPane>
-              </TabContent>
-            </Card>
-            <button
-              className="mt-3 btn btn-outline-primary btn-lg"
-              id="view-more"
-              aria-label="View More"
-            >
-              Xem thêm
-            </button>
-
-            <Card className="o-hidden profile-greeting mt-3">
+          <Col md="4">
+            <Card className="o-hidden profile-greeting">
               <CardBody>
                 <div className="media">
                   <div className="badge-groups w-100">
+                    <div className="badge f-12">
+                      <Clock
+                        style={{ width: "16px", height: "16px" }}
+                        className="mr-1"
+                      />
+                      <span id="txt">
+                        {curHr}:{curMi < 10 ? "0" + curMi : curMi} {meridiem}
+                      </span>
+                    </div>
                     <div className="badge f-12">
                       <i className="fa fa-spin fa-cog f-14"></i>
                     </div>
                   </div>
                 </div>
                 <div className="greeting-user text-center">
-                  {/* <span id="greeting">{daytimes}</span> */}
                   <div className="profile-vector">
                     <img
                       className="img-fluid"
-                      src={require("../../../public/assets/images/dashboard/welcome.png")}
+                      src={require("../../../assets/images/dashboard/welcome.png")}
                       alt=""
                     />
                   </div>
                   <h4 className="f-w-600">
-                    {" "}
-                    comfortable{" "}
+                    <span id="greeting">articulate</span>{" "}
                     <span className="right-circle">
                       <i className="fa fa-check-circle f-14 middle"></i>
                     </span>
                   </h4>
+                  <p>
+                    <span> {daytimes}</span>
+                  </p>
+                  <p className="sound-word">
+                    <span>
+                      <Volume2 />
+                    </span>
+                    <span>
+                      <Volume2 />
+                    </span>
+                  </p>
                   <div className="whatsnew-btn">
-                    <a className="btn btn-primary" href="#javascript">
-                      Whats New !
-                    </a>
+                    <Link href="/dict/en_en/articulate">
+                      <a className="btn btn-primary">View More !</a>
+                    </Link>
                   </div>
                   <div className="left-icon">
                     <i className="fa fa-bell"> </i>
@@ -403,4 +417,4 @@ const Dictionary = ({ definition, word, language }) => {
   );
 };
 
-export default Dictionary;
+export default HomeSearch;

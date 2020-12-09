@@ -1,13 +1,20 @@
 const settings = {
   url: "https://www.athoni.com",
   defaultLanguageData: "en_en",
+  homeDictionary: {
+    name: "Dictionary",
+    keywordList: (word) => `Athoni Dictionary, ${word}`,
+    titleTemplate: "Look up definition | Athoni Dictionary",
+    desc: "Look up Everthing... definition, pronounce.",
+  },
   pronounce: {
     name: "English - English",
     prefix: "en_en",
-    titleTemplate: "How to pronounce '%s' in English - Youtube - Athoni",
+    titleTemplate:
+      "How to pronounce '%s' in English - Youtube | Athoni Dictionary",
     siteMapPageList: 50,
     titleTemplateFunc: (word) =>
-      `How to pronounce '${word}' at Youtube - Athoni Dictionary`,
+      `How to pronounce '${word}' at Youtube | Athoni Dictionary`,
     keywordList: (word) =>
       `${word}, How to pronounce ${word} in English, Youtube, Athoni`,
     description: (word) =>

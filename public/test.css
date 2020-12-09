@@ -431,3 +431,46 @@ h2 .mw-headline {
   color: #efff00;
   text-decoration: underline;
 }
+
+/* HOMEPAGE */
+
+.intro-text h2{
+  font-size: 19px;
+    border-bottom: 2px solid #dacbcb;
+    padding-bottom: 7px;
+    margin-bottom: 9px;
+}
+.intro-text ul{
+  list-style-type: circle;
+}
+.sound-word span svg {
+  color: #fff;
+  width: 50px;
+  height: 33px;
+  cursor: pointer;
+}
+.sound-word span:nth-child(1) svg:hover{
+  color: #bcf13b;
+}
+.sound-word span:nth-child(2) svg:hover{
+  color: #ffbbb4;
+}
+.footer img{
+  margin-bottom: 22px;
+    text-align: center;
+    /* margin: 0 auto; */
+    width: 102px;
+}
+.footer ul{
+  list-style-type: circle;
+  margin-left: 12px;
+}
+.footer ul li {
+  margin-bottom: 4px;
+}
+.footer h3{
+  font-size: 20px;
+  padding-left: 11px;
+    margin-bottom: 9px;
+    border-left: 5px solid #e8cbcb;
+}

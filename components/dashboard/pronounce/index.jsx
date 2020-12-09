@@ -272,7 +272,7 @@ const Pronounce = ({ pronounce, subTitle, word }) => {
           {
             position: 1,
             name: "Home",
-            item: "https://www.athoni.com",
+            item: "https://www.athoni.com/dictionary",
           },
           {
             position: 2,
@@ -392,6 +392,7 @@ const Pronounce = ({ pronounce, subTitle, word }) => {
       <Breadcrumb
         parent={getInfoLanguage.name}
         title="Pronounce"
+        urlParent="pronounce"
         language="en_en"
         word={word}
       />

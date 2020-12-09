@@ -7,17 +7,17 @@ module.exports = withImages(
       return [
         {
           source: "/dict/en_en",
-          destination: "/",
+          destination: "/dictionary",
           permanent: true,
         },
         {
           source: "/dict/en_vn",
-          destination: "/",
+          destination: "/dictionary",
           permanent: true,
         },
         {
           source: "/dict",
-          destination: "/",
+          destination: "/dictionary",
           permanent: true,
         },
       ];
