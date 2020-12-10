@@ -1,7 +1,7 @@
 import Head from "next/head";
-import "../public/assets/css/style.min.css";
-import "../public/assets/css/styleReact.min.css";
-import "../public/content.min.css";
+import "../public/assets/css/reset.css";
+// import "../public/assets/css/styleReact.min.css";
+// import "../public/content.min.css";
 // import "../public/test.css";
 function MyApp({ Component, pageProps }) {
   return (
@@ -16,18 +16,24 @@ function MyApp({ Component, pageProps }) {
         <link
           href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&display=swap"
           rel="stylesheet"
+          onLoad="this.media='all'"
         />
         <link
           href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
           rel="stylesheet"
+          onLoad="this.media='all'"
         />
-        <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
 
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+          crossOrigin="true"
+        />
         <link
           rel="preconnect"
           href="https://www.googletagmanager.com"
