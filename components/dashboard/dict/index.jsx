@@ -117,7 +117,7 @@ const Dictionary = ({ definition, word, language }) => {
             "target": "https://www.athoni.com/dict/${language}/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
-        }`,
+        }`.replace(/(?:\r\n|\r|\n)/g, '').trim(),
           }}
         ></script>
         <link href="https://www.athoni.com" rel="publisher" />
@@ -312,7 +312,7 @@ const Dictionary = ({ definition, word, language }) => {
               </CardHeader>
               <CardBody
                 className="content-words"
-                dangerouslySetInnerHTML={{ __html: definition.data }}
+                dangerouslySetInnerHTML={{ __html: definition.data.replace(/(?:\r\n|\r|\n)/g, '').trim() }}
               ></CardBody>
             </Card>
           </Col>

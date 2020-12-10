@@ -60,7 +60,9 @@ function MyApp({ Component, pageProps }) {
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-CK92BFCYQB');`,
+  gtag('config', 'G-CK92BFCYQB');`
+              .replace(/(?:\r\n|\r|\n)/g, "")
+              .trim(),
           }}
         />
       </Head>
