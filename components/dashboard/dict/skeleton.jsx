@@ -39,10 +39,10 @@ const SkeletonSection = () => {
           <Col md="7">
             <Card>
               <CardHeader>
-                <h1>
+                <h2>
                   <Skeleton />
                   {/* <span className='uk-text-small'>noun</span> */}
-                </h1>
+                </h2>
                 <div>
                   <span className="speaker-word">
                     <i className="txt-primary icofont icofont-audio"></i>{" "}

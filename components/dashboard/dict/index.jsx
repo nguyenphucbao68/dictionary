@@ -227,7 +227,7 @@ const Dictionary = ({ definition, word, language }) => {
                     >
                       <img
                         src={require("../../../public/assets/images/landing/search-icon.png")}
-                        alt=""
+                        alt="Search Icon"
                         width={31}
                       />
                     </button>
@@ -296,7 +296,7 @@ const Dictionary = ({ definition, word, language }) => {
           <Col md="7">
             <Card>
               <CardHeader>
-                <h1>
+                <h1 title={`What is ${definition.word}?`}>
                   {definition.word}
                   {/* <span className='uk-text-small'>noun</span> */}
                 </h1>
@@ -375,7 +375,7 @@ const Dictionary = ({ definition, word, language }) => {
                     <img
                       className="img-fluid"
                       src={require("../../../public/assets/images/dashboard/welcome.png")}
-                      alt=""
+                      alt="Welcome to Athoni"
                     />
                   </div>
                   <h4 className="f-w-600">
