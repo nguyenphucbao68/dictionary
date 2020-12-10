@@ -107,11 +107,6 @@ const Sidebar = (props) => {
                 src={require("../../assets/images/logo/logo.png")}
                 alt="Athoni Logo"
               />
-              <img
-                className="img-fluid for-dark"
-                src={require("../../assets/images/logo/logo_dark.png")}
-                alt="Athoni Logo"
-              />
               <div className="back-btn" onClick={() => responsiveSidebar()}>
                 <i className="fa fa-angle-left"></i>
               </div>
