@@ -343,6 +343,7 @@ const Dictionary = ({ definition, word, language }) => {
                         <a
                           href={`/dict/${language}/${item.word}`}
                           as={`/dict/${language}/${item.word}`}
+                          title={item.word}
                         >
                           {item.word}
                         </a>

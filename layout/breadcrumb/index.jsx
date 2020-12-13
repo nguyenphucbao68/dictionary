@@ -9,24 +9,24 @@ const Breadcrumbs = (props) => {
         <div className="page-header">
           <Row>
             <Col xs="6">
-              <h3>{props.title}</h3>
+              <h3 title="Athoni Breadcrumb">{props.title}</h3>
               <Breadcrumb>
                 <BreadcrumbItem key="home">
                   <Link href="/">
-                    <a>
+                    <a title="Athoni">
                       <Home />
                     </a>
                   </Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem key="parent">
                   <Link href={`/${props?.urlParent}`}>
-                    <a>{props.parent}</a>
+                    <a title={props.parent}>{props.parent}</a>
                   </Link>
                 </BreadcrumbItem>
                 {props.word ? (
                   <BreadcrumbItem key="word">
                     <Link href={`/dict/${props.language}/${props.word}`}>
-                      <a>{props.word}</a>
+                      <a title={props.word}>{props.word}</a>
                     </Link>
                   </BreadcrumbItem>
                 ) : (

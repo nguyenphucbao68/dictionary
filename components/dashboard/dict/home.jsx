@@ -235,7 +235,7 @@ const HomeSearch = () => {
                     >
                       <img
                         src={require("../../../public/assets/images/landing/search-icon.png")}
-                        alt=""
+                        alt="Search Icon"
                         width={31}
                       />
                     </button>
@@ -299,7 +299,7 @@ const HomeSearch = () => {
           <Col md="8">
             <div className="card intro-text">
               <div className="card-body">
-                <h2>Introduction to Athoni Dictionary</h2>
+                <h1 title="Introduction to Athoni Dictionary">Introduction to Athoni Dictionary</h1>
                 <ul>
                   <li>
                     <b>Multilingual Dictionary: </b> The languages ​​of the
@@ -324,7 +324,7 @@ const HomeSearch = () => {
               <Col md="6">
                 <div className="card intro-text">
                   <div className="card-body">
-                    <h2>English dictionaries</h2>
+                    <h2 title="English dictionaries">English dictionaries</h2>
                     <ul>
                       <li>English - English</li>
                       <li>English - Vietnamese</li>
@@ -335,7 +335,7 @@ const HomeSearch = () => {
               <Col md="6">
                 <div className="card intro-text">
                   <div className="card-body">
-                    <h2>Popular Words</h2>
+                    <h2 title="Popular Words">Popular Words</h2>
                     <ul>
                       {[
                         "Test",
@@ -346,7 +346,7 @@ const HomeSearch = () => {
                         "Run",
                       ].map((item, i) => (
                         <li key={i}>
-                          <Link href={`/dict/en_en/${item}`}>{item}</Link>
+                          <Link href={`/dict/en_en/${item}`}><a title={item}>{item}</a></Link>
                         </li>
                       ))}
                     </ul>
@@ -379,7 +379,7 @@ const HomeSearch = () => {
                     <img
                       className="img-fluid"
                       src={require("../../../assets/images/dashboard/welcome.png")}
-                      alt=""
+                      alt="Welcome to Athoni"
                     />
                   </div>
                   <h4 className="f-w-600">
