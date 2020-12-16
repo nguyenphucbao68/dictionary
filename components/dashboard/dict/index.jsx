@@ -28,6 +28,7 @@ import SideBarPage from "../../app/SideBar";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
+import { useRouter } from 'next/router';
 
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-word").classList.remove("hidden");
@@ -50,6 +51,8 @@ Router.onRouteChangeError = () => {
 const Dictionary = ({ definition, word, language }) => {
   const [BasicLineTab, setBasicLineTab] = useState("1");
   if (!definition) {
+    const router = useRouter();
+    router.push(`/dictionary`);
     return <ErrorPage statusCode={404} />;
   }
 

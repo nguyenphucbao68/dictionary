@@ -8,11 +8,16 @@ import {
 import { storeCollection, getDocCollection } from "../../lib/api";
 
 React.useLayoutEffect = React.useEffect;
-const Home = ({ pronounce, subTitle, word }) => {
+const Home = ({ pronounce, subTitle, word, defaultVideo }) => {
   return (
     <>
       <App>
-        <Pronounce pronounce={pronounce} subTitle={subTitle} word={word} />
+        <Pronounce
+          pronounce={pronounce}
+          subTitle={subTitle}
+          word={word}
+          defaultVideo={defaultVideo}
+        />
       </App>
     </>
   );
@@ -21,25 +26,34 @@ export async function getServerSideProps({ params }) {
   const getDocWord = await getDocCollection(params.slug, "en_en", "pronounce");
 
   if (getDocWord.data?.length) {
-    const subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
-
+    var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
+    var i = 0;
+    while (!subTitleDoc.result) {
+      subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[++i]?.code);
+    }
+    console.log(subTitleDoc);
     return {
       props: {
         pronounce: getDocWord.data,
-        subTitle: subTitleDoc?.result.transcript.text,
+        subTitle: subTitleDoc?.result?.transcript?.text,
         word: params?.slug,
+        defaultVideo: i,
       },
     };
   }
   const youList = await searchWordOnYoutube(params.slug);
-  const subTitle = await getSubtitleFromVideo(youList?.data[0]?.code);
-
+  var subTitle = await getSubtitleFromVideo(youList?.data[0]?.code);
+  var i = 0;
+  while (!subTitle.result) {
+    subTitle = await getSubtitleFromVideo(youList?.data[++i]?.code);
+  }
   storeCollection(params.slug, "en_en", youList, "pronounce");
   return {
     props: {
       pronounce: youList?.data,
-      subTitle: subTitle?.result.transcript.text,
+      subTitle: subTitle?.result?.transcript?.text,
       word: params?.slug,
+      defaultVideo: i,
     },
   };
 }

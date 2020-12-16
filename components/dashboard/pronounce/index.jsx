@@ -48,7 +48,7 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.remove("hidden");
   document.getElementById("word-info").classList.add("show");
 };
-const Pronounce = ({ pronounce, subTitle, word }) => {
+const Pronounce = ({ pronounce, subTitle, word, defaultVideo }) => {
   if (!pronounce) {
     return <ErrorPage statusCode={404} />;
   }
@@ -88,9 +88,11 @@ const Pronounce = ({ pronounce, subTitle, word }) => {
   };
   const [pillDarkTab, setpillDarkTab] = useState("1");
 
-  const [subTitleText, setSubTitleText] = useState(pronounce[0]?.title);
-  const [curCode, setCurCode] = useState(pronounce[0]?.code);
-  const [index, setIndex] = useState(0);
+  const [subTitleText, setSubTitleText] = useState(
+    pronounce[defaultVideo]?.title,
+  );
+  const [curCode, setCurCode] = useState(pronounce[defaultVideo]?.code);
+  const [index, setIndex] = useState(defaultVideo);
   const [subTitleList, setSubTitleList] = useState(subTitle);
   const [playStart, setPlayStart] = useState(false);
   useEffect(() => {
@@ -133,9 +135,10 @@ const Pronounce = ({ pronounce, subTitle, word }) => {
   };
 
   const onReadyFunc = (event) => {
-    event.target.seekTo(pronounce[0].start);
+    event.target.seekTo(pronounce[defaultVideo].start);
     subTitleList.find((element, index) => {
-      if (pronounce[0].start > parseFloat(element.$.start)) return false;
+      if (pronounce[defaultVideo].start > parseFloat(element.$.start))
+        return false;
       window.subTitleIndex = index;
       setSubTitleText(element?._);
       return true;
