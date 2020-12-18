@@ -29,8 +29,8 @@ export async function getServerSideProps({ params }) {
     var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
 
     for (var i = 0; i < getDocWord?.data.length; i++) {
-      subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[i]?.code);
       if (subTitleDoc.result) break;
+      subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[i]?.code);
     }
     if (i == getDocWord?.data.length) {
       return {
@@ -54,8 +54,8 @@ export async function getServerSideProps({ params }) {
   const youList = await searchWordOnYoutube(params.slug);
   var subTitle = await getSubtitleFromVideo(youList?.data[0]?.code);
   for (var i = 0; i < youList?.data.length; i++) {
-    subTitle = await getSubtitleFromVideo(youList?.data[i]?.code);
     if (subTitle.result) break;
+    subTitle = await getSubtitleFromVideo(youList?.data[i]?.code);
   }
   if (i == youList?.data.length) {
     return {
