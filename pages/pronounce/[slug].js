@@ -27,11 +27,21 @@ export async function getServerSideProps({ params }) {
 
   if (getDocWord.data?.length) {
     var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
-    var i = 0;
-    while (!subTitleDoc.result) {
-      subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[++i]?.code);
+
+    for (var i = 0; i < getDocWord?.data.length; i++) {
+      subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[i]?.code);
+      if (subTitleDoc.result) break;
     }
-    console.log(subTitleDoc);
+    if (i == getDocWord?.data.length) {
+      return {
+        props: {
+          pronounce: getDocWord.data,
+          subTitle: [],
+          word: params?.slug,
+          defaultVideo: i,
+        },
+      };
+    }
     return {
       props: {
         pronounce: getDocWord.data,
@@ -43,9 +53,19 @@ export async function getServerSideProps({ params }) {
   }
   const youList = await searchWordOnYoutube(params.slug);
   var subTitle = await getSubtitleFromVideo(youList?.data[0]?.code);
-  var i = 0;
-  while (!subTitle.result) {
-    subTitle = await getSubtitleFromVideo(youList?.data[++i]?.code);
+  for (var i = 0; i < youList?.data.length; i++) {
+    subTitle = await getSubtitleFromVideo(youList?.data[i]?.code);
+    if (subTitle.result) break;
+  }
+  if (i == youList?.data.length) {
+    return {
+      props: {
+        pronounce: youList?.data,
+        subTitle: [],
+        word: params?.slug,
+        defaultVideo: i,
+      },
+    };
   }
   storeCollection(params.slug, "en_en", youList, "pronounce");
   return {

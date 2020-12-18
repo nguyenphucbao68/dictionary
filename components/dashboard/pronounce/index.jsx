@@ -49,7 +49,7 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.add("show");
 };
 const Pronounce = ({ pronounce, subTitle, word, defaultVideo }) => {
-  if (!pronounce) {
+  if (!pronounce || subTitle.length == 0) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -135,9 +135,9 @@ const Pronounce = ({ pronounce, subTitle, word, defaultVideo }) => {
   };
 
   const onReadyFunc = (event) => {
-    event.target.seekTo(pronounce[defaultVideo].start);
+    event.target.seekTo(pronounce[defaultVideo]?.start);
     subTitleList.find((element, index) => {
-      if (pronounce[defaultVideo].start > parseFloat(element.$.start))
+      if (pronounce[defaultVideo]?.start > parseFloat(element.$.start))
         return false;
       window.subTitleIndex = index;
       setSubTitleText(element?._);
@@ -472,7 +472,7 @@ const Pronounce = ({ pronounce, subTitle, word, defaultVideo }) => {
                     {subTitleList.map((item, i) => (
                       <ListGroupItem key={i}>
                         <span className="badge badge-primary">
-                          {item?.$.start}
+                          {item?.$?.start}
                         </span>{" "}
                         {/* <span
                           dangerouslySetInnerHTML={{
@@ -499,9 +499,9 @@ const Pronounce = ({ pronounce, subTitle, word, defaultVideo }) => {
                         <Progress
                           color="secondary"
                           value={
-                            (parseInt(item?.$.start) /
+                            (parseInt(item?.$?.start) /
                               parseInt(
-                                subTitleList[subTitleList.length - 1]?.$.start,
+                                subTitleList[subTitleList.length - 1]?.$?.start,
                               )) *
                             100
                           }
