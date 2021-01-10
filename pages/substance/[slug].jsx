@@ -5,20 +5,20 @@ import { getSubstance } from "../../lib/dictionary";
 // import { storeCollection, getDocCollection } from "../../lib/api";
 
 React.useLayoutEffect = React.useEffect;
-const SubstancePage = ({ substance }) => {
+const SubstancePage = ({ substance, name, language }) => {
   return (
     <>
       <App>
-        <Substance substance={substance} />
+        <Substance substance={substance} name={name} language={language} />
       </App>
     </>
   );
 };
 export async function getServerSideProps({ params }) {
-  // const getDocWord = await getDocCollection(params.slug);
+  // const getDocWord = await getChemicalCollection(params.slug);
 
-  // if (getDocWord.data?.length) {
-  //   var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
+  // if (getDocWord.data?.nameLang) {
+  //  // var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
   //   var i = 0;
   //   while (!subTitleDoc.result) {
   //     subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[++i]?.code);
@@ -36,7 +36,9 @@ export async function getServerSideProps({ params }) {
   // storeCollection(params.slug, "en_en", youList, "pronounce");
   return {
     props: {
-      substance,
+      substance: substance,
+      name: params.slug,
+      language: "en",
     },
   };
 }

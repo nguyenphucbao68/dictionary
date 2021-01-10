@@ -16,22 +16,21 @@ const Home = ({ definition, language, word }) => {
 };
 export async function getServerSideProps({ params }) {
   const { word, language } = params;
-  // console.time("start");
-  const getDocWord = await getDocCollection(word, language);
+  const wordLang = word.join("/");
+  const getDocWord = await getDocCollection(wordLang, language);
   if (getDocWord.data?.data) {
-    // console.timeEnd("start");
     return {
       props: {
         definition: getDocWord.data,
         language,
-        word,
+        word: wordLang,
       },
     };
   }
-  const definition = await getDefinitions(word, language);
-  storeCollection(word, language, definition);
+  const definition = await getDefinitions(wordLang, language);
+  storeCollection(wordLang, language, definition);
   return {
-    props: { definition: definition?.data, language, word },
+    props: { definition: definition?.data, language, word: wordLang },
   };
 }
 export default Home;

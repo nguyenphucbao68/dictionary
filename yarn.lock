@@ -4283,6 +4283,13 @@ find-versions@^3.2.0:
   dependencies:
     semver-regex "^2.0.0"
 
+firebase-key-encode@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/firebase-key-encode/-/firebase-key-encode-0.1.5.tgz#17bdd39922603c315771bf8b6be02f77a0167211"
+  integrity sha1-F73TmSJgPDFXcb+La+Avd6AWchE=
+  dependencies:
+    lodash "~4.16.2"
+
 firebase@^8.1.1:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.1.1.tgz#379094b724053931fda1086e9020a17b578e50d5"
@@ -5579,6 +5586,11 @@ lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.
   version "4.17.20"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.20.tgz?cache=0&sync_timestamp=1597335994883&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash%2Fdownload%2Flodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
+
+lodash@~4.16.2:
+  version "4.16.6"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
+  integrity sha1-0iyaxmAojzhD4Wun0rXQbMon13c=
 
 log-symbols@^4.0.0:
   version "4.0.0"

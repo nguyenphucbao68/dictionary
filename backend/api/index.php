@@ -62,6 +62,29 @@ $app->get('/{language}/cat/{pageStart}/{pageEnd}', function (Request $request, R
   }
 });
 
+$app->get('/substance/{substance}', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    
+    $wordsDb = new WordsDB();
+    $substance = $request->getAttribute('substance');
+
+    $substanceData = $wordsDb->findBySubstance($substance);
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($substanceData);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+
 $app->get('/{language}/cat', function (Request $request, Response $response) {    
   try {
     // picking words from database 

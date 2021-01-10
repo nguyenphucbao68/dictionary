@@ -28,7 +28,7 @@ import SideBarPage from "../../app/SideBar";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-word").classList.remove("hidden");
@@ -120,7 +120,9 @@ const Dictionary = ({ definition, word, language }) => {
             "target": "https://www.athoni.com/dict/${language}/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
-        }`.replace(/(?:\r\n|\r|\n)/g, '').trim(),
+        }`
+              .replace(/(?:\r\n|\r|\n)/g, "")
+              .trim(),
           }}
         ></script>
         <link href="https://www.athoni.com" rel="publisher" />
@@ -315,7 +317,11 @@ const Dictionary = ({ definition, word, language }) => {
               </CardHeader>
               <CardBody
                 className="content-words"
-                dangerouslySetInnerHTML={{ __html: definition.data.replace(/(?:\r\n|\r|\n)/g, '').trim() }}
+                dangerouslySetInnerHTML={{
+                  __html: definition?.data
+                    ?.replace(/(?:\r\n|\r|\n)/g, "")
+                    .trim(),
+                }}
               ></CardBody>
             </Card>
           </Col>

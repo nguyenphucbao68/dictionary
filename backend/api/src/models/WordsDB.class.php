@@ -59,6 +59,18 @@ require __DIR__ . '/../../configDB.php';
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findBySubstance($substance){
+      $sql = "SELECT * FROM substance WHERE word=:substance LIMIT 1";
+      $this->connect();
+
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindValue(":substance", $substance);
+      $stmt->execute(); 
+      $this->pdo = null;
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public function findById($id){
       $sql = "SELECT * FROM words WHERE id=$id";
       $this->connect();

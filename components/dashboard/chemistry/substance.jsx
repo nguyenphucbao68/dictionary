@@ -61,14 +61,11 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.remove("hidden");
   document.getElementById("word-info").classList.add("show");
 };
-const Substance = ({ substance }) => {
+const Substance = ({ substance, name, language }) => {
   const [BasicLineTab, setBasicLineTab] = useState("1");
-  //   if (!definition) {
-  //     const router = useRouter();
-  //     router.push(`/dictionary`);
-  //     return <ErrorPage statusCode={404} />;
-  //   }
-
+  if (!substance) {
+    return <ErrorPage statusCode={404} />;
+  }
   const ref = useRef();
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
@@ -116,38 +113,59 @@ const Substance = ({ substance }) => {
     RunCanvas();
   }, []);
   const RunCanvas = () => {
-    SmilesDrawer.parse("Cl[Fe](Cl)Cl", function (tree) {
-      // Draw to the canvas
-      smilesDrawer.draw(tree, "example-canvas", "light", false);
-      // Alternatively, draw to SVG:
-      // svgDrawer.draw(tree, 'output-svg', 'dark', false);
-    });
+    SmilesDrawer.parse(
+      substance.data.statement.properties["P233"].data,
+      function (tree) {
+        // Draw to the canvas
+        smilesDrawer.draw(tree, "example-canvas", "light", false);
+        // Alternatively, draw to SVG:
+        // svgDrawer.draw(tree, 'output-svg', 'dark', false);
+      },
+    );
   };
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
-  const [data, setData] = useState([
-    {
-      id: "English",
-      name: "Product Menu",
-    },
-    {
-      id: "Vietnamese",
-      name: "Category Menu",
-    },
-  ]);
+
+  const [data, setData] = useState(
+    Object.keys(substance.data.nameLang).map(
+      (item) => substance.data.nameLang[item],
+    ),
+  );
 
   const tableColumns = [
     {
       name: "Language",
-      selector: "id",
+      selector: "lang",
       sortable: true,
       center: true,
     },
     {
       name: "Name",
-      selector: "name",
+      selector: "data",
       sortable: true,
       center: true,
+    },
+  ];
+  const [identifierData, setIdentifierData] = useState(
+    Object.keys(substance.data.statement.identifiers).map(
+      (item) => substance.data.statement.identifiers[item],
+    ),
+  );
+  const identifierDataColumns = [
+    {
+      name: "ID",
+      selector: "key",
+      sortable: true,
+      center: true,
+      maxWidth: "200px",
+      render: "key",
+    },
+    {
+      name: "Source",
+      selector: (row) => <p dangerouslySetInnerHTML={{ __html: row.data }}></p>,
+      sortable: true,
+      center: true,
+      wrap: true,
     },
   ];
 
@@ -359,35 +377,44 @@ const Substance = ({ substance }) => {
             <Card>
               <CardHeader>
                 <h1>
-                  Ferric Chloride (Cl<sub>3</sub>Fe) Chemical Data
+                  {substance.data.nameLang[language].data} (Cl<sub>3</sub>Fe)
+                  Chemical Data
                 </h1>
               </CardHeader>
               <CardBody className="content-words p-0">
                 <table className="table">
                   <tbody>
                     <tr>
-                      <td>Name</td>
                       <td>
-                        iron(3+);trichloride
-                        <br />
-                        ferric;trichloride
-                        <br />
-                        [FeCl3]
-                        <br />
-                        FeCl3
-                        <br />
+                        <strong>Name</strong>
+                      </td>
+                      <td>
+                        {substance.data.aliases[language].map((item, i) => (
+                          <p key={i}>{item.value}</p>
+                        ))}
                       </td>
                     </tr>
+                    {Object.keys(substance.data.statement.properties).map(
+                      (item, i) => (
+                        <>
+                          <tr key={i}>
+                            <td>
+                              <strong>
+                                {substance.data.statement.properties[item].key}
+                              </strong>
+                            </td>
+                            <td>
+                              {substance.data.statement.properties[item].data}
+                            </td>
+                          </tr>
+                        </>
+                      ),
+                    )}
+
                     <tr>
-                      <td>Molar Mass</td>
-                      <td>+160.841 daltons</td>
-                    </tr>
-                    <tr>
-                      <td>Instance of</td>
-                      <td>Chemical Compound</td>
-                    </tr>
-                    <tr>
-                      <td>Demo</td>
+                      <td>
+                        <strong>Demo</strong>
+                      </td>
                       <td>
                         <canvas
                           id="example-canvas"
@@ -403,12 +430,27 @@ const Substance = ({ substance }) => {
             <Card>
               <CardBody className="p-0">
                 <DataTable
+                  key="Translations"
+                  pagination={true}
                   selectableRows
                   title="Translations"
                   data={data}
                   columns={tableColumns}
                   striped={true}
                   center={true}
+                />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardBody className="p-0">
+                <DataTable
+                  key="Identifier"
+                  pagination={true}
+                  title="Identifier"
+                  data={identifierData}
+                  columns={identifierDataColumns}
+                  striped={true}
+                  // center={true}
                 />
               </CardBody>
             </Card>
