@@ -3,6 +3,7 @@ import "../public/assets/css/reset.css";
 // import "../public/assets/css/styleReact.min.css";
 // import "../public/content.min.css";
 // import "../public/test.css";
+import "../public/assets/css/custom.css";
 function MyApp({ Component, pageProps }) {
   return (
     <>
