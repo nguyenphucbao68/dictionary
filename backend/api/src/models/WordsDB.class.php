@@ -5,7 +5,7 @@ require __DIR__ . '/../../configDB.php';
     private $pdo;
     private $currentLanguage = array("en_en", "en_vn");
     public function connect(){
-      $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
+      $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";port=".DB_PORT;
 
       $pdo = new PDO($connect_str, DB_USER, DB_PASSWORD);
 
