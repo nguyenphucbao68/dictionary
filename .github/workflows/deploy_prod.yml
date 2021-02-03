@@ -28,7 +28,8 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         script: |
-          cd ${{ secrets.APP_PATH }}/backend/api/
+          cd ${{ secrets.APP_PATH }}
+          cd backend/api
           composer install
           chown nginx:root * -R
         host: ${{ secrets.HOST }}
