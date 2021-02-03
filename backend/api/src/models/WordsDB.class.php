@@ -13,6 +13,64 @@ require __DIR__ . '/../../configDB.php';
       $this->pdo = $pdo;
     }
 
+    private function createConditionReaction($data, $first){
+      $str = "";
+      for ($i=0; $i < count($data); $i++) { 
+        if($first && $i == 0) {
+          $str .= " name != '".$this->mysql_escape_mimic($data[$i])."'";
+        }else{
+          $str .= " AND name != '".($this->mysql_escape_mimic($data[$i]))."'";
+        }
+      }
+      return $str;
+    }
+
+    function getInfoReaction($id){
+      $sql = "SELECT * FROM `reactions_detail` WHERE rid=:id";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      
+      $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllReaction($reactantsArr, $productsArr){
+      $qrReactants = $this->createConditionReaction($reactantsArr, true);
+      $qrProducts = $this->createConditionReaction($productsArr, false);
+      $sql = "SELECT * FROM `reactions_detail` WHERE rid NOT IN (SELECT rid FROM reactions_detail WHERE $qrReactants $qrProducts AND type != 't') GROUP BY rid";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      $this->pdo = null;
+      $res = $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getReaction($reactants, $products){
+      $productsArr = explode(" ", $products);
+      $reactantsArr = explode(" ", $reactants);
+      $dataReaction = $this->getAllReaction($reactantsArr, $productsArr);
+      for ($i=0; $i < count($dataReaction); $i++) { 
+        $reaction = $this->getInfoReaction($dataReaction[$i]["rid"]);
+        for ($j=0; $j < count($reaction); $j++) { 
+          if($reaction[$j]["type"] == "t"){
+            continue;
+          }
+          if($reaction[$j]["type"] == "r" && !in_array($reaction[$j]["name"],$reactantsArr)){
+            break;
+          }
+          if($reaction[$j]["type"] == "p" && !in_array($reaction[$j]["name"],$productsArr)){
+            break;
+          }
+         
+        }
+        if($j == count($reaction) ){
+          return $reaction;
+        } 
+      }
+      return array();
+    }
+
     public function getCat($pageStart, $pageEnd, $language){
       $sql = "SELECT * FROM ".$this->mysql_escape_mimic($language)." WHERE page>=:pageStart and page<=:pageEnd ORDER BY page ASC";
       $this->connect();

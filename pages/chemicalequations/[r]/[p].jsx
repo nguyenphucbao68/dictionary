@@ -1,7 +1,7 @@
 import Reaction from "../../../components/dashboard/chemistry/reaction";
 import App from "../../../components/app";
 import React from "react";
-
+import { getChemicalReaction } from "../../../lib/api";
 React.useLayoutEffect = React.useEffect;
 const ReactionPage = () => {
   return (
@@ -13,11 +13,11 @@ const ReactionPage = () => {
   );
 };
 export async function getServerSideProps({ params }) {
+  const { p, r } = params;
+  const reaction = await getChemicalReaction(r, p);
   return {
-    props: {
-
-    }
-  }
+    props: {},
+  };
   // const getDocWord = await getChemicalCollection(params.slug);
 
   // if (getDocWord.data?.nameLang) {
@@ -35,14 +35,14 @@ export async function getServerSideProps({ params }) {
   //     },
   //   };
   // }
-//   const substance = await getSubstance(params.slug);
-//   // storeCollection(params.slug, "en_en", youList, "pronounce");
-//   return {
-//     props: {
-//       substance: substance,
-//       name: params.slug,
-//       language: "en",
-//     },
-//   };
+  //   const substance = await getSubstance(params.slug);
+  //   // storeCollection(params.slug, "en_en", youList, "pronounce");
+  //   return {
+  //     props: {
+  //       substance: substance,
+  //       name: params.slug,
+  //       language: "en",
+  //     },
+  //   };
 }
 export default ReactionPage;
