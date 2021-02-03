@@ -32,3 +32,4 @@ yarn-error.log*
 
 #backend
 /backend/api/configDB.php
+/athonidb.zip
