@@ -18,6 +18,28 @@ define('WORDS_PER_PAGE', 500);
 define('CATEGORIES_PER_PAGE', 500);
 // Routes
 
+$app->get('/reaction/cat/{category}/{limit}', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    $wordsDb = new WordsDB();
+    $limit = $request->getAttribute('limit');
+    $category = $request->getAttribute('category');
+    // $limit = 960;
+    $words = $wordsDb->getReactionsListByCategory($category, $limit);
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
 $app->get('/reaction/page/{pageStart}/{pageEnd}', function (Request $request, Response $response) {    
   try {
     // picking words from database 

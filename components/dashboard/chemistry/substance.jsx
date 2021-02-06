@@ -298,7 +298,12 @@ const Substance = ({ substance, name, language }) => {
           </Col>
         </Row>
       </Container>
-      <Breadcrumb title="Substance" substance={name} />
+      <Breadcrumb
+        parent="Chemical Equations"
+        urlParent="chemicalequations"
+        title="Chemistry"
+        substance={name}
+      />
       <SkeletonSection />
       <Container
         fluid={true}
