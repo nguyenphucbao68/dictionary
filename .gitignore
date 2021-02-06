@@ -30,6 +30,5 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-#backend
-/backend/api/configDB.php
-/athonidb.zip
+server.js
+

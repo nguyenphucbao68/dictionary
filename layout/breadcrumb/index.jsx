@@ -18,11 +18,35 @@ const Breadcrumbs = (props) => {
                     </a>
                   </Link>
                 </BreadcrumbItem>
-                <BreadcrumbItem key="parent">
-                  <Link href={`/${props?.urlParent}`}>
-                    <a title={props.parent}>{props.parent}</a>
-                  </Link>
-                </BreadcrumbItem>
+                {props?.urlParent ? (
+                  <BreadcrumbItem key="parent">
+                    <Link href={`/${props?.urlParent}`}>
+                      <a title={props.parent}>{props.parent}</a>
+                    </Link>
+                  </BreadcrumbItem>
+                ) : (
+                  ""
+                )}
+                {props.substance ? (
+                  <BreadcrumbItem key="substance">
+                    <Link href={`/substance/${props.substance}`}>
+                      <a title={props.substance}>{props.substance}</a>
+                    </Link>
+                  </BreadcrumbItem>
+                ) : (
+                  ""
+                )}
+                {props.reaction ? (
+                  <BreadcrumbItem key="reaction">
+                    <Link
+                      href={`/chemicalequations/${props.reactants}/${props.products}`}
+                    >
+                      <a title={props.reaction}>{props.reaction}</a>
+                    </Link>
+                  </BreadcrumbItem>
+                ) : (
+                  ""
+                )}
                 {props.word ? (
                   <BreadcrumbItem key="word">
                     <Link href={`/dict/${props.language}/${props.word}`}>

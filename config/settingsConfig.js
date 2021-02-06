@@ -7,6 +7,24 @@ const settings = {
     titleTemplate: "Look up definition | Athoni Dictionary",
     desc: "Look up Everthing... definition, pronounce.",
   },
+  chemistry: {
+    reaction: {
+      titleTemplate: "%s | Chemical Equations - Athoni",
+      siteMapPageList: 10000,
+      titleTemplateFunc: (reaction) =>
+        `'${reaction}' | Chemical Equations - Athoni`,
+      keywordList: (reaction) => `${reaction}`,
+      description: (reaction) =>
+        `Solved and balanced chemical equation ${reaction}.`,
+    },
+    substance: {
+      titleTemplate: "%s Chemical Data | Athoni",
+      siteMapPageList: 5000,
+      titleTemplateFunc: (substance) => `'${substance}' Chemical Data | Athoni`,
+      keywordList: (substance) => `${substance}`,
+      description: (substance) => `${substance}' Chemical Data`,
+    },
+  },
   pronounce: {
     name: "English - English",
     prefix: "en_en",

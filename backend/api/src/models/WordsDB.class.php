@@ -5,12 +5,175 @@ require __DIR__ . '/../../configDB.php';
     private $pdo;
     private $currentLanguage = array("en_en", "en_vn");
     public function connect(){
-      $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";port=".DB_PORT;
+      $connect_str = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8;port=".DB_PORT;
 
       $pdo = new PDO($connect_str, DB_USER, DB_PASSWORD);
 
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->pdo = $pdo;
+    }
+
+    public function searchReactionsByKeyword($keyword, $limit){
+      $keyword = str_replace("  ", " ", $keyword);
+      $keyword = str_replace("  ", " ", $keyword);
+      $keyword = str_replace(" ", " + ", $keyword);
+      $sql = "SELECT * FROM `reactions` WHERE reaction LIKE '%".$this->mysql_escape_mimic($keyword)."%' LIMIT :limit";
+      $this->connect();
+
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    private function createConditionReaction($data, $first){
+      $str = "";
+      for ($i=0; $i < count($data); $i++) { 
+        if($first && $i == 0) {
+          $str .= " name != '".$this->mysql_escape_mimic($data[$i])."'";
+        }else{
+          $str .= " AND name != '".($this->mysql_escape_mimic($data[$i]))."'";
+        }
+      }
+      return $str;
+    }
+
+    private function createSubstanceConditions($data){
+      $s = "";
+      for ($i=0; $i < count($data); $i++) { 
+        if($i == 0)
+          $s .= " reaction LIKE '%".$data[$i]."%'";
+        else
+          $s .= " AND reaction LIKE '%".$data[$i]."%'";
+      }
+      $s .= " AND (";
+      for ($i=0; $i < count($data); $i++) { 
+        if($i == 0)
+          $s .= " name='".$data[$i]."'";
+        else
+          $s .= " OR name='".$data[$i]."'";
+      }
+      $s .= ")";
+      return $s;
+    }
+
+    private function searchBySubstanceDB($type, $substanceArr){
+      $sql = "SELECT * FROM reactions_detail WHERE rid IN (SELECT rid FROM `reactions` INNER JOIN reactions_detail ON reactions.id = reactions_detail.rid WHERE ".$this->createSubstanceConditions($substanceArr)." AND type=:type)";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindValue(":type", $type);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function searchBySubstance($type, $substance){    
+      $substanceArr = explode(" ", $substance);  
+      $data = $this->searchBySubstanceDB($type, $substanceArr);
+      $listSubstance = array();
+      for ($i=0; $i < count($data); $i++) { 
+          $element = $data[$i];
+          if($element["type"] == $type){
+            if(!isset($listSubstance[$element["rid"]])) $listSubstance[$element["rid"]] = array();
+            array_push($listSubstance[$element["rid"]], $element["name"]);
+          }
+      }
+      $listResult = array();
+      foreach($listSubstance as $key => $value){
+        for ($i=0; $i < count($substanceArr); $i++) { 
+          if(!in_array($substanceArr[$i], $value)) break;
+        }
+        if($i == count($substanceArr)){
+          array_push($listResult, $key);
+        }
+      }
+     $result = array();
+      for ($i=0; $i < count($data); $i++) { 
+        $element = $data[$i];
+        if(in_array($element["rid"], $listResult)){
+          if(!isset($result[$element["rid"]])) $result[$element["rid"]] = array();
+          array_push($result[$element["rid"]], $data[$i]);
+        }
+      }
+      return $result;
+    }
+
+    private function getInfoReaction($id){
+      $sql = "SELECT * FROM `reactions_detail` WHERE rid=:id";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      
+      $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllReaction($reactantsArr, $productsArr){
+      $qrReactants = $this->createConditionReaction($reactantsArr, true);
+      $qrProducts = $this->createConditionReaction($productsArr, false);
+      $sql = "SELECT * FROM `reactions_detail` WHERE rid NOT IN (SELECT rid FROM reactions_detail WHERE $qrReactants $qrProducts AND type != 't') GROUP BY rid";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      $this->pdo = null;
+      $res = $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getReaction($reactants, $products){
+      $productsArr = explode(" ", $products);
+      $reactantsArr = explode(" ", $reactants);
+      $dataReaction = $this->getAllReaction($reactantsArr, $productsArr);
+      for ($i=0; $i < count($dataReaction); $i++) { 
+        $reaction = $this->getInfoReaction($dataReaction[$i]["rid"]);
+        for ($j=0; $j < count($reaction); $j++) { 
+          if($reaction[$j]["type"] == "t"){
+            continue;
+          }
+          if($reaction[$j]["type"] == "r" && !in_array($reaction[$j]["name"],$reactantsArr)){
+            break;
+          }
+          if($reaction[$j]["type"] == "p" && !in_array($reaction[$j]["name"],$productsArr)){
+            break;
+          }
+         
+        }
+        if($j == count($reaction) ){
+          return $reaction;
+        } 
+      }
+      return array();
+    }
+
+    public function getSubstancesList(){
+      $sql = "SELECT * FROM substance WHERE 1";
+      $this->connect();
+
+      $stmt = $this->pdo->prepare($sql);
+      $this->pdo = null;
+
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getReactionsList($pageStart, $pageEnd){
+      $sql = "SELECT * FROM reactions_detail WHERE rid>=:pageStart and rid<=:pageEnd ORDER BY rid ASC";
+      $this->connect();
+
+      $stmt = $this->pdo->prepare($sql);
+
+      $this->pdo = null;
+      $stmt->bindValue(":pageStart", (int)$pageStart, PDO::PARAM_INT);
+      $stmt->bindValue(":pageEnd", (int)$pageEnd, PDO::PARAM_INT);
+      // $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+      $res = $stmt->execute(); 
+      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+      $listReactions = array();
+      for ($i=0; $i < count($data); $i++) { 
+        $element = $data[$i];
+          if(!isset($listReactions[$element["rid"]])) $listReactions[$element["rid"]] = array();
+          array_push($listReactions[$element["rid"]], $element);
+      }
+      return $listReactions;
     }
 
     public function getCat($pageStart, $pageEnd, $language){

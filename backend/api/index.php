@@ -18,6 +18,78 @@ define('WORDS_PER_PAGE', 500);
 define('CATEGORIES_PER_PAGE', 500);
 // Routes
 
+$app->get('/reaction/page/{pageStart}/{pageEnd}', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    $wordsDb = new WordsDB();
+    $pageStart = $request->getAttribute('pageStart');
+    $pageEnd = $request->getAttribute('pageEnd');
+    // $limit = 960;
+    $words = $wordsDb->getReactionsList($pageStart, $pageEnd);
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->get('/reaction/search/{type}/{substance}', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    $type = $request->getAttribute('type');
+    $substance = $request->getAttribute('substance');
+    // error_log($cat);
+    $limit = 10;
+    $wordsDb = new WordsDB();
+    if($type == "s"){
+      $words = $wordsDb->searchReactionsByKeyword($substance, $limit);
+    }else{
+      $words = $wordsDb->searchBySubstance($type, $substance);
+    }
+    
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->get('/reaction/{reactants}/{products}', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    $reactants = $request->getAttribute('reactants');
+    $products = $request->getAttribute('products');
+    // error_log($cat);
+    $wordsDb = new WordsDB();
+    $words = $wordsDb->getReaction($reactants, $products);
+    
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
 $app->get('/cat/{cat}', function (Request $request, Response $response) {    
   try {
     // picking words from database 
@@ -53,6 +125,26 @@ $app->get('/{language}/cat/{pageStart}/{pageEnd}', function (Request $request, R
     $response->withStatus(200);
     $response->withHeader('Content-Type', 'application/json');
     return $response->withJson($words);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->get('/substance/list', function (Request $request, Response $response) {    
+  try {
+    // picking words from database 
+    
+    $wordsDb = new WordsDB();
+    $substanceData = $wordsDb->getSubstancesList();
+
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($substanceData);
 
   } catch (PDOException $e) {
     $response->withStatus(500);
