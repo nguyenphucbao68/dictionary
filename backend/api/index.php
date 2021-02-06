@@ -18,27 +18,6 @@ define('WORDS_PER_PAGE', 500);
 define('CATEGORIES_PER_PAGE', 500);
 // Routes
 
-// $app->get('/substance/{substance}', function (Request $request, Response $response) {    
-//   try {
-//     // picking words from database 
-//     $substance = $request->getAttribute('substance');
-//     // error_log($cat);
-//     $wordsDb = new WordsDB();
-//     $words = $wordsDb->getSubstance($substance);
-
-//     // custom json response
-//     $response->withStatus(200);
-//     $response->withHeader('Content-Type', 'application/json');
-//     return $response->withJson($words);
-
-//   } catch (PDOException $e) {
-//     $response->withStatus(500);
-//     $response->withHeader('Content-Type', 'application/json');
-//     $error['err'] = $e->getMessage();
-//     return $response->withJson($error);
-//   }
-// });
-
 $app->get('/reaction/page/{pageStart}/{pageEnd}', function (Request $request, Response $response) {    
   try {
     // picking words from database 
