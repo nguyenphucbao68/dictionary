@@ -8,6 +8,12 @@ const settings = {
     desc: "Look up Everthing... definition, pronounce.",
   },
   chemistry: {
+    home: {
+      titleTemplate: "Chemical Equations | Athoni",
+      titleTemplateFunc: () => `'Chemical Equations | Athoni`,
+      keywordList: () => `Chemical Equations`,
+      description: () => `Solved and balanced chemical equation ${reaction}.`,
+    },
     reaction: {
       titleTemplate: "%s | Chemical Equations - Athoni",
       siteMapPageList: 10000,

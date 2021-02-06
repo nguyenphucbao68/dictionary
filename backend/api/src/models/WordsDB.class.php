@@ -13,6 +13,16 @@ require __DIR__ . '/../../configDB.php';
       $this->pdo = $pdo;
     }
 
+    public function getReactionsListByCategory($category, $limit){
+      $sql = "SELECT * FROM `reactions_detail` as v1 INNER JOIN (SELECT rid FROM `reactions_detail` WHERE name=:category AND type='t' LIMIT 10) as v2 ON v1.rid = v2.rid";
+      $this->connect();
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->bindValue("category", $category);
+      $stmt->execute();
+      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $this->generateNewObject($data);
+    }
+
     public function searchReactionsByKeyword($keyword, $limit){
       $keyword = str_replace("  ", " ", $keyword);
       $keyword = str_replace("  ", " ", $keyword);
@@ -154,6 +164,17 @@ require __DIR__ . '/../../configDB.php';
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    private function generateNewObject($data){
+      $listReactions = array();
+      for ($i=0; $i < count($data); $i++) { 
+        $element = $data[$i];
+          if(!isset($listReactions[$element["rid"]])) $listReactions[$element["rid"]] = array();
+          array_push($listReactions[$element["rid"]], $element);
+      }
+      return $listReactions;
+    }
+
+
     public function getReactionsList($pageStart, $pageEnd){
       $sql = "SELECT * FROM reactions_detail WHERE rid>=:pageStart and rid<=:pageEnd ORDER BY rid ASC";
       $this->connect();
@@ -167,15 +188,16 @@ require __DIR__ . '/../../configDB.php';
       $res = $stmt->execute(); 
       $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-      $listReactions = array();
-      for ($i=0; $i < count($data); $i++) { 
-        $element = $data[$i];
-          if(!isset($listReactions[$element["rid"]])) $listReactions[$element["rid"]] = array();
-          array_push($listReactions[$element["rid"]], $element);
-      }
-      return $listReactions;
+      // $listReactions = array();
+      // for ($i=0; $i < count($data); $i++) { 
+      //   $element = $data[$i];
+      //     if(!isset($listReactions[$element["rid"]])) $listReactions[$element["rid"]] = array();
+      //     array_push($listReactions[$element["rid"]], $element);
+      // }
+      return $this->generateNewObject($data);
     }
 
+    
     public function getCat($pageStart, $pageEnd, $language){
       $sql = "SELECT * FROM ".$this->mysql_escape_mimic($language)." WHERE page>=:pageStart and page<=:pageEnd ORDER BY page ASC";
       $this->connect();

@@ -10,32 +10,14 @@ import {
   CardBody,
   ListGroup,
   ListGroupItem,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  Button,
 } from "reactstrap";
 import Head from "next/head";
 import ErrorPage from "next/error";
 import Link from "next/link";
 import useOutsideClick from "../../../lib/event";
-import SideBarPage from "../../app/SideBar";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
-import { useRouter } from "next/router";
-import SmilesDrawer from "smiles-drawer";
-var smilesDrawer = new SmilesDrawer.Drawer({
-  width: 300,
-  height: 300,
-  explicitHydrogens: true,
-  experimental: true,
-});
 import DataTable from "react-data-table-component";
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-reaction").classList.remove("hidden");
@@ -285,7 +267,9 @@ const Reaction = ({
         </Row>
       </Container>
       <Breadcrumb
-        title="Reaction"
+        parent="Chemical Equations"
+        urlParent="chemicalequations"
+        title="Chemistry"
         reaction={reactionTitle}
         reactants={reactants}
         products={products}
