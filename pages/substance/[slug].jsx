@@ -2,7 +2,11 @@ import Substance from "../../components/dashboard/chemistry/substance";
 import App from "../../components/app";
 import React from "react";
 import { getSubstance } from "../../lib/dictionary";
-// import { storeCollection, getDocCollection } from "../../lib/api";
+import {
+  getSubstanceCollection,
+  setSubstanceCollection,
+  getSubstanceDb,
+} from "../../lib/api";
 
 React.useLayoutEffect = React.useEffect;
 const SubstancePage = ({ substance, name, language }) => {
@@ -15,25 +19,20 @@ const SubstancePage = ({ substance, name, language }) => {
   );
 };
 export async function getServerSideProps({ params }) {
-  // const getDocWord = await getChemicalCollection(params.slug);
+  const getDocSubstance = await getSubstanceCollection(params.slug);
 
-  // if (getDocWord.data?.nameLang) {
-  //  // var subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[0]?.code);
-  //   var i = 0;
-  //   while (!subTitleDoc.result) {
-  //     subTitleDoc = await getSubtitleFromVideo(getDocWord?.data[++i]?.code);
-  //   }
-  //   return {
-  //     props: {
-  //       pronounce: getDocWord.data,
-  //       subTitle: subTitleDoc?.result?.transcript?.text,
-  //       word: params?.slug,
-  //       defaultVideo: i,
-  //     },
-  //   };
-  // }
-  const substance = await getSubstance(params.slug);
-  // storeCollection(params.slug, "en_en", youList, "pronounce");
+  if (getDocSubstance.data?.nameLang) {
+    return {
+      props: {
+        substance: getDocSubstance,
+        name: params.slug,
+        language: "en",
+      },
+    };
+  }
+  var substance = await getSubstance(params.slug);
+  substance.data.other = await getSubstanceDb(params.slug);
+  setSubstanceCollection(params.slug, substance);
   return {
     props: {
       substance: substance,

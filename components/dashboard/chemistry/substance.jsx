@@ -62,7 +62,6 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.add("show");
 };
 const Substance = ({ substance, name, language }) => {
-  const [BasicLineTab, setBasicLineTab] = useState("1");
   if (!substance) {
     return <ErrorPage statusCode={404} />;
   }
@@ -70,7 +69,6 @@ const Substance = ({ substance, name, language }) => {
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  // const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
     if (keyword === "") return;
@@ -81,19 +79,12 @@ const Substance = ({ substance, name, language }) => {
     setShowResults(false);
   });
 
-  // const onClickAudio = (url) => {
-  //   var audio = new Audio(url);
-  //   audio.play();
-  // };
-
   const onChangeKeyWord = async (e) => {
     const keyword = e.target.value;
     if (keyword == "") return;
     setKeyword(e.target.value);
     try {
-      const res = await fetch(
-        `/api/index.php/search/${curLanguage}/${keyword}/8`,
-      );
+      const res = await fetch(`/api/index.php/reaction/search/s/${keyword}`);
       const obj = res.json();
       setListWord(await obj);
       setShowResults(true);
@@ -101,14 +92,8 @@ const Substance = ({ substance, name, language }) => {
       // console.log('err', error);
     }
   };
-  const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
   const [modal, setModal] = useState(false);
-  const ModalLanguageSwitcher = () => setModal(!modal);
-  const changeCurLanguage = (e) => {
-    e.preventDefault();
-    setCurLanguage(e.target.getAttribute("prefix"));
-    setModal(false);
-  };
+
   useEffect(() => {
     RunCanvas();
   }, []);
@@ -169,13 +154,13 @@ const Substance = ({ substance, name, language }) => {
     },
   ];
 
-  //   const getInfoLanguage = settings.languageData.find(
-  //     (item) => item.prefix == language,
-  //   );
   return (
     <>
-      {/* <Head>
-        <meta name="keywords" content={getInfoLanguage.keywordList(word)} />
+      <Head>
+        <meta
+          name="keywords"
+          content={settings.chemistry.substance.keywordList(name)}
+        />
 
         <script
           type="application/ld+json"
@@ -187,7 +172,7 @@ const Substance = ({ substance, name, language }) => {
           "url": "https://www.athoni.com/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.athoni.com/dict/${language}/{search_term_string}",
+            "target": "https://www.athoni.com/substance/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }`
@@ -206,26 +191,22 @@ const Substance = ({ substance, name, language }) => {
           },
           {
             position: 2,
-            name: getInfoLanguage.name,
-            item: "https://www.athoni.com/dictionary",
-          },
-          {
-            position: 3,
-            name: word,
-            item: `https://www.athoni.com/dict/${language}/${word}`,
+            name,
+            item: `https://www.athoni.com/substance/${name}`,
           },
         ]}
       />
       <NextSeo
-        title={word}
-        titleTemplate={getInfoLanguage.titleTemplate}
-        description={definition.meta.desc.trim()}
-        canonical={`https://www.athoni.com/dict/${language}/${word}`}
+        title={`${name} (${substance.data.nameLang[language].data})`}
+        titleTemplate={settings.chemistry.substance.titleTemplate}
+        canonical={`https://www.athoni.com/substance/${name}`}
         openGraph={{
           type: "website",
-          url: `https://www.athoni.com/dict/${language}/${word}`,
-          title: getInfoLanguage.titleTemplateFunc(word),
-          description: definition.meta.desc.trim(),
+          url: `https://www.athoni.com/substance/${name}`,
+          title: settings.chemistry.substance.titleTemplateFunc(
+            `${name} (${substance.data.nameLang[language].data})`,
+          ),
+          description: settings.chemistry.substance.description,
           images: [
             {
               url: "https://www.athoni.com/assets/images/athoni-bg.png",
@@ -241,7 +222,7 @@ const Substance = ({ substance, name, language }) => {
           site: "@site",
           cardType: "summary_large_image",
         }}
-      /> */}
+      />
       <Container fluid={true}>
         <Row className="appointment-sec mt-2">
           <Col md="12" className="chat-default">
@@ -261,40 +242,6 @@ const Substance = ({ substance, name, language }) => {
                       autoComplete="off"
                     />
 
-                    <a
-                      className="language-switcher"
-                      onClick={ModalLanguageSwitcher}
-                      href="#javascript"
-                    >
-                      {
-                        settings.languageData.find(
-                          (item) => item.prefix == curLanguage,
-                        ).name
-                      }
-                    </a>
-                    <Modal isOpen={modal} toggle={ModalLanguageSwitcher}>
-                      <ModalHeader toggle={ModalLanguageSwitcher}>
-                        Language Switcher
-                      </ModalHeader>
-                      <ListGroup>
-                        {settings.languageData.map(({ name, prefix }) => (
-                          <ListGroupItem
-                            className="list-group-item-action"
-                            active={prefix == curLanguage}
-                            prefix={prefix}
-                            key={prefix}
-                            onClick={changeCurLanguage}
-                          >
-                            {name}
-                          </ListGroupItem>
-                        ))}
-                      </ListGroup>
-                      <ModalFooter>
-                        <Button color="primary" onClick={ModalLanguageSwitcher}>
-                          Close
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
                     <button
                       type="button"
                       className="btn btn-light"
@@ -318,17 +265,12 @@ const Substance = ({ substance, name, language }) => {
                         .map((item, i) => (
                           <>
                             <Link
-                              href={`/dict/${language}/${item?.word}`}
+                              href=""
+                              // href={``}
                               key={i}
                               onClick={() => setShowResults(false)}
                             >
-                              <a className="dropdown-item">
-                                {item.word == keyword ? (
-                                  <strong>{item?.word}</strong>
-                                ) : (
-                                  item?.word
-                                )}
-                              </a>
+                              <a className="dropdown-item">{item?.reaction}</a>
                             </Link>
                           </>
                         ))}
@@ -339,11 +281,12 @@ const Substance = ({ substance, name, language }) => {
                         .map((item, i) => (
                           <>
                             <Link
-                              href={`/dict/${language}/${item?.word}`}
+                              href=""
+                              // href={`/dict/${language}/${item?.word}`}
                               key={i}
                               onClick={() => setShowResults(false)}
                             >
-                              <a className="dropdown-item">{item?.word}</a>
+                              <a className="dropdown-item">{item?.reaction}</a>
                             </Link>
                           </>
                         ))}
@@ -355,13 +298,7 @@ const Substance = ({ substance, name, language }) => {
           </Col>
         </Row>
       </Container>
-      {/* <Breadcrumb
-        parent={getInfoLanguage.name}
-        title="Substance"
-        urlParent="dictionary"
-        language={language}
-        word={word}
-      /> */}
+      <Breadcrumb title="Substance" substance={name} />
       <SkeletonSection />
       <Container
         fluid={true}
@@ -370,16 +307,14 @@ const Substance = ({ substance, name, language }) => {
         key="word-info"
       >
         <Row>
-          <Col md="2">
-            <SideBarPage currentPage="details" word={"test"} />
-          </Col>
-          <Col md="7">
+          <Col md="2"></Col>
+          <Col md="8">
+            <h1 id="substance-title">
+              {substance.data.nameLang[language].data} ({name}){" "}
+            </h1>
             <Card>
-              <CardHeader>
-                <h1>
-                  {substance.data.nameLang[language].data} (Cl<sub>3</sub>Fe)
-                  Chemical Data
-                </h1>
+              <CardHeader className="p-3">
+                <h2>Chemical Data</h2>
               </CardHeader>
               <CardBody className="content-words p-0">
                 <table className="table">
@@ -456,87 +391,7 @@ const Substance = ({ substance, name, language }) => {
             </Card>
           </Col>
 
-          <Col md="3">
-            <h4>Other Results</h4>
-            <Card className="m-b-0 related-section">
-              <Nav className="m-b-0" tabs>
-                <NavItem>
-                  <NavLink
-                    href="#javascript"
-                    className={BasicLineTab === "1" ? "active" : ""}
-                    onClick={() => setBasicLineTab("1")}
-                  >
-                    Matches
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <TabContent activeTab={BasicLineTab}>
-                <TabPane className="fade show" tabId="1">
-                  <ListGroup>
-                    {["NaOH", "Na2CO3"].map((item, i) => (
-                      <ListGroupItem
-                        className="btn-square btn btn-outline-light txt-dark"
-                        action
-                        key={i}
-                      >
-                        <a
-                        //   href={`/dict/${language}/${item.word}`}
-                        //   as={`/dict/${language}/${item.word}`}
-                        //   title={item.word}
-                        >
-                          {item}
-                        </a>
-                      </ListGroupItem>
-                    ))}
-                  </ListGroup>
-                </TabPane>
-              </TabContent>
-            </Card>
-            <button
-              className="mt-3 btn btn-outline-primary btn-lg"
-              id="view-more"
-              aria-label="View More"
-            >
-              Xem thêm
-            </button>
-
-            <Card className="o-hidden profile-greeting mt-3">
-              <CardBody>
-                <div className="media">
-                  <div className="badge-groups w-100">
-                    <div className="badge f-12">
-                      <i className="fa fa-spin fa-cog f-14"></i>
-                    </div>
-                  </div>
-                </div>
-                <div className="greeting-user text-center">
-                  {/* <span id="greeting">{daytimes}</span> */}
-                  <div className="profile-vector">
-                    <img
-                      className="img-fluid"
-                      src={require("../../../public/assets/images/dashboard/welcome.png")}
-                      alt="Welcome to Athoni"
-                    />
-                  </div>
-                  <h4 className="f-w-600">
-                    {" "}
-                    comfortable{" "}
-                    <span className="right-circle">
-                      <i className="fa fa-check-circle f-14 middle"></i>
-                    </span>
-                  </h4>
-                  <div className="whatsnew-btn">
-                    <a className="btn btn-primary" href="#javascript">
-                      Whats New !
-                    </a>
-                  </div>
-                  <div className="left-icon">
-                    <i className="fa fa-bell"> </i>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
+          <Col md="2"></Col>
         </Row>
       </Container>
     </>
