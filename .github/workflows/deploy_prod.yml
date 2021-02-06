@@ -1,0 +1,59 @@
+name: Deploy to production server
+
+on:
+  push:
+    branches:
+      - prod_branch_*
+
+jobs:
+
+  build:
+    name: Deploy
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v1
+    - name: Pull new version
+      uses: appleboy/ssh-action@master
+      with:
+        script: |
+          cd ${{ secrets.APP_PATH }}
+          git reset --hard
+          git pull "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/selfomy/athoni.git" main
+          chown nginx:root * -R
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+    - name: Deploy backend
+      uses: appleboy/ssh-action@master
+      with:
+        script: |
+          cd ${{ secrets.APP_PATH }}
+          cd backend/api
+          composer install
+          chown nginx:root * -R
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+    - name: Deploy frontend
+      uses: appleboy/ssh-action@master
+      with:
+        script: |
+          cd ${{ secrets.APP_PATH }}
+          yarn install
+          yarn build
+          pm2 restart server
+          chown nginx:root * -R
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+    - name: Delete caching
+      uses: appleboy/ssh-action@master
+      with:
+        script: rm -rf /var/cache/nginx_cache/*
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
