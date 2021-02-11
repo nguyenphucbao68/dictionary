@@ -3,10 +3,12 @@ header('Access-Control-Allow-Origin: *');
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 require 'vendor/autoload.php';
 require 'src/models/WordsDB.class.php';
 require 'src/Words.class.php';
+require 'src/es-client.class.php';
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 $config = [
   'settings' => [
@@ -16,7 +18,10 @@ $config = [
 $app = new \Slim\App($config);
 define('WORDS_PER_PAGE', 500);
 define('CATEGORIES_PER_PAGE', 500);
-// Routes
+
+
+
+// // Routes
 
 $app->get('/reaction/cat/{category}/{limit}', function (Request $request, Response $response) {    
   try {
@@ -416,6 +421,89 @@ $app->delete('/words/{id}', function (Request $request, Response $response) {
     $response->withStatus(500);
     $response->withHeader('Content-Type', 'application/json');
     $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->post('/search', function (Request $request, Response $response) { 
+  try {
+    $parsedBody = $request->getParsedBody();
+    if ($parsedBody['type'] == "hoidap")  {
+      $esClient = new GuzzleHttp\Client([
+        'base_uri' => '',
+      ]);
+      $esResults = json_decode($esClient->post('http://localhost:9200/hoidap/_search', [
+        'headers' => [
+          'Content-Type' => 'application/json'
+        ],
+        'body' => '{
+          "query": {
+              "multi_match": {
+                  "query": "'.$parsedBody['query'].'",
+                  "fields": ["title", "content", "text"]
+              }
+          },
+          "collapse": {
+              "field": "questionid"
+          },
+          "from": '.$parsedBody['from'].',
+          "size": 30
+      }'
+      ])->getBody());
+    } else if ($parsedBody['type'] == "lecttr") {
+      $esClient = new GuzzleHttp\Client([
+        'base_uri' => '',
+      ]);
+      $esResults = json_decode($esClient->post('http://localhost:9200/localhostlecttrwp-post-1/_search', [
+        'headers' => [
+          'Content-Type' => 'application/json'
+        ],
+        'body' => '{
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "term": {
+                    "post_status": "publish"
+                  }
+                },
+                {
+                  "term": {
+                    "post_type.raw": "post"
+                  }
+                }
+              ],
+              "should": {
+                "multi_match": {
+                  "query": "'.$parsedBody['query'].'",
+                  "fields": [
+                    "post_content",
+                    "post_title"
+                  ]
+                }
+              }
+            }
+          },
+          "from": '.$parsedBody['from'].',
+          "size": 30
+        }'
+      ])->getBody());
+    } else {
+      $response->withStatus(500);
+      $response->withHeader('Content-Type', 'application/json');
+      $error['err'] = "Not allowed";
+      return $response->withJson($error);
+    }
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($esResults);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    $error['test'] = $parsedBody;
     return $response->withJson($error);
   }
 });
