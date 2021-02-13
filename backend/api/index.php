@@ -8,7 +8,6 @@ use \Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 require 'vendor/autoload.php';
 require 'src/models/WordsDB.class.php';
 require 'src/Words.class.php';
-require 'src/es-client.class.php';
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 $config = [
   'settings' => [
