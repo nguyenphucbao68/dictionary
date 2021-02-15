@@ -1,28 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Router from "next/router";
 import Breadcrumb from "../../../layout/breadcrumb";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  ListGroup,
-  ListGroupItem,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  Button,
-} from "reactstrap";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
 import Head from "next/head";
 import Link from "next/link";
 import useOutsideClick from "../../../lib/event";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
-import { Clock, Volume2 } from "react-feather";
 import DataTable from "react-data-table-component";
-
+import { generateEquation } from "../../../service/chemistry";
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-reaction").classList.remove("hidden");
   document.getElementById("skeleton-reaction").classList.add("show");
@@ -68,26 +55,6 @@ const CEHome = ({ data }) => {
     } catch (error) {
       // console.log('err', error);
     }
-  };
-
-  const generateEquation = (data) => {
-    var reactants = data
-      .filter((item) => item.type == "r" && item.name != "")
-      .map((item, i) => (i != 0 ? "+" + item.name : item.name))
-      .join("");
-    var s = reactants;
-
-    s += " = ";
-    var products = data
-      .filter((item) => item.type == "p" && item.name != "")
-      .map((item, i) => (i != 0 ? "+" + item.name : item.name))
-      .join("");
-    s += products;
-    return (
-      <Link href={`/chemicalequations/${reactants}/${products}`}>
-        <a title={s}>{s}</a>
-      </Link>
-    );
   };
 
   const tableReactions = [

@@ -25,9 +25,9 @@ app
     //   res.sendFile(__dirname + "/public/dictionary.html");
     // });
 
-    server.get(["/"], (req, res) => {
-      res.sendFile(__dirname + "/public/index.html");
-    });
+    // server.get(["/"], (req, res) => {
+    //   res.sendFile(__dirname + "/public/index.html");
+    // });
 
     server.use(["/api"], createProxyMiddleware(apiPaths["/api"]));
 

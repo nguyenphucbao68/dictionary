@@ -8,6 +8,21 @@ const settings = {
     desc: "Look up Everthing... definition, pronounce.",
   },
   chemistry: {
+    electron: {
+      titleTemplate: "Configuration Electron | Athoni",
+      titleTemplateFunc: () => `'Configuration Electron | Athoni`,
+      keywordList: () => `Configuration Electron`,
+    },
+    periodic: {
+      titleTemplate: "Periodic Table | Athoni",
+      titleTemplateFunc: () => `'Periodic Table | Athoni`,
+      keywordList: () => `Periodic Table`,
+    },
+    solubility: {
+      titleTemplate: "Solubility Table | Athoni",
+      titleTemplateFunc: () => `'Solubility Table | Athoni`,
+      keywordList: () => `Solubility Table`,
+    },
     home: {
       titleTemplate: "Chemical Equations | Athoni",
       titleTemplateFunc: () => `'Chemical Equations | Athoni`,
