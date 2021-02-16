@@ -44,7 +44,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "smiles-drawer": "^1.2.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/faker": "^5.1.4",

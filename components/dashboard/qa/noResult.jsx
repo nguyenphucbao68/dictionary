@@ -36,7 +36,13 @@ const NoResult = ({ keyword, type }) => {
                   action={process.env.NEXT_PUBLIC_HOIDAP_URL + "ask?cat=1"}
                   method="POST"
                 >
-                  <input name="title" type="text" value={keyword} hidden />
+                  <input
+                    name="title"
+                    type="text"
+                    readOnly
+                    value={keyword}
+                    hidden
+                  />
                   <Button
                     style={{
                       display: "flex",
@@ -62,7 +68,13 @@ const NoResult = ({ keyword, type }) => {
                   action={process.env.NEXT_PUBLIC_HOIDAP_URL + "ask?cat=1"}
                   method="POST"
                 >
-                  <input name="title" type="text" value={keyword} hidden />
+                  <input
+                    name="title"
+                    type="text"
+                    value={keyword}
+                    readOnly
+                    hidden
+                  />
                   <div className="d-flex justify-content-center">
                     <Button
                       style={{

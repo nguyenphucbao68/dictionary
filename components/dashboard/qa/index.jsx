@@ -14,6 +14,7 @@ import NoResult from "./noResult";
 import CategoryBadge from "./categoryBadge";
 import ReactHtmlParser from "react-html-parser";
 import MathJax from "react-mathjax";
+import { v4 as uuidv4 } from "uuid";
 
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-reaction").classList.remove("hidden");
@@ -59,6 +60,7 @@ const QAResult = ({ result, query }) => {
     ) {
       return (
         <MathJax.Node
+          key={uuidv4()}
           inline
           formula={node.children[0].data.replace("\\(", "").replace("\\)", "")}
         />
@@ -72,7 +74,6 @@ const QAResult = ({ result, query }) => {
         .replace(/(\r\n)+|\r+|\n+|\t+/, "")
         .replace(" ", "") === ""
     ) {
-      console.log(node);
       return null;
     }
   };
