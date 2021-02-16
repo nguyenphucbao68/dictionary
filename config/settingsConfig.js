@@ -7,6 +7,45 @@ const settings = {
     titleTemplate: "Look up definition | Athoni Dictionary",
     desc: "Look up Everthing... definition, pronounce.",
   },
+  chemistry: {
+    electron: {
+      titleTemplate: "Configuration Electron | Athoni",
+      titleTemplateFunc: () => `'Configuration Electron | Athoni`,
+      keywordList: () => `Configuration Electron`,
+    },
+    periodic: {
+      titleTemplate: "Periodic Table | Athoni",
+      titleTemplateFunc: () => `'Periodic Table | Athoni`,
+      keywordList: () => `Periodic Table`,
+    },
+    solubility: {
+      titleTemplate: "Solubility Table | Athoni",
+      titleTemplateFunc: () => `'Solubility Table | Athoni`,
+      keywordList: () => `Solubility Table`,
+    },
+    home: {
+      titleTemplate: "Chemical Equations | Athoni",
+      titleTemplateFunc: () => `'Chemical Equations | Athoni`,
+      keywordList: () => `Chemical Equations`,
+      description: () => `Solved and balanced chemical equation ${reaction}.`,
+    },
+    reaction: {
+      titleTemplate: "%s | Chemical Equations - Athoni",
+      siteMapPageList: 10000,
+      titleTemplateFunc: (reaction) =>
+        `'${reaction}' | Chemical Equations - Athoni`,
+      keywordList: (reaction) => `${reaction}`,
+      description: (reaction) =>
+        `Solved and balanced chemical equation ${reaction}.`,
+    },
+    substance: {
+      titleTemplate: "%s Chemical Data | Athoni",
+      siteMapPageList: 5000,
+      titleTemplateFunc: (substance) => `'${substance}' Chemical Data | Athoni`,
+      keywordList: (substance) => `${substance}`,
+      description: (substance) => `${substance}' Chemical Data`,
+    },
+  },
   pronounce: {
     name: "English - English",
     prefix: "en_en",

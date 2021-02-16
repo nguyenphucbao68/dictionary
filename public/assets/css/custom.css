@@ -2,12 +2,294 @@
     font-size: 19px;
 }
 .chemical-reaction{
-    font-size: 19px;
+    font-size: 24px;
     text-align: center;
+    font-weight: bold;
+}
+.chemical-reaction span{
+    margin-right: 10px;
+}
+.countBalancer{
+    color: #21598a;
 }
 #reaction-info{
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 #reaction-type{
     font-size: 16px;
+}
+.relatedReaction .rdt_TableHead{
+    display: none;
+}
+#substance-title{
+    font-size: 19px;
+}
+/** Periodic Table **/
+.tof-table .hover {
+    background-color: #DDDDDD;
+}
+
+.tof-table tbody tr>td {
+    width: 40px;
+    height: 40px;
+}
+
+.tof-table tr.nhom-tuan-hoan td {
+    border-bottom: 1px solid #000000;
+    text-align: center;
+}
+
+.tof-table tbody tr>td a {
+    float: left;
+    width: 100%;
+    color: #000;
+}
+
+.tof-table tr.nhom-tuan-hoan>td {
+    height: 20px;
+}
+
+.tof-table tbody tr>td:first-child {
+    width: 50px;
+}
+
+.tof-table tbody tr>td:first-child a {
+    text-align: center;
+}
+
+.tof-table-page a {
+    /*color: #165171;*/
+    color: #222222;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.ten-elements {
+    float: left;
+    width: 100%;
+    font-size: 20px;
+    margin: 2px 0px 0px 2px;
+}
+
+.so-thu-tu {
+    float: right;
+    font-size: 12px;
+    margin: 0px 5px 0px 0px;
+}
+
+.kim-loai-kiem {
+    background-color: #FF6666;
+}
+
+.kim-loai-kiem-tho {
+    background-color: #FFDEAD;
+}
+
+.nhom-lantan {
+    background-color: #FFBFFF;
+}
+
+.nhom-actini {
+    background-color: #FF99CC;
+}
+
+.kim-loai-chuyen-tiep {
+    background-color: #FFC0C0;
+}
+
+.kim-loai-yeu {
+    background-color: #CCCCCC;
+}
+
+.a-kim {
+    background-color: #CCCC99;
+}
+
+.nonmetals {
+    background-color: #A0FFA0;
+    /*background-color:#95D671;*/
+}
+
+.halogen {
+    background-color: #FFFF99;
+}
+
+.khi-hiem {
+    background-color: #C0FFFF;
+}
+
+.thuoc-tinh-hoa-hoc-khong-ro {
+    background-color: #F5F5F5;
+}
+
+/** Trang thai chat **/
+.gases .so-thu-tu {
+    color: red;
+}
+
+.chat-long {
+    color: green;
+}
+
+.chat-ran {
+    color: black;
+}
+
+/** Nguyen To **/
+
+/** Ty le xuat hien tu nhien **/
+.chat-nguyen-thuy {
+    border: 2px solid black;
+}
+
+.chat-sinh-ra-sau {
+    border: 2px dashed black;
+}
+
+/* Chất sinh ra trong phòng thí nghiệm */
+.chat-nhan-tao {
+    border: 2px dotted black;
+}
+
+.bang-tinh-tan {
+	float: left;
+	margin-right: 20px
+}
+
+.bang-tinh-tan tr.hover th {
+	background-color: #ddd
+}
+
+.bang-tinh-tan th {
+	text-align: center;
+	min-width: 80px
+}
+
+.bang-tinh-tan td {
+	text-align: center;
+	cursor: pointer
+}
+
+.bang-tinh-tan .ion {
+	color: red
+}
+
+.bang-tinh-tan td.tan,
+.tan {
+	background-color: #337ab7!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.khong-tan,
+.khong-tan {
+	background-color: #f0ad4e!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.it-tan,
+.it-tan {
+	background-color: #5bc0de!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.khong-ton-tai,
+.khong-ton-tai {
+	background-color: #777!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.bay-hoi,
+.bay-hoi {
+	background-color: #96c!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.khong-bay-hoi,
+.khong-bay-hoi {
+	background-color: #363!important;
+	color: #fff
+}
+
+.bang-tinh-tan td.tan-va-bay-hoi,
+.tan-va-bay-hoi {
+	background-color: #96c;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#9966CC, endColorstr=#337ab7);
+	background-image: -moz-linear-gradient(right bottom, #9966CC 50%, #337ab7 50%);
+	background-image: -webkit-linear-gradient(right bottom, #9966CC 50%, #337ab7 50%);
+	background-image: -ms-linear-gradient(right bottom, #9966CC 50%, #337ab7 50%);
+	background-image: linear-gradient(right bottom, #9966CC 50%, #337ab7 50%);
+	background-image: -o-linear-gradient(right bottom, #9966CC 50%, #337ab7 50%);
+	background-image: -webkit-gradient(linear, right bottom, left top, color-stop(50%, #9966CC), color-stop(50%, #337ab7));
+	color: #fff
+}
+
+.bang-tinh-tan td.tan-va-khong-bay-hoi,
+.tan-va-khong-bay-hoi {
+	background-color: #363;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#336633, endColorstr=#337ab7);
+	background-image: -moz-linear-gradient(right bottom, #336633 50%, #337ab7 50%);
+	background-image: -webkit-linear-gradient(right bottom, #336633 50%, #337ab7 50%);
+	background-image: -ms-linear-gradient(right bottom, #336633 50%, #337ab7 50%);
+	background-image: linear-gradient(right bottom, #336633 50%, #337ab7 50%);
+	background-image: -o-linear-gradient(right bottom, #336633 50%, #337ab7 50%);
+	background-image: -webkit-gradient(linear, right bottom, left top, color-stop(50%, #336633), color-stop(50%, #337ab7));
+	color: #fff
+}
+
+.bang-tinh-tan td.khong-tan-va-khong-bay-hoi,
+.khong-tan-va-khong-bay-hoi {
+	background-color: #363;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr=#336633, endColorstr=#f0ad4e);
+	background-image: -moz-linear-gradient(right bottom, #336633 50%, #f0ad4e 50%);
+	background-image: -webkit-linear-gradient(right bottom, #336633 50%, #f0ad4e 50%);
+	background-image: -ms-linear-gradient(right bottom, #336633 50%, #f0ad4e 50%);
+	background-image: linear-gradient(right bottom, #336633 50%, #f0ad4e 50%);
+	background-image: -o-linear-gradient(right bottom, #336633 50%, #f0ad4e 50%);
+	background-image: -webkit-gradient(linear, right bottom, left top, color-stop(50%, #336633), color-stop(50%, #f0ad4e));
+	color: #fff
+}
+.config-electron-table{
+    width: 100%;
+}
+.config-electron-table td{
+    text-align: center;
+}
+.qa-tag{
+    margin-right: 4px;
+}
+.qa-result{
+    font-family: Roboto;
+}
+.qa-best-answer{
+    font-size: 20px;
+}
+.best-answer{
+    border: 2px solid #ffd6d6!important;
+}
+.group-tof td{
+    text-align: center;
+}
+.dropdown-item{
+    overflow: hidden;
+}
+.landing-home .content{
+    margin-top: 65px;
+}
+@media only screen and (max-width: 991px){
+  .landing-home h1{
+    font-size: 50px!important;
+}
+.landing-home .language-switcher, .landing-home .dropdown .btn-light, .landing-home #keyword-search{
+    width: 100%;
+}
+.landing-home .content{
+    width: 88%;
+}
+}
+.landing-home{
+    text-align: center;
+}
+.landing-home .btn-grp .btn img{
+    height: 20px;
+    margin-right: 5px;
 }

@@ -36,6 +36,8 @@ ${createURL(`${process.env.ORIGIN_URL}/page-sitemap.xml`)}
 
       return s;
     })()}
+    ${createURL(`${process.env.ORIGIN_URL}/site/reactions/0.xml`)}
+    ${createURL(`${process.env.ORIGIN_URL}/site/substances/0.xml`)}
   </sitemapindex>
 `;
 

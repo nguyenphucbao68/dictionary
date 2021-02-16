@@ -18,7 +18,7 @@ jobs:
         script: |
           cd ${{ secrets.APP_PATH }}
           git reset --hard
-          git pull "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/selfomy/athoni.git" master
+          git pull "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/selfomy/athoni.git" main
           chown nginx:root * -R
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}

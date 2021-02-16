@@ -8,11 +8,6 @@ import {
   CardBody,
   ListGroup,
   ListGroupItem,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
 } from "reactstrap";
 
 const SkeletonSection = () => {
@@ -20,81 +15,49 @@ const SkeletonSection = () => {
     <>
       <Container
         fluid={true}
-        id="skeleton-word"
+        id="skeleton-reaction"
         className="hidden"
-        key="skeleton-word"
+        key="skeleton-reaction"
       >
         <Row>
-          <Col md="2">
-            <Nav className="nav flex-column nav-pills">
-              <NavItem>
-                <NavLink
-                // href='#javascript'
-                >
-                  <Skeleton />
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Col>
-          <Col md="7">
+          <Col md="2"></Col>
+          <Col md="8">
+            <Skeleton />
             <Card>
-              <CardHeader>
-                <h2>
-                  <Skeleton />
-                  {/* <span className='uk-text-small'>noun</span> */}
-                </h2>
-                <div>
-                  <span className="speaker-word">
-                    <i className="txt-primary icofont icofont-audio"></i>{" "}
-                    <Skeleton />
-                  </span>
-                </div>
+              <CardHeader className="p-3">
+                <h2>Chemical Equation</h2>
               </CardHeader>
-              <CardBody className="content-words">
-                <div className="meaningSection">
-                  <h3 className="sec">
-                    <Skeleton />
-                  </h3>
-                  <ol className="meaning-section">
-                    <Skeleton count={3} />
-                  </ol>
-                  <hr />
+              <CardBody className="p-3">
+                <div className="chemical-reaction">
+                  <Skeleton />
                 </div>
               </CardBody>
             </Card>
-            {/* <DataTables /> */}
+            <Card>
+              <CardBody className="p-3">
+                <h5>Reactants</h5>
+              </CardBody>
+              <ListGroup className="mb-3">
+                <ListGroupItem className="list-group-item-action flex-column align-items-start">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">
+                      <Skeleton />
+                    </h5>
+                  </div>
+                  <ul>
+                    <li>
+                      <Skeleton />
+                    </li>
+                    <li>
+                      <Skeleton />
+                    </li>
+                  </ul>
+                </ListGroupItem>
+              </ListGroup>
+            </Card>
           </Col>
 
-          <Col md="3">
-            <h4>Other Results</h4>
-            <Card className="m-b-0 related-section">
-              <Nav className="m-b-0" tabs>
-                <NavItem>
-                  <NavLink href="#javascript" className="active">
-                    Matches
-                  </NavLink>
-                </NavItem>
-              </Nav>
-              <TabContent activeTab="1">
-                <TabPane className="fade show" tabId="1">
-                  <ListGroup>
-                    <ListGroupItem
-                      className="btn-square btn btn-outline-light txt-dark"
-                      action
-                    >
-                      <Skeleton />
-                    </ListGroupItem>
-                  </ListGroup>
-                </TabPane>
-              </TabContent>
-            </Card>
-            <button
-              className="mt-3 btn btn-outline-primary btn-lg"
-              id="view-more"
-            >
-              Xem thêm
-            </button>
-          </Col>
+          <Col md="2"></Col>
         </Row>
       </Container>
     </>
