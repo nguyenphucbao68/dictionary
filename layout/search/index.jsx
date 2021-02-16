@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useRef } from "react";
 import useOutsideClick from "../../lib/event";
 import { generateEquation } from "../../service/chemistry";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 export const Search = () => {
   const [currentSearch, setCurrentSearch] = useState("dictionary");
@@ -194,6 +195,38 @@ export const Search = () => {
           Lecttr
         </button>
       </div>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>
+          <h5 className="modal-title" id="LanguageSwitcherLabel">
+            LanguageSwitcher
+          </h5>
+        </ModalHeader>
+        {/* <ModalBody> */}
+        <div className="list-group">
+          <a href="#" className="list-group-item list-group-item-action active">
+            English - Vietnamese
+          </a>
+          <a href="#" className="list-group-item list-group-item-action">
+            English - English
+          </a>
+          <a href="#" className="list-group-item list-group-item-action">
+            English - Franch
+          </a>
+        </div>
+        {/* </ModalBody> */}
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" className="btn btn-primary">
+            Save changes
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
