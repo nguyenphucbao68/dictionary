@@ -199,7 +199,7 @@ const QAResult = ({ result, query }) => {
                       catid2={bestResult.catidpath2}
                       catid3={bestResult.catidpath3}
                       info={{
-                        title: "tốt nhất",
+                        title: "Tốt nhất",
                         tooltip:
                           "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
                         color: "success",
@@ -229,6 +229,17 @@ const QAResult = ({ result, query }) => {
                         transform: (node) => transformHTML(node),
                       })}
                     </MathJax.Provider>
+                    <CategoryBadge
+                      catid1={bestResult.catidpath1}
+                      catid2={bestResult.catidpath2}
+                      catid3={bestResult.catidpath3}
+                      info={{
+                        title: "Câu hỏi",
+                        tooltip:
+                          "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
+                        color: "info",
+                      }}
+                    />
                   </CardBody>
                 </Card>
               ) : totalResult > 0 && bestResult.type === "A" ? (
@@ -258,7 +269,7 @@ const QAResult = ({ result, query }) => {
                       catid2={bestResult.catidpath2}
                       catid3={bestResult.catidpath3}
                       info={{
-                        title: "tham khảo",
+                        title: "Tham khảo",
                         tooltip:
                           "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
                         color: "warning",
