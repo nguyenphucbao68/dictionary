@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const generateEquation = (data) => {
   var reactants = data
     .filter((item) => item.type == "r" && item.name != "")
@@ -12,8 +14,13 @@ export const generateEquation = (data) => {
     .join("");
   s += products;
   return (
-    <Link href={`/chemicalequations/${reactants}/${products}`}>
-      <a title={s}>{s}</a>
+    <Link
+      href={`/chemicalequations/${reactants}/${products}`}
+      onClick={() => setShowResults(false)}
+    >
+      <a title={s} className="dropdown-item">
+        {s}
+      </a>
     </Link>
   );
 };

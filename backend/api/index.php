@@ -71,11 +71,10 @@ $app->get('/reaction/search/{type}/{substance}', function (Request $request, Res
     $limit = 10;
     $wordsDb = new WordsDB();
     if($type == "s"){
-      $words = $wordsDb->searchReactionsByKeyword($substance, $limit);
+      $words = $wordsDb->searchReactionsByKeyword($substance);
     }else{
       $words = $wordsDb->searchBySubstance($type, $substance);
     }
-    
 
     // custom json response
     $response->withStatus(200);
@@ -292,12 +291,12 @@ $app->get('/search/{language}/{keyword}/{limit}', function (Request $request, Re
     $keyword = $request->getAttribute('keyword');
     $limit = $request->getAttribute('limit');
     $language = $request->getAttribute('language');
-    // picking a book
     $wordsDb = new WordsDB();    
-    // print_r($wordsDb->findByWord($keyword));
     $keyword2 = $keyword;
     $word = $wordsDb->findByKeyword($keyword, $language, $limit);
+    error_log(json_encode($word));
     while(count($word) <= 5){
+      
       $keyword = substr($keyword, 0, -1);
       $word = $wordsDb->findByKeyword($keyword, $language, $limit);
     }

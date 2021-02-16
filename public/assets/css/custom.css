@@ -269,3 +269,27 @@
 .group-tof td{
     text-align: center;
 }
+.dropdown-item{
+    overflow: hidden;
+}
+.landing-home .content{
+    margin-top: 65px;
+}
+@media only screen and (max-width: 991px){
+  .landing-home h1{
+    font-size: 50px!important;
+}
+.landing-home .language-switcher, .landing-home .dropdown .btn-light, .landing-home #keyword-search{
+    width: 100%;
+}
+.landing-home .content{
+    width: 88%;
+}
+}
+.landing-home{
+    text-align: center;
+}
+.landing-home .btn-grp .btn img{
+    height: 20px;
+    margin-right: 5px;
+}

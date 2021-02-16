@@ -1,61 +1,11 @@
 import Head from "next/head";
-import { useState, useRef } from "react";
-import useOutsideClick from "../lib/event";
-import settings from "../config/settingsConfig";
+import { Search } from "../layout/search";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { useState } from "react";
 
 const HomePage = () => {
-  const [restAPI, setRestAPI] = useState("");
-  const [currentSearch, setCurrentSearch] = useState("dictionary");
-  const [dataSearch, setDataSearch] = useState({
-    keyword: "",
-    curLanguage: "",
-  });
-  const setActiveSearch = (e) => {
-    const area = e.currentTarget.getAttribute("area");
-    setCurrentSearch(area);
-  };
-
-  const ref = useRef();
-  const [keyword, setKeyword] = useState("");
-  const [listWord, setListWord] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
-  const clickInputSearch = () => {
-    if (keyword === "") return;
-    setShowResults(true);
-  };
-
-  useOutsideClick(ref, () => {
-    setShowResults(false);
-  });
-
-  const onChangeKeyWord = async (e) => {
-    const keyword = e.target.value;
-    if (keyword == "") return;
-    setKeyword(e.target.value);
-    try {
-      var restAPI = "";
-      switch (currentSearch) {
-        case "chemistry":
-          restAPI = `/api/index.php/reaction/search/s/${keyword}`;
-          break;
-        case "dictionary":
-          restAPI = `/api/index.php/search/${curLanguage}/${keyword}/8`;
-          break;
-        case "hoidap":
-          break;
-        case "lecttr":
-          break;
-      }
-      console.log(restAPI);
-      const res = await fetch(restAPI);
-      const obj = res.json();
-      setListWord(await obj);
-      setShowResults(true);
-    } catch (error) {
-      console.log("err", error);
-    }
-  };
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
   return (
     <>
@@ -169,7 +119,7 @@ const HomePage = () => {
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "\n            .landing-home .content h1{\n                font-size: 87px;\n                background-image: -webkit-linear-gradient(rgb(255 255 255 / 50%), rgb(255 255 255 / 50%)),url(../../assets/images/landing/title.gif);\n            }\n            .landing-home .row.layout-row{\n                position: absolute;\nfloat: left;\ntop: 50%;\nleft: 50%;\ntransform: translate(-50%, -37%);\nwidth: 100%;\n            }\n            .landing-home .content {\n                margin: 0 auto;\n    width: 58%;\n    text-align: center;\n    display: block;\n    \n            }\n            .landing-home .center-content{\n                margin: 0 auto;\n            }\n\t\t\t.landing-home .col-xl-5 {\n\t\t\t\tbackground: none;\n\t\t\t}\n\t\t\t.landing-home {\n\t\t\t\tbackground-color: transparent;\n\t\t\t\tbackground-image: linear-gradient(180deg, #1a1239 0%, #1e2386 100%);\n            }\n            .eight {\n                bottom: -162px;\n    left: 30%;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .eight img{\n                height: 528px!important;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .nine{\n                left: 18%;\n    bottom: 3px;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .ten{\n                left: 15%;\n    bottom: 25px;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .eleven{\n                right: 10%;\n                bottom: 3px;\n                -webkit-animation: animationleft 10s infinite;\n    animation: animationleft 10s infinite;\n            }\n            .twelve{\n                right: 18%;\n                bottom: 3px;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .thirdteen{\n                bottom: -150px;\n                left: -30px;\n                -webkit-animation: animationleft 5s infinite;\n    animation: animationleft 5s infinite;\n            }\n            .fourteen{\n                bottom: -40px;\n                left: -30px;\n                -webkit-animation: animationtop 5s infinite;\n    animation: animationtop 5s infinite;\n            }\n            .fifthteen{\n                top: 50%;\n                right: 100px;\n                -webkit-animation: animationtop  10s infinite;\n    animation: animationtop  10s infinite;\n            }\n            .sixteen{\n                top: 20%;\n                right: 160px;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .seventeen{\n                top: 30%;\n                left: 100px;\n                -webkit-animation: spin 15s infinite;\n    animation: spin 15s infinite;\n            }\n            .seventeen img{\n                filter: brightness(100%) contrast(100%) saturate(100%) blur(2.2px) hue-rotate(0deg);\n            }\n            .eightteen{\n                top: 60%;\n                left: 300px;\n                -webkit-animation: spin 20s infinite;\n    animation: spin 20s infinite;\n            }\n            .language-switcher{\n                padding: 14px 8px;\n            }\n            .search-input{\n                padding: 7px;\n                background-color: #fff;\n                border-radius: .3rem;\n                border-bottom-left-radius: 0px;\n                border-bottom-right-radius: 0px;\n            }\n            .search-input input{\n                border: 0px;\n                border-right: 1px solid #888;\n                \n            }\n            .landing-home .dropdown-menu{\n                width: 100%;\n                margin-top: -1px;\n                border: 1px solid #fff;\n    border-top: 1px dotted #888;\n    border-top-left-radius: 0px;\n    border-top-right-radius: 0px;\n            }\n            .landing-home .dropdown-menu .col-md-6{\n                float: left;\n            }\n            .landing-home .dropdown-menu .col-md-6:first-child{\n                border-right: 1px solid #777;\n            }\n\t\t",
+              "\n            .landing-home .content h1{\n                font-size: 87px;\n                background-image: -webkit-linear-gradient(rgb(255 255 255 / 50%), rgb(255 255 255 / 50%)),url(../../assets/images/landing/title.gif);\n            }\n            .landing-home .row.layout-row{\n                position: absolute;\nfloat: left;\ntop: 50%;\nleft: 50%;\ntransform: translate(-50%, -50%);\nwidth: 100%;\n            }\n            .landing-home .content {\n                margin: 0 auto;\n    width: 58%;\n    text-align: center;\n    display: block;\n    \n            }\n            .landing-home .center-content{\n                margin: 0 auto;\n            }\n\t\t\t.landing-home .col-xl-5 {\n\t\t\t\tbackground: none;\n\t\t\t}\n\t\t\t.landing-home {\n\t\t\t\tbackground-color: transparent;\n\t\t\t\tbackground-image: linear-gradient(180deg, #1a1239 0%, #1e2386 100%);\n            }\n            .eight {\n                bottom: -162px;\n    left: 30%;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .eight img{\n                height: 528px!important;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .nine{\n                left: 18%;\n    bottom: 3px;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .ten{\n                left: 15%;\n    bottom: 25px;\n    -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .eleven{\n                right: 10%;\n                bottom: 3px;\n                -webkit-animation: animationleft 10s infinite;\n    animation: animationleft 10s infinite;\n            }\n            .twelve{\n                right: 18%;\n                bottom: 3px;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .thirdteen{\n                bottom: -150px;\n                left: -30px;\n                -webkit-animation: animationleft 5s infinite;\n    animation: animationleft 5s infinite;\n            }\n            .fourteen{\n                bottom: -40px;\n                left: -30px;\n                -webkit-animation: animationtop 5s infinite;\n    animation: animationtop 5s infinite;\n            }\n            .fifthteen{\n                top: 50%;\n                right: 100px;\n                -webkit-animation: animationtop  10s infinite;\n    animation: animationtop  10s infinite;\n            }\n            .sixteen{\n                top: 20%;\n                right: 160px;\n                -webkit-animation: animationtop 10s infinite;\n    animation: animationtop 10s infinite;\n            }\n            .seventeen{\n                top: 30%;\n                left: 100px;\n                -webkit-animation: spin 15s infinite;\n    animation: spin 15s infinite;\n            }\n            .seventeen img{\n                filter: brightness(100%) contrast(100%) saturate(100%) blur(2.2px) hue-rotate(0deg);\n            }\n            .eightteen{\n                top: 60%;\n                left: 300px;\n                -webkit-animation: spin 20s infinite;\n    animation: spin 20s infinite;\n            }\n            .language-switcher{\n                padding: 14px 8px;\n            }\n            .search-input{\n                padding: 7px;\n                background-color: #fff;\n                border-radius: .3rem;\n                border-bottom-left-radius: 0px;\n                border-bottom-right-radius: 0px;\n            }\n            .search-input input{\n                border: 0px;\n                border-right: 1px solid #888;\n                \n            }\n            .landing-home .dropdown-menu{\n                width: 100%;\n                margin-top: -1px;\n                border: 1px solid #fff;\n    border-top: 1px dotted #888;\n    border-top-left-radius: 0px;\n    border-top-right-radius: 0px;\n            }\n            .landing-home .dropdown-menu .col-md-6{\n                float: left;\n            }\n            .landing-home .dropdown-menu .col-md-6:first-child{\n                border-right: 1px solid #777;\n            }\n\t\t",
           }}
         />
         <meta
@@ -324,151 +274,7 @@ const HomePage = () => {
                     <h2 className="txt-secondary wow fadeIn">
                       Faster, Lighter &amp; Dev. Friendly
                     </h2>
-                    <p className=" wow fadeIn"></p>
-                    <div className="dropdown">
-                      <div className="input-group input-group-lg search-input">
-                        <input
-                          type="text"
-                          className="form-control"
-                          autoComplete="off"
-                          aria-label="Text input with segmented dropdown button"
-                          id="keyword-search"
-                          onChange={onChangeKeyWord}
-                          ref={ref}
-                          onClick={clickInputSearch}
-                          autoComplete="off"
-                        />
-                        {currentSearch == "dictionary" ? (
-                          <a
-                            className="language-switcher"
-                            data-toggle="modal"
-                            data-target="#LanguageSwitcher"
-                          >
-                            English - English
-                          </a>
-                        ) : (
-                          ""
-                        )}
-
-                        <button type="button" className="btn btn-light">
-                          <img
-                            width={31}
-                            src="assets/images/landing/search-icon.png"
-                          />
-                        </button>
-                      </div>
-                      <div
-                        className={`dropdown-menu row ${showResults && "show"}`}
-                        id="related-words"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <div className="col-md-6" id="first-col">
-                          {listWord
-                            .filter((item, i) => i < listWord.length / 2)
-                            .map((item, i) => (
-                              <>
-                                {currentSearch == "Chemistry" ? (
-                                  <Link
-                                    href=""
-                                    key={i}
-                                    onClick={() => setShowResults(false)}
-                                  >
-                                    <a className="dropdown-item">
-                                      {item?.reaction}
-                                    </a>
-                                  </Link>
-                                ) : (
-                                  <Link
-                                    href={`/dict/${curLanguage}/${item?.word}`}
-                                    key={i}
-                                    onClick={() => setShowResults(false)}
-                                  >
-                                    <a className="dropdown-item">
-                                      {item.word == keyword ? (
-                                        <strong>{item?.word}</strong>
-                                      ) : (
-                                        item?.word
-                                      )}
-                                    </a>
-                                  </Link>
-                                )}
-                              </>
-                            ))}
-                        </div>
-                        <div className="col-md-6" id="second-col">
-                          {listWord
-                            .filter((item, i) => i >= listWord.length / 2)
-                            .map((item, i) => (
-                              <>
-                                {currentSearch == "Chemistry" ? (
-                                  <Link
-                                    href=""
-                                    key={i}
-                                    onClick={() => setShowResults(false)}
-                                  >
-                                    <a className="dropdown-item">
-                                      {item?.reaction}
-                                    </a>
-                                  </Link>
-                                ) : (
-                                  <Link
-                                    href={`/dict/${curLanguage}/${item?.word}`}
-                                    key={i}
-                                    onClick={() => setShowResults(false)}
-                                  >
-                                    <a className="dropdown-item">
-                                      {item.word == keyword ? (
-                                        <strong>{item?.word}</strong>
-                                      ) : (
-                                        item?.word
-                                      )}
-                                    </a>
-                                  </Link>
-                                )}
-                              </>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p />
-                    <div className="btn-grp mt-4">
-                      <button
-                        onClick={setActiveSearch}
-                        area="chemistry"
-                        className="btn btn-pill btn-primary btn-air-primary btn-lg mr-3 wow pulse"
-                      >
-                        <img src="assets/images/landing/icon/chemistry.webp" />
-                        Chemistry
-                      </button>
-                      <button
-                        onClick={setActiveSearch}
-                        area="dictionary"
-                        className="btn btn-pill btn-secondary btn-air-secondary btn-lg mr-3 wow pulse"
-                      >
-                        <img src="assets/images/landing/dictionaries-app-icon.png" />
-                        Dictionary
-                      </button>
-                      <button
-                        onClick={setActiveSearch}
-                        area="hoidap"
-                        className="btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3"
-                      >
-                        <img
-                          src={require("../public/assets/images/icon/selfomy.png")}
-                        />
-                        Hỏi đáp
-                      </button>
-                      <button
-                        onClick={setActiveSearch}
-                        area="lecttr"
-                        className="btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3"
-                      >
-                        <img
-                          src={require("../public/assets/images/icon/lecttr.png")}
-                        />
-                        Lecttr
-                      </button>
-                    </div>
+                    <Search />
                   </div>
                 </div>
               </div>
@@ -476,57 +282,38 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div
-        className="modal fade"
-        id="LanguageSwitcher"
-        tabIndex={-1}
-        aria-labelledby="LanguageSwitcherLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="LanguageSwitcherLabel">
-                LanguageSwitcher
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div className="list-group">
-              <a
-                href="#"
-                className="list-group-item list-group-item-action active"
-              >
-                English - Vietnamese
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                English - English
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                English - Franch
-              </a>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>
+          <h5 className="modal-title" id="LanguageSwitcherLabel">
+            LanguageSwitcher
+          </h5>
+        </ModalHeader>
+        {/* <ModalBody> */}
+        <div className="list-group">
+          <a href="#" className="list-group-item list-group-item-action active">
+            English - Vietnamese
+          </a>
+          <a href="#" className="list-group-item list-group-item-action">
+            English - English
+          </a>
+          <a href="#" className="list-group-item list-group-item-action">
+            English - Franch
+          </a>
         </div>
-      </div>
+        {/* </ModalBody> */}
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" className="btn btn-primary">
+            Save changes
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
