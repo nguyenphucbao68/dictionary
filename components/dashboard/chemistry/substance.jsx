@@ -35,7 +35,7 @@ Router.onRouteChangeError = () => {
   document.getElementById("word-info").classList.add("show");
 };
 const Substance = ({ substance, name, language }) => {
-  if (!substance) {
+  if (!substance && !substance.data?.statement) {
     return <ErrorPage statusCode={404} />;
   }
   const [modal, setModal] = useState(false);
@@ -45,7 +45,7 @@ const Substance = ({ substance, name, language }) => {
   }, []);
   const RunCanvas = () => {
     SmilesDrawer.parse(
-      substance.data.statement.properties["P233"].data,
+      substance.data?.statement?.properties["P233"]?.data,
       function (tree) {
         // Draw to the canvas
         smilesDrawer.draw(tree, "example-canvas", "light", false);
@@ -103,10 +103,7 @@ const Substance = ({ substance, name, language }) => {
   return (
     <>
       <Head>
-        <meta
-          name="keywords"
-          content={settings.chemistry.substance.keywordList(name)}
-        />
+        <meta name="keywords" content={name} />
 
         <script
           type="application/ld+json"
@@ -143,14 +140,14 @@ const Substance = ({ substance, name, language }) => {
         ]}
       />
       <NextSeo
-        title={`${name} (${substance.data.nameLang[language].data})`}
+        title={`${name} (${substance.data?.nameLang[language]?.data})`}
         titleTemplate={settings.chemistry.substance.titleTemplate}
         canonical={`https://www.athoni.com/substance/${name}`}
         openGraph={{
           type: "website",
           url: `https://www.athoni.com/substance/${name}`,
           title: settings.chemistry.substance.titleTemplateFunc(
-            `${name} (${substance.data.nameLang[language].data})`,
+            `${name} (${substance.data?.nameLang[language]?.data})`,
           ),
           description: settings.chemistry.substance.description,
           images: [
@@ -197,7 +194,7 @@ const Substance = ({ substance, name, language }) => {
           <Col md="2"></Col>
           <Col md="8">
             <h1 id="substance-title">
-              {substance.data.nameLang[language].data} ({name}){" "}
+              {substance.data?.nameLang[language]?.data} ({name}){" "}
             </h1>
             <Card>
               <CardHeader className="p-3">
@@ -211,22 +208,28 @@ const Substance = ({ substance, name, language }) => {
                         <strong>Name</strong>
                       </td>
                       <td>
-                        {substance.data.aliases[language].map((item, i) => (
+                        {substance.data?.aliases[language]?.map((item, i) => (
                           <p key={i}>{item.value}</p>
                         ))}
                       </td>
                     </tr>
-                    {Object.keys(substance.data.statement.properties).map(
+                    {Object.keys(substance.data?.statement?.properties).map(
                       (item, i) => (
                         <>
                           <tr key={i}>
                             <td>
                               <strong>
-                                {substance.data.statement.properties[item].key}
+                                {
+                                  substance.data?.statement?.properties[item]
+                                    ?.key
+                                }
                               </strong>
                             </td>
                             <td>
-                              {substance.data.statement.properties[item].data}
+                              {
+                                substance.data?.statement?.properties[item]
+                                  ?.data
+                              }
                             </td>
                           </tr>
                         </>

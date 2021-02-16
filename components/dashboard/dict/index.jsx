@@ -60,7 +60,6 @@ const Dictionary = ({ definition, word, language }) => {
   const [keyword, setKeyword] = useState("");
   const [listWord, setListWord] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  // const [VerticleTab, setVerticleTab] = useState("2");
 
   const clickInputSearch = () => {
     if (keyword === "") return;
@@ -70,11 +69,6 @@ const Dictionary = ({ definition, word, language }) => {
   useOutsideClick(ref, () => {
     setShowResults(false);
   });
-
-  // const onClickAudio = (url) => {
-  //   var audio = new Audio(url);
-  //   audio.play();
-  // };
 
   const onChangeKeyWord = async (e) => {
     const keyword = e.target.value;
@@ -100,7 +94,7 @@ const Dictionary = ({ definition, word, language }) => {
     setModal(false);
   };
   const getInfoLanguage = settings.languageData.find(
-    (item) => item.prefix == language,
+    (item) => item?.prefix == language,
   );
   return (
     <>
@@ -149,13 +143,13 @@ const Dictionary = ({ definition, word, language }) => {
       <NextSeo
         title={word}
         titleTemplate={getInfoLanguage.titleTemplate}
-        description={definition.meta.desc.trim()}
+        description={definition?.meta?.desc?.trim()}
         canonical={`https://www.athoni.com/dict/${language}/${word}`}
         openGraph={{
           type: "website",
           url: `https://www.athoni.com/dict/${language}/${word}`,
           title: getInfoLanguage.titleTemplateFunc(word),
-          description: definition.meta.desc.trim(),
+          description: definition?.meta?.desc?.trim(),
           images: [
             {
               url: "https://www.athoni.com/assets/images/athoni-bg.png",
@@ -198,7 +192,7 @@ const Dictionary = ({ definition, word, language }) => {
                     >
                       {
                         settings.languageData.find(
-                          (item) => item.prefix == curLanguage,
+                          (item) => item?.prefix == curLanguage,
                         ).name
                       }
                     </a>
@@ -249,7 +243,7 @@ const Dictionary = ({ definition, word, language }) => {
                           <>
                             <Link
                               href={`/dict/${language}/${item?.word}`}
-                              key={i}
+                              key={item?.word}
                               onClick={() => setShowResults(false)}
                             >
                               <a className="dropdown-item">
@@ -270,7 +264,7 @@ const Dictionary = ({ definition, word, language }) => {
                           <>
                             <Link
                               href={`/dict/${language}/${item?.word}`}
-                              key={i}
+                              key={item?.word}
                               onClick={() => setShowResults(false)}
                             >
                               <a className="dropdown-item">{item?.word}</a>
@@ -301,8 +295,8 @@ const Dictionary = ({ definition, word, language }) => {
           <Col md="7">
             <Card>
               <CardHeader>
-                <h1 title={`What is ${definition.word}?`}>
-                  {definition.word}
+                <h1 title={`What is ${definition?.word}?`}>
+                  {definition?.word}
                   {/* <span className='uk-text-small'>noun</span> */}
                 </h1>
                 {/* <div>
@@ -347,14 +341,14 @@ const Dictionary = ({ definition, word, language }) => {
                       <ListGroupItem
                         className="btn-square btn btn-outline-light txt-dark"
                         action
-                        key={i}
+                        key={item?.word}
                       >
                         <a
-                          href={`/dict/${language}/${item.word}`}
-                          as={`/dict/${language}/${item.word}`}
-                          title={item.word}
+                          href={`/dict/${language}/${item?.word}`}
+                          as={`/dict/${language}/${item?.word}`}
+                          title={item?.word}
                         >
-                          {item.word}
+                          {item?.word}
                         </a>
                       </ListGroupItem>
                     ))}

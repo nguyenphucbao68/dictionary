@@ -183,16 +183,16 @@ const Reaction = ({
                     .map((item, i) => (
                       <>
                         {i != 0 ? <span>+</span> : ""}
-                        {item.count == 0 ? (
+                        {item?.count == 0 ? (
                           ""
                         ) : (
                           <strong className="countBalancer">
-                            {item.count}
+                            {item?.count}
                           </strong>
                         )}
                         <span
                           dangerouslySetInnerHTML={{
-                            __html: item.detail.data?.other?.formula_code,
+                            __html: item?.detail?.data?.other?.formula_code,
                           }}
                         ></span>
                       </>
@@ -204,17 +204,17 @@ const Reaction = ({
                       <>
                         {i != 0 ? <span>+</span> : ""}
 
-                        {item.count == 0 ? (
+                        {item?.count == 0 ? (
                           ""
                         ) : (
                           <strong className="countBalancer">
-                            {item.count}
+                            {item?.count}
                           </strong>
                         )}
 
                         <span
                           dangerouslySetInnerHTML={{
-                            __html: item.detail.data?.other?.formula_code,
+                            __html: item?.detail?.data?.other?.formula_code,
                           }}
                         ></span>
                       </>
@@ -222,16 +222,16 @@ const Reaction = ({
                 </div>
               </CardBody>
             </Card>
-            {data.filter((item) => item.type == "t").length != 0 ? (
+            {data.filter((item) => item?.type == "t").length != 0 ? (
               <Card>
                 <CardBody className="p-3">
                   <h5>Reaction Type</h5>
                   <p id="reaction-type">
                     This is{" "}
                     {data
-                      .filter((item) => item.type == "t")
+                      .filter((item) => item?.type == "t")
                       .map((item, i) => (
-                        <strong key={i}>{item.name}</strong>
+                        <strong key={i}>{item?.name}</strong>
                       ))}
                   </p>
                 </CardBody>
@@ -245,7 +245,7 @@ const Reaction = ({
                 <h5>Reactants</h5>
                 <ListGroup className="mb-3">
                   {data
-                    .filter((item) => item.type == "r")
+                    .filter((item) => item?.type == "r")
                     .map((item, i) => (
                       <ListGroupItem
                         className="list-group-item-action flex-column align-items-start"
@@ -254,37 +254,39 @@ const Reaction = ({
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">
                             <span>
-                              <Link href={`/substance/${item.name}`}>
-                                <a title={item.name}>{item.name}</a>
+                              <Link href={`/substance/${item?.name}`}>
+                                <a title={item?.name}>{item?.name}</a>
                               </Link>
                             </span>{" "}
                             -{" "}
-                            {item.detail.data.nameLang?.en?.data
-                              ? item.detail.data.nameLang?.en?.data
-                              : item.detail.data.other.name}
+                            {item?.detail?.data?.nameLang?.en?.data
+                              ? item?.detail?.data?.nameLang?.en?.data
+                              : item?.detail?.data?.other?.name}
                           </h5>
                         </div>
                         <ul>
                           <li>
                             <span>Other names: </span>
-                            {item.detail.data?.aliases
-                              ? item.detail.data?.aliases?.en?.map(
+                            {item?.detail?.data?.aliases
+                              ? item?.detail?.data?.aliases?.en?.map(
                                   (item, i) => (
                                     <em key={i}>
-                                      {i == 0 ? item.value : ", " + item.value}
+                                      {i == 0
+                                        ? item?.value
+                                        : ", " + item?.value}
                                     </em>
                                   ),
                                 )
-                              : item.detail.data?.other?.name_en}
+                              : item?.detail?.data?.other?.name_en}
                           </li>
                           <li>
                             <span>Mass: </span>
                             <em>
-                              {item.detail.data.statement?.properties?.P2067
+                              {item?.detail?.data?.statement?.properties?.P2067
                                 ?.data
-                                ? item.detail.data.statement?.properties?.P2067
-                                    ?.data
-                                : item.detail.data.other?.mass + " dalton"}
+                                ? item?.detail?.data?.statement?.properties
+                                    ?.P2067?.data
+                                : item?.detail?.data?.other?.mass + " dalton"}
                             </em>
                           </li>
                         </ul>
@@ -294,7 +296,7 @@ const Reaction = ({
                 <h5>Products</h5>
                 <ListGroup>
                   {data
-                    .filter((item) => item.type == "p")
+                    .filter((item) => item?.type == "p")
                     .map((item, i) => (
                       <ListGroupItem
                         className="list-group-item-action flex-column align-items-start"
@@ -303,19 +305,19 @@ const Reaction = ({
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">
                             <span>
-                              <Link href={`/substance/${item.name}`}>
-                                <a>{item.name}</a>
+                              <Link href={`/substance/${item?.name}`}>
+                                <a>{item?.name}</a>
                               </Link>
                             </span>{" "}
                             -{" "}
-                            {item.detail.data.nameLang?.en?.data
-                              ? item.detail.data.nameLang?.en?.data
-                              : item.detail.data.other.name}
+                            {item?.detail?.data?.nameLang?.en?.data
+                              ? item?.detail?.data?.nameLang?.en?.data
+                              : item?.detail?.data?.other.name}
                           </h5>
                           <small>
-                            {item.stype == "prec"
+                            {item?.stype == "prec"
                               ? "Ket tua"
-                              : item.stype == "eva"
+                              : item?.stype == "eva"
                               ? "Bay hoi"
                               : ""}
                           </small>
@@ -323,24 +325,24 @@ const Reaction = ({
                         <ul>
                           <li>
                             <span>Other names: </span>
-                            {item.detail.data.aliases?.en
-                              ? item.detail.data.aliases[
+                            {item?.detail?.data?.aliases?.en
+                              ? item?.detail?.data?.aliases[
                                   "en"
-                                ].map((item, i) => (
+                                ]?.map((item, i) => (
                                   <em key={i}>
-                                    {i == 0 ? item.value : ", " + item.value}
+                                    {i == 0 ? item?.value : ", " + item?.value}
                                   </em>
                                 ))
-                              : item.detail.data.other.name_en}
+                              : item?.detail?.data?.other?.name_en}
                           </li>
                           <li>
                             <span>Mass: </span>
                             <em>
-                              {item.detail.data.statement?.properties?.P2067
+                              {item?.detail?.data?.statement?.properties?.P2067
                                 ?.data
-                                ? item.detail.data.statement?.properties?.P2067
-                                    ?.data
-                                : item.detail.data.other?.mass + " dalton"}
+                                ? item?.detail?.data?.statement?.properties
+                                    ?.P2067?.data
+                                : item?.detail?.data?.other?.mass + " dalton"}
                             </em>
                           </li>
                         </ul>

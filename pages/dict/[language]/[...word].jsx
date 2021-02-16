@@ -18,10 +18,10 @@ export async function getServerSideProps({ params }) {
   const { word, language } = params;
   const wordLang = word.join("/");
   const getDocWord = await getDocCollection(wordLang, language);
-  if (getDocWord.data?.data) {
+  if (getDocWord?.data?.data) {
     return {
       props: {
-        definition: getDocWord.data,
+        definition: getDocWord?.data,
         language,
         word: wordLang,
       },
