@@ -14,11 +14,13 @@ import {
 import Head from "next/head";
 import ErrorPage from "next/error";
 import Link from "next/link";
-import useOutsideClick from "../../../lib/event";
 import SkeletonSection from "./skeleton";
 import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 import DataTable from "react-data-table-component";
+import { generateEquation } from "../../../service/chemistry";
+import { Search } from "../../../layout/search";
+
 Router.onRouteChangeStart = () => {
   document.getElementById("skeleton-reaction").classList.remove("hidden");
   document.getElementById("skeleton-reaction").classList.add("show");
@@ -47,58 +49,6 @@ const Reaction = ({
   if (!data) {
     return <ErrorPage statusCode={404} />;
   }
-  const ref = useRef();
-  const [keyword, setKeyword] = useState("");
-  const [listWord, setListWord] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-
-  const clickInputSearch = () => {
-    if (keyword === "") return;
-    setShowResults(true);
-  };
-
-  useOutsideClick(ref, () => {
-    setShowResults(false);
-  });
-
-  // const onClickAudio = (url) => {
-  //   var audio = new Audio(url);
-  //   audio.play();
-  // };
-
-  const onChangeKeyWord = async (e) => {
-    const keyword = e.target.value;
-    if (keyword == "") return;
-    setKeyword(e.target.value);
-    try {
-      const res = await fetch(`/api/index.php/reaction/search/s/${keyword}`);
-      const obj = res.json();
-      setListWord(await obj);
-      setShowResults(true);
-    } catch (error) {
-      // console.log('err', error);
-    }
-  };
-
-  const generateEquation = (data) => {
-    var reactants = data
-      .filter((item) => item.type == "r" && item.name != "")
-      .map((item, i) => (i != 0 ? "+" + item.name : item.name))
-      .join("");
-    var s = reactants;
-
-    s += " = ";
-    var products = data
-      .filter((item) => item.type == "p" && item.name != "")
-      .map((item, i) => (i != 0 ? "+" + item.name : item.name))
-      .join("");
-    s += products;
-    return (
-      <Link href={`/chemicalequations/${reactants}/${products}`}>
-        <a title={s}>{s}</a>
-      </Link>
-    );
-  };
 
   const tableReactionsByReactant = [
     {
@@ -195,72 +145,8 @@ const Reaction = ({
         <Row className="appointment-sec mt-2">
           <Col md="12" className="chat-default">
             <Card>
-              <CardBody className="search-words">
-                <div className="dropdown">
-                  <div className="input-group input-group-lg search-input">
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Search Athoni's Dictionary"
-                      id="keyword-search"
-                      placeholder="Search Athoni's Dictionary"
-                      onChange={onChangeKeyWord}
-                      ref={ref}
-                      onClick={clickInputSearch}
-                      autoComplete="off"
-                    />
-
-                    <button
-                      type="button"
-                      className="btn btn-light"
-                      aria-label="Search..."
-                    >
-                      <img
-                        src={require("../../../public/assets/images/landing/search-icon.png")}
-                        alt="Search Icon"
-                        width={31}
-                      />
-                    </button>
-                  </div>
-                  <div
-                    className={`dropdown-menu row ${showResults && "show"}`}
-                    id="related-words"
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <div className="col-md-6">
-                      {listWord
-                        .filter((item, i) => i < listWord.length / 2)
-                        .map((item, i) => (
-                          <>
-                            <Link
-                              href=""
-                              // href={``}
-                              key={i}
-                              onClick={() => setShowResults(false)}
-                            >
-                              <a className="dropdown-item">{item?.reaction}</a>
-                            </Link>
-                          </>
-                        ))}
-                    </div>
-                    <div className="col-md-6">
-                      {listWord
-                        .filter((item, i) => i >= listWord.length / 2)
-                        .map((item, i) => (
-                          <>
-                            <Link
-                              href=""
-                              // href={`/dict/${language}/${item?.word}`}
-                              key={i}
-                              onClick={() => setShowResults(false)}
-                            >
-                              <a className="dropdown-item">{item?.reaction}</a>
-                            </Link>
-                          </>
-                        ))}
-                    </div>
-                  </div>
-                </div>
+              <CardBody className="search-words landing-home">
+                <Search />
               </CardBody>
             </Card>
           </Col>

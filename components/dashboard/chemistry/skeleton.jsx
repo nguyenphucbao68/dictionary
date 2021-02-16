@@ -8,11 +8,6 @@ import {
   CardBody,
   ListGroup,
   ListGroupItem,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
 } from "reactstrap";
 
 const SkeletonSection = () => {

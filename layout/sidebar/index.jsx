@@ -548,13 +548,13 @@ const Sidebar = (props) => {
                         {menuItem.type === "link" ? (
                           <Link
                             href={menuItem.path}
-                            className={`nav-link menu-title link-nav  ${
-                              menuItem.active ? "active" : ""
-                            }`}
-                            href="#javascript"
                             onClick={() => toggletNavActive(menuItem)}
                           >
-                            <a>
+                            <a
+                              className={`nav-link menu-title link-nav  ${
+                                menuItem.active ? "active" : ""
+                              }`}
+                            >
                               <menuItem.icon />
                               <span>{props.t(menuItem.title)}</span>
                               {menuItem.badge ? (
@@ -614,14 +614,17 @@ const Sidebar = (props) => {
                                   {childrenItem.type === "link" ? (
                                     <Link
                                       href={childrenItem.path}
-                                      className={`${
-                                        childrenItem.active ? "active" : ""
-                                      }`}
                                       onClick={() =>
                                         toggletNavActive(childrenItem)
                                       }
                                     >
-                                      <a>{props.t(childrenItem.title)}</a>
+                                      <a
+                                        className={`${
+                                          childrenItem.active ? "active" : ""
+                                        }`}
+                                      >
+                                        {props.t(childrenItem.title)}
+                                      </a>
                                     </Link>
                                   ) : (
                                     ""
@@ -642,18 +645,19 @@ const Sidebar = (props) => {
                                             {childrenSubItem.type === "link" ? (
                                               <Link
                                                 href={childrenSubItem.path}
-                                                className={`${
-                                                  childrenSubItem.active
-                                                    ? "active"
-                                                    : ""
-                                                }`}
                                                 onClick={() =>
                                                   toggletNavActive(
                                                     childrenSubItem,
                                                   )
                                                 }
                                               >
-                                                <a>
+                                                <a
+                                                  className={`${
+                                                    childrenSubItem.active
+                                                      ? "active"
+                                                      : ""
+                                                  }`}
+                                                >
                                                   {props.t(
                                                     childrenSubItem.title,
                                                   )}

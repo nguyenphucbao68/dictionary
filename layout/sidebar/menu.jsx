@@ -1,32 +1,4 @@
-// import { Home, Anchor, Headphones } from "react-feather";
-// export const MENUITEMS = [
-//   {
-//     title: "Home",
-//     icon: Home,
-//     type: "sub",
-//     active: false,
-//     // path: "/",
-//     children: [
-//       { path: `/dashboard/default`, title: "Default", type: "link" },
-//       { path: `/dashboard/ecommerce`, title: "Ecommerce", type: "link" },
-//     ],
-//   },
-//   {
-//     title: "Look Up Dictionary",
-//     icon: Anchor,
-//     type: "sub",
-//     active: false,
-//     path: "/dictionary",
-//     // children: [
-//     // 	{
-//     // 		path: `/starter-kits/sample-page`,
-//     // 		title: 'Sample Page',
-//     // 		type: 'link',
-//     // 	},
-//     // ],
-//   },
-// ];
-import { Home, Airplay, Monitor } from "react-feather";
+import { Home, Airplay, Monitor, Box, Coffee, Settings } from "react-feather";
 export const MENUITEMS = [
   {
     menutitle: "Dictionary",
@@ -127,6 +99,24 @@ export const MENUITEMS = [
             type: "link",
           },
         ],
+      },
+      {
+        title: "Periodic Table",
+        icon: Box,
+        type: "link",
+        path: "/chemicalequations/table-of-elements",
+      },
+      {
+        title: "Solubility Table",
+        icon: Coffee,
+        type: "link",
+        path: "/chemicalequations/table-solubility",
+      },
+      {
+        title: "Electron Configuration",
+        icon: Settings,
+        type: "link",
+        path: "/chemicalequations/configuration-electron",
       },
     ],
   },
