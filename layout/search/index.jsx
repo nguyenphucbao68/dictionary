@@ -167,7 +167,9 @@ export const Search = () => {
           area="chemistry"
           className="btn btn-pill btn-primary btn-air-primary btn-lg mr-3 wow pulse"
         >
-          <img src="assets/images/landing/icon/chemistry.webp" />
+          <img
+            src={require("../../public/assets/images/landing/icon/chemistry.webp")}
+          />
           Chemistry
         </button>
         <button
@@ -175,7 +177,9 @@ export const Search = () => {
           area="dictionary"
           className="btn btn-pill btn-secondary btn-air-secondary btn-lg mr-3 wow pulse"
         >
-          <img src="assets/images/landing/dictionaries-app-icon.png" />
+          <img
+            src={require("../../public/assets/images/landing/dictionaries-app-icon.png")}
+          />
           Dictionary
         </button>
         <button
