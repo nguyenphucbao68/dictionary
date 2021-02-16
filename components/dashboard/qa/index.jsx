@@ -3,7 +3,7 @@ import Router from "next/router";
 //import Breadcrumb from "../../../layout/breadcrumb";
 import { Container, Row, Col, Card, CardBody, CardHeader } from "reactstrap";
 import Head from "next/head";
-import useOutsideClick from "../../../lib/event";
+//import useOutsideClick from "../../../lib/event";
 // import SkeletonSection from "./skeleton";
 // import settings from "../../../config/settingsConfig";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
@@ -16,28 +16,10 @@ import ReactHtmlParser from "react-html-parser";
 import MathJax from "react-mathjax";
 import { v4 as uuidv4 } from "uuid";
 
-Router.onRouteChangeStart = () => {
-  document.getElementById("skeleton-reaction").classList.remove("hidden");
-  document.getElementById("skeleton-reaction").classList.add("show");
-  document.getElementById("reaction-info").classList.remove("show");
-  document.getElementById("reaction-info").classList.add("hidden");
-};
-Router.onRouteChangeComplete = () => {
-  document.getElementById("skeleton-reaction").classList.remove("show");
-  document.getElementById("skeleton-reaction").classList.add("hidden");
-  document.getElementById("reaction-info").classList.remove("hidden");
-  document.getElementById("reaction-info").classList.add("show");
-};
-Router.onRouteChangeError = () => {
-  document.getElementById("skeleton-reaction").classList.remove("show");
-  document.getElementById("skeleton-reaction").classList.add("hidden");
-  document.getElementById("reaction-info").classList.remove("hidden");
-  document.getElementById("reaction-info").classList.add("show");
-};
 const QAResult = ({ result, query }) => {
   const ref = useRef();
   const [keyword, setKeyword] = useState(query);
-  const [showResults, setShowResults] = useState(false);
+  //const [showResults, setShowResults] = useState(false);
   const totalResult = result?.hits?.total?.value;
   const resultList = result?.hits?.hits;
   const bestResult = resultList[0]?._source;
@@ -47,10 +29,6 @@ const QAResult = ({ result, query }) => {
       return;
     Router.push("/qa/" + inputKeyWord);
   };
-
-  useOutsideClick(ref, () => {
-    setShowResults(false);
-  });
 
   const transformHTML = (node) => {
     if (
