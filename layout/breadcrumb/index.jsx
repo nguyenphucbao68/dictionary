@@ -36,6 +36,15 @@ const Breadcrumbs = (props) => {
                 ) : (
                   ""
                 )}
+                {props.children ? (
+                  <BreadcrumbItem key="children">
+                    <Link href={`/${props.urlParent}/${props.urlChilren}`}>
+                      <a title={props.children}>{props.children}</a>
+                    </Link>
+                  </BreadcrumbItem>
+                ) : (
+                  ""
+                )}
                 {props.reaction ? (
                   <BreadcrumbItem key="reaction">
                     <Link

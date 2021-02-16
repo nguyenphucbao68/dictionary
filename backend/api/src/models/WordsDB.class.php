@@ -23,17 +23,17 @@ require __DIR__ . '/../../configDB.php';
       return $this->generateNewObject($data);
     }
 
-    public function searchReactionsByKeyword($keyword, $limit){
+    public function searchReactionsByKeyword($keyword){
       $keyword = str_replace("  ", " ", $keyword);
       $keyword = str_replace("  ", " ", $keyword);
       $keyword = str_replace(" ", " + ", $keyword);
-      $sql = "SELECT * FROM `reactions` WHERE reaction LIKE '%".$this->mysql_escape_mimic($keyword)."%' LIMIT :limit";
+      $sql = "SELECT * FROM `reactions`  INNER JOIN reactions_detail ON reactions.id = reactions_detail.rid WHERE reaction LIKE '%".$this->mysql_escape_mimic($keyword)."%'";
       $this->connect();
 
       $stmt = $this->pdo->prepare($sql);
-      $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
       $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $this->generateNewObject($data);
     }
 
     private function createConditionReaction($data, $first){
@@ -309,13 +309,62 @@ require __DIR__ . '/../../configDB.php';
     public function findByKeyword($keyword, $language, $limit = 8){
       if(!in_array($language, $this->currentLanguage)) throw new Error("Error");
       $sql = "SELECT * FROM $language WHERE word LIKE :keyword LIMIT :limit";
+      $sql = "SELECT 
+      * 
+    FROM 
+      (
+        (
+          SELECT 
+            *, 
+            1 as prio 
+          FROM 
+            en_vn 
+          WHERE 
+            word = :keyword1
+          LIMIT 
+            1
+        ) 
+        UNION 
+          (
+            SELECT 
+              *, 
+              2 as prio 
+            FROM 
+              en_vn 
+            WHERE 
+              word LIKE :keyword2 
+            LIMIT 
+            :limit
+          ) 
+        UNION 
+          (
+            SELECT 
+              *, 
+              3 as prio 
+            FROM 
+              en_vn 
+            WHERE 
+              word LIKE :keyword3
+            LIMIT 
+            :limit
+          )
+      ) as ts 
+    GROUP BY 
+      ts.word 
+    ORDER BY 
+      prio ASC 
+    LIMIT 
+      :limit
+    ";
       $this->connect();
 
       $stmt = $this->pdo->prepare($sql);
 
       $this->pdo = null;
       $stmt->bindValue(":limit", intval($limit), PDO::PARAM_INT);
-      $stmt->bindValue(":keyword", $keyword . '%');
+      $stmt->bindValue(":keyword1", $keyword);
+      $stmt->bindValue(":keyword2", $keyword . '%');
+      $stmt->bindValue(":keyword3", '%'. $keyword . '%');
       $res = $stmt->execute(); 
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

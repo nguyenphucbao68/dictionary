@@ -13,43 +13,15 @@ function MyApp({ Component, pageProps }) {
         <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="theme-color" content="#000000" />
-        {/* Google font*/}
-        {/* <link
-          href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&display=swap"
-          rel="stylesheet"
-          onLoad="this.media='all'"
-        /> */}
-        {/* <link
-          href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
-          rel="stylesheet"
-          onLoad="this.media='all'"
-        /> */}
         <link rel="icon" href="/favicon.ico" />
 
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
-        {/* <link rel="dns-prefetch" href="//fonts.googleapis.com" /> */}
-        {/* <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" /> */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        {/* <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="true"
-        /> */}
         <link
           rel="preconnect"
           href="https://www.googletagmanager.com"
           crossOrigin="true"
         />
-        {/* <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com/"
-          crossOrigin="true"
-        /> */}
-        {/* <link
-          rel="preconnect"
-          href="https://cdnjs.cloudflare.com/"
-          crossOrigin="true"
-        /> */}
         <meta name="revisit-after" content="1 days" />
         <script
           async
