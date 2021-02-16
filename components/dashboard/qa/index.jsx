@@ -187,6 +187,7 @@ const QAResult = ({ result, query }) => {
                       })}
                     </MathJax.Provider>
                     <hr />
+                    <p className="f-w-600">Trả lời:</p>
                     <MathJax.Provider>
                       {ReactHtmlParser(bestResult.selchildcontent, {
                         transform: (node) => transformHTML(node),
