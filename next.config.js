@@ -20,6 +20,11 @@ module.exports = withImages(
           destination: "/dictionary",
           permanent: true,
         },
+        {
+          source: "/qa",
+          destination: "/",
+          permanent: true,
+        },
       ];
     },
   }),

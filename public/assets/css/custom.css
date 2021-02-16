@@ -260,9 +260,10 @@
 .qa-result{
     font-family: Roboto;
 }
-.qa-best-answer{
-    font-size: 20px;
+div.qa-best-answer p, .card-body > p {
+    font-size: 16px;
 }
+
 .best-answer{
     border: 2px solid #ffd6d6!important;
 }

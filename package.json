@@ -30,8 +30,9 @@
     "react-data-table-component": "^6.11.5",
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.8",
+    "react-html-parser": "^2.0.2",
     "react-loading-skeleton": "^2.1.1",
-    "react-rating": "^2.0.5",
+    "react-mathjax": "^1.0.1",
     "react-redux": "^7.2.1",
     "react-scrollbar": "^0.5.6",
     "react-slick": "^0.27.12",
@@ -43,7 +44,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "smiles-drawer": "^1.2.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/faker": "^5.1.4",
