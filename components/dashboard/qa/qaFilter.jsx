@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Search, MapPin } from "react-feather";
+import { Search } from "react-feather";
 import {
   Row,
   Col,

@@ -1,0 +1,425 @@
+{
+  "CategoryName": [
+    {},
+    {
+      "categoryid": "1",
+      "title": "Học tập"
+    },
+    {
+      "categoryid": "2",
+      "title": "Toán"
+    },
+    {
+      "categoryid": "3",
+      "title": "Ngữ văn"
+    },
+    {
+      "categoryid": "4",
+      "title": "Ngoại ngữ"
+    },
+    {
+      "categoryid": "5",
+      "title": "Hóa học"
+    },
+    {
+      "categoryid": "6",
+      "title": "Vật lý"
+    },
+    {
+      "categoryid": "7",
+      "title": "Sinh học"
+    },
+    {
+      "categoryid": "8",
+      "title": "Địa lý"
+    },
+    {
+      "categoryid": "9",
+      "title": "Lịch sử"
+    },
+    {
+      "categoryid": "10",
+      "title": "Công nghệ"
+    },
+    {},
+    {
+      "categoryid": "12",
+      "title": "Khác"
+    },
+    {
+      "categoryid": "13",
+      "title": "Toán tiểu học"
+    },
+    {
+      "categoryid": "14",
+      "title": "Toán lớp 6"
+    },
+    {
+      "categoryid": "15",
+      "title": "Toán lớp 7"
+    },
+    {
+      "categoryid": "16",
+      "title": "Toán lớp 8"
+    },
+    {
+      "categoryid": "17",
+      "title": "Toán lớp 9"
+    },
+    {
+      "categoryid": "18",
+      "title": "Tiếng Việt tiểu học"
+    },
+    {
+      "categoryid": "19",
+      "title": "Ngữ văn lớp 6"
+    },
+    {
+      "categoryid": "20",
+      "title": "Ngữ văn lớp 7"
+    },
+    {
+      "categoryid": "21",
+      "title": "Ngữ văn lớp 8"
+    },
+    {
+      "categoryid": "22",
+      "title": "Ngữ văn lớp 9"
+    },
+    {
+      "categoryid": "23",
+      "title": "Tiếng Anh tiểu học"
+    },
+    {
+      "categoryid": "24",
+      "title": "Tiếng Anh lớp 6"
+    },
+    {
+      "categoryid": "25",
+      "title": "Tiếng Anh lớp 7"
+    },
+    {
+      "categoryid": "26",
+      "title": "Tiếng Anh lớp 8"
+    },
+    {
+      "categoryid": "27",
+      "title": "Tiếng Anh lớp 9"
+    },
+    {
+      "categoryid": "28",
+      "title": "Hóa học lớp 8"
+    },
+    {
+      "categoryid": "29",
+      "title": "Hóa học lớp 9"
+    },
+    {
+      "categoryid": "30",
+      "title": "Vật lý lớp 6"
+    },
+    {
+      "categoryid": "31",
+      "title": "Vật lý lớp 7"
+    },
+    {
+      "categoryid": "32",
+      "title": "Vật lý lớp 8"
+    },
+    {
+      "categoryid": "33",
+      "title": "Vật lý lớp 9"
+    },
+    {
+      "categoryid": "34",
+      "title": "Sinh học lớp 6"
+    },
+    {
+      "categoryid": "35",
+      "title": "Sinh học lớp 7"
+    },
+    {
+      "categoryid": "36",
+      "title": "Sinh học lớp 8"
+    },
+    {
+      "categoryid": "37",
+      "title": "Sinh học lớp 9"
+    },
+    {
+      "categoryid": "38",
+      "title": "Địa lý tiểu học"
+    },
+    {
+      "categoryid": "39",
+      "title": "Địa lý lớp 6"
+    },
+    {
+      "categoryid": "40",
+      "title": "Địa lý lớp 7"
+    },
+    {
+      "categoryid": "41",
+      "title": "Địa lý lớp 8"
+    },
+    {
+      "categoryid": "42",
+      "title": "Địa lý lớp 9"
+    },
+    {
+      "categoryid": "43",
+      "title": "Lịch sử tiểu học"
+    },
+    {
+      "categoryid": "44",
+      "title": "Lịch sử lớp 6"
+    },
+    {
+      "categoryid": "45",
+      "title": "Lịch sử lớp 7"
+    },
+    {
+      "categoryid": "46",
+      "title": "Lịch sử lớp 8"
+    },
+    {
+      "categoryid": "47",
+      "title": "Lịch sử lớp 9"
+    },
+    {},
+    {},
+    {},
+    {},
+    {
+      "categoryid": "52",
+      "title": "Công nghệ lớp 6"
+    },
+    {
+      "categoryid": "53",
+      "title": "Công nghệ lớp 7"
+    },
+    {
+      "categoryid": "54",
+      "title": "Công nghệ lớp 8"
+    },
+    {
+      "categoryid": "55",
+      "title": "Công nghệ lớp 9"
+    },
+    {
+      "categoryid": "56",
+      "title": "Giáo dục Công dân"
+    },
+    {},
+    {
+      "categoryid": "58",
+      "title": "GD Công dân lớp 6"
+    },
+    {
+      "categoryid": "59",
+      "title": "GD Công dân lớp 7"
+    },
+    {
+      "categoryid": "60",
+      "title": "GD Công dân lớp 8"
+    },
+    {
+      "categoryid": "61",
+      "title": "GD Công dân lớp 9"
+    },
+    {
+      "categoryid": "62",
+      "title": "Đạo đức tiểu học"
+    },
+    {
+      "categoryid": "63",
+      "title": "Tư vấn điểm thi - tuyển sinh"
+    },
+    {},
+    {
+      "categoryid": "65",
+      "title": "Tin học"
+    },
+    {
+      "categoryid": "66",
+      "title": "Tin học tiểu học"
+    },
+    {
+      "categoryid": "67",
+      "title": "Tin học lớp 6"
+    },
+    {
+      "categoryid": "68",
+      "title": "Tin học lớp 7"
+    },
+    {
+      "categoryid": "69",
+      "title": "Tin học lớp 8"
+    },
+    {
+      "categoryid": "70",
+      "title": "Tin học lớp 9"
+    },
+    {
+      "categoryid": "71",
+      "title": "Thông tin & hướng dẫn"
+    },
+    {
+      "categoryid": "72",
+      "title": "Thông tin từ BQT"
+    },
+    {
+      "categoryid": "73",
+      "title": "Yêu cầu hỗ trợ"
+    },
+    {
+      "categoryid": "74",
+      "title": "Mỹ thuật-Âm nhạc"
+    },
+    {
+      "categoryid": "75",
+      "title": "Mỹ thuật-Âm nhạc Tiểu học"
+    },
+    {
+      "categoryid": "76",
+      "title": "Mỹ thuật-Âm nhạc THCS"
+    },
+    {
+      "categoryid": "77",
+      "title": "Toán lớp 10"
+    },
+    {
+      "categoryid": "78",
+      "title": "Toán lớp 11"
+    },
+    {
+      "categoryid": "79",
+      "title": "Toán lớp 12"
+    },
+    {
+      "categoryid": "80",
+      "title": "Ngữ văn lớp 10"
+    },
+    {
+      "categoryid": "81",
+      "title": "Ngữ văn lớp 11"
+    },
+    {
+      "categoryid": "82",
+      "title": "Ngữ văn lớp 12"
+    },
+    {
+      "categoryid": "83",
+      "title": "Tiếng Anh lớp 10"
+    },
+    {
+      "categoryid": "84",
+      "title": "Tiếng Anh lớp 11"
+    },
+    {},
+    {
+      "categoryid": "86",
+      "title": "Tiếng Anh lớp 12"
+    },
+    {
+      "categoryid": "87",
+      "title": "Hóa học lớp 10"
+    },
+    {
+      "categoryid": "88",
+      "title": "Hóa học lớp 11"
+    },
+    {
+      "categoryid": "89",
+      "title": "Hóa học lớp 12"
+    },
+    {
+      "categoryid": "90",
+      "title": "Vật lý lớp 10"
+    },
+    {
+      "categoryid": "91",
+      "title": "Vật lý lớp 11"
+    },
+    {
+      "categoryid": "92",
+      "title": "Vật lý lớp 12"
+    },
+    {
+      "categoryid": "93",
+      "title": "Sinh học lớp 10"
+    },
+    {
+      "categoryid": "94",
+      "title": "Sinh học lớp 11"
+    },
+    {
+      "categoryid": "95",
+      "title": "Sinh học lớp 12"
+    },
+    {
+      "categoryid": "96",
+      "title": "Địa lý lớp 10"
+    },
+    {
+      "categoryid": "97",
+      "title": "Địa lý lớp 11"
+    },
+    {
+      "categoryid": "98",
+      "title": "Địa lý lớp 12"
+    },
+    {
+      "categoryid": "99",
+      "title": "Lịch sử lớp 10"
+    },
+    {
+      "categoryid": "100",
+      "title": "Lịch sử lớp 11"
+    },
+    {
+      "categoryid": "101",
+      "title": "Lịch sử lớp 12"
+    },
+    {
+      "categoryid": "102",
+      "title": "Công nghệ lớp 10"
+    },
+    {
+      "categoryid": "103",
+      "title": "Công nghệ lớp 11"
+    },
+    {
+      "categoryid": "104",
+      "title": "Cộng nghệ lớp 12"
+    },
+    {
+      "categoryid": "105",
+      "title": "GD Công dân lớp 10"
+    },
+    {
+      "categoryid": "106",
+      "title": "GD Công dân lớp 11"
+    },
+    {
+      "categoryid": "107",
+      "title": "GD Công dân lớp 12"
+    },
+    {
+      "categoryid": "108",
+      "title": "Góp ý"
+    },
+    {
+      "categoryid": "109",
+      "title": "Tin học lớp 10"
+    },
+    {
+      "categoryid": "110",
+      "title": "Tin học lớp 11"
+    },
+    {
+      "categoryid": "111",
+      "title": "Tin học lớp 12"
+    }
+  ]
+}

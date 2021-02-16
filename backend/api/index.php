@@ -423,10 +423,11 @@ $app->delete('/words/{id}', function (Request $request, Response $response) {
   }
 });
 
-$app->post('/search', function (Request $request, Response $response) { 
+$app->post('/search/{service}', function (Request $request, Response $response) { 
   try {
     $parsedBody = $request->getParsedBody();
-    if ($parsedBody['type'] == "hoidap")  {
+    $service = $request->getAttribute('service');
+    if ($service == "hoidap")  {
       $esClient = new GuzzleHttp\Client([
         'base_uri' => '',
       ]);
@@ -448,7 +449,7 @@ $app->post('/search', function (Request $request, Response $response) {
           "size": 30
       }'
       ])->getBody());
-    } else if ($parsedBody['type'] == "lecttr") {
+    } else if ($service == "lecttr") {
       $esClient = new GuzzleHttp\Client([
         'base_uri' => '',
       ]);
