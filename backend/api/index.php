@@ -476,9 +476,12 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
       $esClient = new GuzzleHttp\Client([
         'base_uri' => '',
       ]);
-      $esResults = json_decode($esClient->post('http://localhost:9200/hoidap/_search', [
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_HOIDAP_INDEX.'/_search', [
         'headers' => [
-          'Content-Type' => 'application/json'
+          'Content-Type' => 'application/json',
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
         ],
         'body' => '{
           "query": {
@@ -530,14 +533,17 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
       $esClient = new GuzzleHttp\Client([
         'base_uri' => '',
       ]);
-      $esResults = json_decode($esClient->post('http://localhost:9200/localhostlecttrwp-post-1/_search', [
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
         'headers' => [
           'Content-Type' => 'application/json'
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
         ],
         'body' => '{
           "query": {
             "bool": {
-              "must": [
+              "filter": [
                 {
                   "term": {
                     "post_status": "publish"
@@ -550,12 +556,8 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                 }
               ],
               "should": {
-                "multi_match": {
-                  "query": "'.$parsedBody['query'].'",
-                  "fields": [
-                    "post_content",
-                    "post_title"
-                  ]
+                "match": {
+                  "query": "'.$parsedBody['query'].'"
                 }
               }
             }
@@ -579,7 +581,6 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
     $response->withStatus(500);
     $response->withHeader('Content-Type', 'application/json');
     $error['err'] = $e->getMessage();
-    $error['test'] = $parsedBody;
     return $response->withJson($error);
   }
 });
