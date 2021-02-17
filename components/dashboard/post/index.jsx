@@ -18,7 +18,7 @@ import ReactHtmlParser from "react-html-parser";
 import MathJax from "react-mathjax";
 import { v4 as uuidv4 } from "uuid";
 
-const QAResult = ({ result, query }) => {
+const PostResult = ({ result, query }) => {
   //const ref = useRef();
   //const [showResults, setShowResults] = useState(false);
   const totalResult = result?.hits?.total?.value;
@@ -133,7 +133,7 @@ const QAResult = ({ result, query }) => {
             <Card>
               <CardBody className="search-words landing-home">
                 <Search
-                  searchMode={"hoidap"}
+                  searchMode={"lecttr"}
                   keyword={query}
                   currentPage={"search"}
                 />
@@ -151,131 +151,39 @@ const QAResult = ({ result, query }) => {
             {/* <Row> */}
             {
               /*eslint-disable */
-              totalResult > 0 &&
-              bestResult.selchildid &&
-              bestResult.selchildid !== null ? (
+              totalResult > 0 ? (
                 <LazyLoad height={500} once={true}>
                   <Card
                     key={"bestResult"}
                     className="card-absolute best-answer"
                   >
                     <CardHeader className="bg-secondary">
-                      <h5>Trả lời tốt nhất</h5>
+                      <h5>Phù hợp nhất</h5>
                     </CardHeader>
                     <CardBody>
                       <h5 className="f-w-600">
                         <a
-                          href={
-                            process.env.NEXT_PUBLIC_HOIDAP_URL +
-                            bestResult.questionid
-                          }
+                          href={bestResult.permalink}
                           rel="noreferrer noopener"
                         >
-                          {bestResult.title}
+                          {bestResult.post_title}
                         </a>
                       </h5>
                       <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.content, {
+                        {ReactHtmlParser(bestResult.post_content_filtered, {
                           transform: (node) => transformHTML(node),
                         })}
                       </MathJax.Provider>
                       <hr />
-                      <p className="f-w-600">Trả lời:</p>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.selchildcontent, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-
                       <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
+                        catid1={bestResult.terms?.category[0]}
+                        catid2={bestResult.terms?.category[1]}
+                        catid3={bestResult.terms?.category[2]}
                         info={{
-                          title: "Tốt nhất",
+                          title: "Phù hợp nhất",
                           tooltip:
-                            "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
+                            "bài viết này được gửi đến cho bạn vì khớp với từ khóa tìm kiếm của bạn",
                           color: "success",
-                        }}
-                      />
-                    </CardBody>
-                  </Card>
-                </LazyLoad>
-              ) : totalResult > 0 && bestResult.type === "Q" ? (
-                <LazyLoad height={500} once={true}>
-                  <Card
-                    key={"bestResult"}
-                    className="card-absolute best-answer"
-                  >
-                    <CardHeader className="bg-secondary">
-                      <h5>Câu hỏi</h5>
-                    </CardHeader>
-                    <CardBody>
-                      <h5 className="f-w-600">
-                        <a
-                          href={
-                            process.env.NEXT_PUBLIC_HOIDAP_URL +
-                            bestResult.questionid
-                          }
-                          rel="noreferrer noopener"
-                        >
-                          {bestResult.title}
-                        </a>
-                      </h5>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.content, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Câu hỏi",
-                          tooltip:
-                            "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
-                          color: "info",
-                        }}
-                      />
-                    </CardBody>
-                  </Card>
-                </LazyLoad>
-              ) : totalResult > 0 && bestResult.type === "A" ? (
-                <LazyLoad height={500} once={true}>
-                  <Card
-                    key={"bestResult"}
-                    className="card-absolute best-answer"
-                  >
-                    <CardHeader className="bg-secondary">
-                      <h5>Trả lời</h5>
-                    </CardHeader>
-                    <CardBody>
-                      <h5 className="f-w-600">
-                        <a
-                          href={
-                            process.env.NEXT_PUBLIC_HOIDAP_URL +
-                            bestResult.questionid
-                          }
-                          rel="noreferrer noopener"
-                        >
-                          {bestResult.title}
-                        </a>
-                      </h5>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.content, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Tham khảo",
-                          tooltip:
-                            "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
-                          color: "warning",
                         }}
                       />
                     </CardBody>
@@ -293,23 +201,23 @@ const QAResult = ({ result, query }) => {
                     <CardBody>
                       <h5 className="f-w-600">
                         <a
-                          href={
-                            process.env.NEXT_PUBLIC_HOIDAP_URL +
-                            data?._source?.questionid
-                          }
+                          href={data?._source?.permalink}
                           rel="noreferrer noopener"
                         >
-                          {data._source?.title}
+                          {data?._source?.post_title}
                         </a>
                       </h5>
 
-                      <p className="search-description">
-                        {shortenContent(data._source?.text, 250)}
+                      <p>
+                        {shortenContent(
+                          sanitizeHTMLTag(data._source?.post_content_filtered),
+                          250,
+                        )}
                       </p>
                       <CategoryBadge
-                        catid1={data._source?.catidpath3}
-                        catid2={data._source?.catidpath2}
-                        catid3={data._source?.catidpath1}
+                        catid1={data._source?.terms?.category[0]?.name}
+                        catid2={data._source?.terms?.category[1]?.name}
+                        catid3={data._source?.terms?.category[2]?.name}
                       />
                     </CardBody>
                   </div>
@@ -329,4 +237,4 @@ const QAResult = ({ result, query }) => {
   );
 };
 
-export default QAResult;
+export default PostResult;

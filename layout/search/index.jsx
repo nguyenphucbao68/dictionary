@@ -23,7 +23,22 @@ export const Search = (props) => {
   const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  let currentSearchLabel = "Search with Athoni";
 
+  switch (currentSearch) {
+    case "chemistry":
+      currentSearchLabel = "Type a chemistry equation here";
+      break;
+    case "dictionary":
+      currentSearchLabel = "Type a word here";
+      break;
+    case "hoidap":
+      currentSearchLabel = "Nhập câu hỏi/bài tập của bạn vào đây";
+      break;
+    case "lecttr":
+      currentSearchLabel = "Nhập lý thuyết/bài viết bạn muốn tìm vào đây";
+      break;
+  }
   const isStringEmpty = (string) => {
     if (string?.length === 0 || string?.replace(/\s/g, "").length === 0)
       return true;
@@ -50,7 +65,7 @@ export const Search = (props) => {
         break;
       case "hoidap":
         if (!isStringEmpty(keyword))
-          Router.push("/qa/" + cleanUpString(keyword));
+          Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
         return;
       case "lecttr":
         break;
@@ -66,9 +81,11 @@ export const Search = (props) => {
           break;
         case "hoidap":
           if (!isStringEmpty(keyword))
-            Router.push("/qa/" + cleanUpString(keyword));
+            Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
           return;
         case "lecttr":
+          if (!isStringEmpty(keyword))
+            Router.push("/post/" + encodeURIComponent(cleanUpString(keyword)));
           break;
       }
     }
@@ -94,9 +111,13 @@ export const Search = (props) => {
             break;
           case "hoidap":
             if (props.currentPage !== "home" && !isStringEmpty(keyword))
-              Router.push("/qa/" + cleanUpString(keyword));
+              Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
             return;
           case "lecttr":
+            if (props.currentPage !== "home" && !isStringEmpty(keyword))
+              Router.push(
+                "/post/" + encodeURIComponent(cleanUpString(keyword)),
+              );
             break;
         }
         const res = await fetch(restAPI);
@@ -154,9 +175,10 @@ export const Search = (props) => {
           <DelayInput
             type="text"
             minLength={2}
-            delayTimeout={500}
+            delayTimeout={300}
             className="form-control"
-            aria-label="Search Athoni's Dictionary"
+            aria-label={currentSearchLabel}
+            placeholder={currentSearchLabel}
             id="keyword-search"
             onChange={onChangeKeyWord}
             inputRef={ref}
@@ -261,7 +283,9 @@ export const Search = (props) => {
         <button
           onClick={setActiveSearch}
           area="lecttr"
-          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3`}
+          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+            currentSearch === "lecttr" ? "active" : ""
+          }`}
         >
           <img src={require("../../public/assets/images/icon/lecttr.png")} />
           Lecttr
