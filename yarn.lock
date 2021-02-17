@@ -5567,7 +5567,7 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.npm.taobao.org/lodash.camelcase/download/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
-lodash.debounce@^4.0.8:
+lodash.debounce@^4, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
@@ -6751,7 +6751,7 @@ prop-types-extra@^1.1.0:
     react-is "^16.3.2"
     warning "^4.0.0"
 
-prop-types@15.7.2, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -6965,6 +6965,14 @@ react-data-table-component@^6.11.5:
     lodash.orderby "^4.6.0"
     shortid "^2.2.15"
 
+react-delay-input@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-delay-input/-/react-delay-input-4.1.0.tgz#9153de78f57ec8840d3c7ed899bf8c3c10e66a0a"
+  integrity sha512-jrXu6egZyDESdNrmqmILCcIzM3z8ZXduLEewfEUUCqvimCK2kCmyzjK0Z4tIGgbui9DwHsELfkavfWlI6nRVaw==
+  dependencies:
+    lodash.debounce "^4"
+    prop-types "^15"
+
 react-dom@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
@@ -6992,6 +7000,11 @@ react-is@16.13.1, react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0, react-i
   version "16.13.1"
   resolved "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
+
+react-lazyload@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-3.2.0.tgz#497bd06a6dbd7015e3376e1137a67dc47d2dd021"
+  integrity sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
@@ -7083,6 +7096,11 @@ react-scrollbar@^0.5.6:
     config "^1.24.0"
     line-height "^0.1.1"
     react-motion "^0.5.2"
+
+react-singleton-hook@^3.0.142:
+  version "3.0.142"
+  resolved "https://registry.yarnpkg.com/react-singleton-hook/-/react-singleton-hook-3.0.142.tgz#7212d0441748a67e97edeb41f1d425ff433c192c"
+  integrity sha512-ONYk/LftfsF7j8dCP7AE3Pz5gwJdj2eVM8wnvyEq2ypAG7zVKtwSvAqu7xmrg65qrCLfef9+b8DMThEU0GJJVw==
 
 react-slick@^0.27.12:
   version "0.27.12"
