@@ -294,3 +294,8 @@ div.qa-best-answer p, .card-body > p {
     height: 20px;
     margin-right: 5px;
 }
+@media only screen and (max-width: 991.98px){
+    .page-body-wrapper.sidebar-icon div.main-nav.close_icon{
+        transform: translate(-285px);
+    }
+}
