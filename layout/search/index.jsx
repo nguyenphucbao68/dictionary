@@ -1,62 +1,116 @@
 import settings from "../../config/settingsConfig";
 import Link from "next/link";
+import Router from "next/router";
 import { useState, useRef } from "react";
 import useOutsideClick from "../../lib/event";
 import { generateEquation } from "../../service/chemistry";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Modal, ModalHeader } from "reactstrap";
+import { DelayInput } from "react-delay-input";
 
-export const Search = () => {
-  const [currentSearch, setCurrentSearch] = useState("dictionary");
+export const Search = (props) => {
+  //const [currentSearch, setCurrentSearch] = useState("dictionary");
+  const [currentSearch, setCurrentSearch] = useState(props.searchMode);
   const setActiveSearch = (e) => {
     const area = e.currentTarget.getAttribute("area");
     setCurrentSearch(area);
   };
 
   const ref = useRef();
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState(props.keyword);
   const [listWord, setListWord] = useState([]);
   const [listReactions, setListReactions] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+
+  const isStringEmpty = (string) => {
+    if (string?.length === 0 || string?.replace(/\s/g, "").length === 0)
+      return true;
+    return false;
+  };
+
+  const cleanUpString = (string) => {
+    return string.replace(/\s\s+/g, " ").trim();
+  };
+
   const clickInputSearch = () => {
-    if (keyword === "") return;
-    setShowResults(true);
+    //show suggestion
+    if (isStringEmpty(keyword)) {
+      return setShowResults(false);
+    }
+    return setShowResults(true);
+  };
+
+  const onSubmitClick = () => {
+    switch (currentSearch) {
+      case "chemistry":
+        break;
+      case "dictionary":
+        break;
+      case "hoidap":
+        if (!isStringEmpty(keyword))
+          Router.push("/qa/" + cleanUpString(keyword));
+        return;
+      case "lecttr":
+        break;
+    }
+  };
+
+  const onSubmitEnter = (e) => {
+    if (e.key === "Enter") {
+      switch (currentSearch) {
+        case "chemistry":
+          break;
+        case "dictionary":
+          break;
+        case "hoidap":
+          if (!isStringEmpty(keyword))
+            Router.push("/qa/" + cleanUpString(keyword));
+          return;
+        case "lecttr":
+          break;
+      }
+    }
   };
 
   useOutsideClick(ref, () => {
     setShowResults(false);
   });
-  const onChangeKeyWord = async (e) => {
-    const keyword = e.target.value;
-    if (keyword == "") return;
-    setKeyword(e.target.value);
-    try {
-      var restAPI = "";
-      switch (currentSearch) {
-        case "chemistry":
-          restAPI = `/api/index.php/reaction/search/s/${keyword}`;
-          break;
-        case "dictionary":
-          restAPI = `/api/index.php/search/${curLanguage}/${keyword}/8`;
-          break;
-        case "hoidap":
-          break;
-        case "lecttr":
-          break;
-      }
-      const res = await fetch(restAPI);
-      const obj = res.json();
-      if (currentSearch == "chemistry") {
-        setListReactions(await obj);
-      } else if (currentSearch == "dictionary") {
-        setListWord(await obj);
-      }
 
-      setShowResults(true);
-    } catch (error) {
-      console.log("err", error);
+  const onChangeKeyWord = async (e) => {
+    const keyword = e.target?.value;
+    if (!isStringEmpty(keyword)) {
+      setKeyword(keyword);
+
+      try {
+        var restAPI = "";
+        switch (currentSearch) {
+          case "chemistry":
+            restAPI = `/api/index.php/reaction/search/s/${keyword}`;
+            break;
+          case "dictionary":
+            restAPI = `/api/index.php/search/${curLanguage}/${keyword}/8`;
+            break;
+          case "hoidap":
+            if (props.currentPage !== "home" && !isStringEmpty(keyword))
+              Router.push("/qa/" + cleanUpString(keyword));
+            return;
+          case "lecttr":
+            break;
+        }
+        const res = await fetch(restAPI);
+        const obj = res.json();
+        if (currentSearch == "chemistry") {
+          setListReactions(await obj);
+        } else if (currentSearch == "dictionary") {
+          setListWord(await obj);
+        }
+
+        setShowResults(true);
+      } catch (error) {
+        console.log("err", error);
+      }
     }
   };
 
@@ -66,13 +120,12 @@ export const Search = () => {
     } else if (type == "r") {
       data = data.filter((item, i) => i >= data.length / 2);
     }
+    var listRecords = [];
     if (currentSearch == "chemistry") {
-      var listRecords = [];
       data.map((item) => {
         listRecords.push(generateEquation(listReactions[item]));
       });
     } else if (currentSearch == "dictionary") {
-      var listRecords = [];
       data.map((item) => {
         listRecords.push(
           <Link
@@ -98,15 +151,19 @@ export const Search = () => {
     <>
       <div className="dropdown">
         <div className="input-group input-group-lg search-input">
-          <input
+          <DelayInput
             type="text"
+            minLength={2}
+            delayTimeout={500}
             className="form-control"
             aria-label="Search Athoni's Dictionary"
             id="keyword-search"
-            placeholder="Search Athoni's Dictionary"
             onChange={onChangeKeyWord}
-            ref={ref}
+            inputRef={ref}
+            value={props.keyword}
             onClick={clickInputSearch}
+            forceNotifyByEnter="true"
+            onKeyDown={onSubmitEnter}
             autoComplete="off"
           />
           {currentSearch == "dictionary" ? (
@@ -120,6 +177,7 @@ export const Search = () => {
             type="button"
             className="btn btn-light"
             aria-label="Search..."
+            onClick={onSubmitClick}
           >
             <img
               src={require("../../public/assets/images/landing/search-icon.png")}
@@ -133,39 +191,45 @@ export const Search = () => {
           id="related-words"
           aria-labelledby="dropdownMenuButton"
         >
-          {(currentSearch == "dictionary" && listWord.length == 0) ||
-          (currentSearch == "chemistry" &&
-            Object.keys(listReactions).length == 0) ? (
-            <>
-              <div className="col-md-12">
-                <p>No results</p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="col-md-6" id="first-col">
-                {currentSearch == "chemistry"
-                  ? LoadDropDownItem(Object.keys(listReactions), "l")
-                  : currentSearch == "dictionary"
-                  ? LoadDropDownItem(listWord, "l")
-                  : ""}
-              </div>
-              <div className="col-md-6" id="second-col">
-                {currentSearch == "chemistry"
-                  ? LoadDropDownItem(Object.keys(listReactions), "r")
-                  : currentSearch == "dictionary"
-                  ? LoadDropDownItem(listWord, "r")
-                  : ""}
-              </div>
-            </>
-          )}
+          {
+            /* eslint-disable */
+            (currentSearch == "dictionary" && listWord.length == 0) ||
+            (currentSearch == "chemistry" &&
+              Object.keys(listReactions).length == 0) ? (
+              <>
+                <div className="col-md-12">
+                  <p>No results</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="col-md-6" id="first-col">
+                  {currentSearch == "chemistry"
+                    ? LoadDropDownItem(Object.keys(listReactions), "l")
+                    : currentSearch == "dictionary"
+                    ? LoadDropDownItem(listWord, "l")
+                    : ""}
+                </div>
+                <div className="col-md-6" id="second-col">
+                  {currentSearch == "chemistry"
+                    ? LoadDropDownItem(Object.keys(listReactions), "r")
+                    : currentSearch == "dictionary"
+                    ? LoadDropDownItem(listWord, "r")
+                    : ""}
+                </div>
+              </>
+            )
+            /* eslint-enable */
+          }
         </div>
       </div>
       <div className="btn-grp mt-4">
         <button
           onClick={setActiveSearch}
           area="chemistry"
-          className="btn btn-pill btn-primary btn-air-primary btn-lg mr-3 wow pulse"
+          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+            currentSearch === "chemistry" ? "active" : ""
+          }`}
         >
           <img
             src={require("../../public/assets/images/landing/icon/chemistry.webp")}
@@ -175,7 +239,9 @@ export const Search = () => {
         <button
           onClick={setActiveSearch}
           area="dictionary"
-          className="btn btn-pill btn-secondary btn-air-secondary btn-lg mr-3 wow pulse"
+          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+            currentSearch === "dictionary" ? "active" : ""
+          }`}
         >
           <img
             src={require("../../public/assets/images/landing/dictionaries-app-icon.png")}
@@ -185,15 +251,17 @@ export const Search = () => {
         <button
           onClick={setActiveSearch}
           area="hoidap"
-          className="btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3"
+          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+            currentSearch === "hoidap" ? "active" : ""
+          }`}
         >
           <img src={require("../../public/assets/images/icon/selfomy.png")} />
-          Hỏi đáp
+          Hoi Dap
         </button>
         <button
           onClick={setActiveSearch}
           area="lecttr"
-          className="btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3"
+          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3`}
         >
           <img src={require("../../public/assets/images/icon/lecttr.png")} />
           Lecttr
