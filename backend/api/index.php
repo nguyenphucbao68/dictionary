@@ -423,6 +423,51 @@ $app->delete('/words/{id}', function (Request $request, Response $response) {
   }
 });
 
+// {
+//   "query": {
+//       "bool": {
+//           "filter": {
+//               "term": {
+//                   "type.keyword": "Q"
+//               }
+//           },
+//           "should": [
+//               {
+//                   "multi_match": {
+//                       "query": "hàm số 4x^3 - 3x^2 + 2x-2",
+//                       "fields": [
+//                           "title",
+//                           "content",
+//                           "text"
+//                       ]
+//                   }
+//               },
+//               {
+//                   "multi_match": {
+//                       "query": "hàm số 4x^3 - 3x^2 + 2x-2",
+//                       "fields": [
+//                           "title",
+//                           "content",
+//                           "text"
+//                       ],
+//                       "operator": "and"
+//                   }
+//               },
+//               {
+//                   "match_phrase": {
+//                       "content": {
+//                           "query": "hàm số 4x^3 - 3x^2 + 2x-2",
+//                           "boost": 2
+//                       }
+//                   }
+//               }
+//           ]
+//       }
+//   },
+//   "from": 0,
+//   "size": 5
+// }
+
 $app->post('/search/{service}', function (Request $request, Response $response) { 
   try {
     $parsedBody = $request->getParsedBody();
@@ -437,15 +482,47 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
         ],
         'body' => '{
           "query": {
-              "multi_match": {
-                  "query": "'.$parsedBody['query'].'",
-                  "fields": ["title", "content", "text"]
+              "bool": {
+                  "filter": {
+                      "term": {
+                          "type.keyword": "Q"
+                      }
+                  },
+                  "should": [
+                      {
+                          "multi_match": {
+                              "query": "'.$parsedBody['query'].'",
+                              "fields": [
+                                  "title",
+                                  "content",
+                                  "text"
+                              ]
+                          }
+                      },
+                      {
+                          "multi_match": {
+                              "query": "'.$parsedBody['query'].'",
+                              "fields": [
+                                  "title",
+                                  "content",
+                                  "text"
+                              ],
+                              "operator": "and"
+                          }
+                      },
+                      {
+                          "match_phrase": {
+                              "content": {
+                                  "query": "'.$parsedBody['query'].'",
+                                  "boost": 2
+                              }
+                          }
+                      }
+                  ]
               }
           },
-          "collapse": {
-              "field": "questionid"
-          },
-          "from": '.$parsedBody['from'].',
+          "min_score": 5,
+          "from": 0,
           "size": 30
       }'
       ])->getBody());
