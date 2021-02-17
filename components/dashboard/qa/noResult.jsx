@@ -1,6 +1,6 @@
 import { Row, Col, Card, CardBody, Button } from "reactstrap";
 
-const NoResult = ({ keyword, type }) => {
+export const NoResult = ({ keyword, type }) => {
   let title, description;
   if (type == "FINAL_RESULT") {
     title = "Không thấy bài bạn muốn?";
@@ -71,8 +71,8 @@ const NoResult = ({ keyword, type }) => {
                   <input
                     name="title"
                     type="text"
-                    value={keyword}
-                    readOnly
+                    value=""
+                    onChange={(e) => e.target.setAttribute.value(keyword)}
                     hidden
                   />
                   <div className="d-flex justify-content-center">
@@ -105,5 +105,3 @@ const NoResult = ({ keyword, type }) => {
     </Row>
   );
 };
-
-export default NoResult;

@@ -270,7 +270,11 @@ const HomePage = () => {
                     <h2 className="txt-secondary wow fadeIn">
                       Faster, Lighter &amp; Dev. Friendly
                     </h2>
-                    <Search />
+                    <Search
+                      currentPage="home"
+                      searchMode="dictionary"
+                      keyword=""
+                    />
                   </div>
                 </div>
               </div>

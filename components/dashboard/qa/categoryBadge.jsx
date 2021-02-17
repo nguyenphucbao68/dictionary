@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Badge, Tooltip } from "reactstrap";
 import { CategoryName } from "./categoryName.json";
 
-const CategoryBadge = ({ catid1, catid2, catid3, info }) => {
+export const CategoryBadge = ({ catid1, catid2, catid3, info }) => {
   const [infoTooltip, setInfoTooltip] = useState(false);
   const toggle = () => setInfoTooltip(!infoTooltip);
   return (
@@ -42,5 +42,3 @@ const CategoryBadge = ({ catid1, catid2, catid3, info }) => {
     </>
   );
 };
-
-export default CategoryBadge;
