@@ -472,10 +472,10 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
   try {
     $parsedBody = $request->getParsedBody();
     $service = $request->getAttribute('service');
+    $esClient = new GuzzleHttp\Client([
+      'base_uri' => '',
+    ]);
     if ($service == "hoidap")  {
-      $esClient = new GuzzleHttp\Client([
-        'base_uri' => '',
-      ]);
       $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_HOIDAP_INDEX.'/_search', [
         'headers' => [
           'Content-Type' => 'application/json',
@@ -488,7 +488,7 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
               "bool": {
                   "filter": {
                       "term": {
-                          "type.keyword": "Q"
+                          "type": "Q"
                       }
                   },
                   "should": [
@@ -497,7 +497,6 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                               "query": "'.$parsedBody['query'].'",
                               "fields": [
                                   "title",
-                                  "content",
                                   "text"
                               ]
                           }
@@ -507,7 +506,6 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                               "query": "'.$parsedBody['query'].'",
                               "fields": [
                                   "title",
-                                  "content",
                                   "text"
                               ],
                               "operator": "and"
@@ -530,9 +528,6 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
       }'
       ])->getBody());
     } else if ($service == "lecttr") {
-      $esClient = new GuzzleHttp\Client([
-        'base_uri' => '',
-      ]);
       $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
         'headers' => [
           'Content-Type' => 'application/json'
@@ -565,6 +560,178 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
           "from": '.$parsedBody['from'].',
           "size": 30
         }'
+      ])->getBody());
+    } else if ($service == "hoidap-suggest") {
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
+        'headers' => [
+          'Content-Type' => 'application/json'
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
+        ],
+        'body' => '{
+          "query": {
+              "bool": {
+                  "filter": {
+                      "term": {
+                          "type": "Q"
+                      }
+                  },
+                  "should": [
+                      {
+                          "multi_match": {
+                              "query": "'.$parsedBody['query'].'",
+                              "fields": [
+                                  "title",
+                                  "title._2gram",
+                                  "title._3gram"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          },
+          "fields": ["title"],
+          "_source": false,
+          "min_score": 5,
+          "from": 0,
+          "size": 4
+      }'
+      ])->getBody());
+    } else if ($service == "hoidap-suggest") {
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
+        'headers' => [
+          'Content-Type' => 'application/json'
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
+        ],
+        'body' => '{
+          "query": {
+            "bool": {
+              "filter": [
+                {
+                  "term": {
+                    "post_status": "publish"
+                  }
+                },
+                {
+                  "term": {
+                    "post_type.raw": "post"
+                  }
+                }
+              ],
+              "should": {
+                "match": {
+                  "query": "'.$parsedBody['query'].'"
+                }
+              }
+            }
+          },
+          "from": '.$parsedBody['from'].',
+          "size": 30
+        }'
+      ])->getBody());
+    } else {
+      $response->withStatus(500);
+      $response->withHeader('Content-Type', 'application/json');
+      $error['err'] = "Not allowed";
+      return $response->withJson($error);
+    }
+    // custom json response
+    $response->withStatus(200);
+    $response->withHeader('Content-Type', 'application/json');
+    return $response->withJson($esResults);
+
+  } catch (PDOException $e) {
+    $response->withStatus(500);
+    $response->withHeader('Content-Type', 'application/json');
+    $error['err'] = $e->getMessage();
+    return $response->withJson($error);
+  }
+});
+
+$app->get('/search/{service}-suggest/{keyword}', function (Request $request, Response $response) { 
+  try {
+    $parsedBody = $request->getParsedBody();
+    $service = $request->getAttribute('service');
+    $keyword = $request->getAttribute('keyword');
+    $esClient = new GuzzleHttp\Client([
+      'base_uri' => '',
+    ]);
+    if ($service == "hoidap")  {
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_HOIDAP_INDEX.'/_search?filter_path=hits.hits.fields.title', [
+        'headers' => [
+          'Content-Type' => 'application/json',
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
+        ],
+        'body' => '{
+          "query": {
+              "bool": {
+                  "filter": {
+                      "term": {
+                          "type": "Q"
+                      }
+                  },
+                  "should": [
+                      {
+                          "multi_match": {
+                              "query": "'.$keyword.'",
+                              "fields": [
+                                  "title",
+                                  "title._2gram",
+                                  "title._3gram"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          },
+          "fields": ["title"],
+          "_source": false,
+          "min_score": 5,
+          "from": 0,
+          "size": 4
+      }'
+      ])->getBody());
+    } else if ($service == "lecttr") {
+      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search?filter_path=hits.hits.fields.title', [
+        'headers' => [
+          'Content-Type' => 'application/json'
+        ],
+        'auth' => [
+          ELASTIC_USERNAME, ELASTIC_PASSWORD
+        ],
+        'body' => '{
+          "query": {
+              "bool": {
+                  "filter": {
+                      "term": {
+                          "type": "Q"
+                      }
+                  },
+                  "should": [
+                      {
+                          "multi_match": {
+                              "query": "'.$keyword.'",
+                              "fields": [
+                                  "title",
+                                  "title._2gram",
+                                  "title._3gram"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          },
+          "fields": ["title"],
+          "_source": false,
+          "min_score": 5,
+          "from": 0,
+          "size": 4
+      }'
       ])->getBody());
     } else {
       $response->withStatus(500);
