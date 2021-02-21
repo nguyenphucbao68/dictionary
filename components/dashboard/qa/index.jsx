@@ -105,12 +105,12 @@ const QAResult = ({ result, query }) => {
         ]}
       />
       <NextSeo
-        title={`${query}| Homework Helper | Athoni`}
+        title={`${query} | Homework Helper | Athoni`}
         canonical={`https://www.athoni.com/qa`}
         openGraph={{
           type: "website",
           url: `https://www.athoni.com/qa/`,
-          title: `${query}| Homework Helper | Athoni`,
+          title: `${query} | Homework Helper | Athoni`,
           images: [
             {
               url: "https://www.athoni.com/assets/images/athoni-bg.png",
@@ -181,23 +181,26 @@ const QAResult = ({ result, query }) => {
                       </MathJax.Provider>
                       <hr />
                       <p className="f-w-600">Trả lời:</p>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.selchildcontent, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Tốt nhất",
-                          tooltip:
-                            "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
-                          color: "success",
-                        }}
-                      />
+                      <div>
+                        <MathJax.Provider>
+                          {ReactHtmlParser(bestResult.selchildcontent, {
+                            transform: (node) => transformHTML(node),
+                          })}
+                        </MathJax.Provider>
+                      </div>
+                      <div class="mt-2">
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Tốt nhất",
+                            tooltip:
+                              "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
+                            color: "success",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -222,22 +225,26 @@ const QAResult = ({ result, query }) => {
                           {bestResult.title}
                         </a>
                       </h5>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.content, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Câu hỏi",
-                          tooltip:
-                            "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
-                          color: "info",
-                        }}
-                      />
+                      <div>
+                        <MathJax.Provider>
+                          {ReactHtmlParser(bestResult.content, {
+                            transform: (node) => transformHTML(node),
+                          })}
+                        </MathJax.Provider>
+                      </div>
+                      <div class="mt-2">
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Câu hỏi",
+                            tooltip:
+                              "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
+                            color: "info",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -262,22 +269,26 @@ const QAResult = ({ result, query }) => {
                           {bestResult.title}
                         </a>
                       </h5>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.content, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Tham khảo",
-                          tooltip:
-                            "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
-                          color: "warning",
-                        }}
-                      />
+                      <div>
+                        <MathJax.Provider>
+                          {ReactHtmlParser(bestResult.content, {
+                            transform: (node) => transformHTML(node),
+                          })}
+                        </MathJax.Provider>
+                      </div>
+                      <div class="mt-2">
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Tham khảo",
+                            tooltip:
+                              "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
+                            color: "warning",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>

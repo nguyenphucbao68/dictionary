@@ -117,15 +117,15 @@ export const Search = (props) => {
             break;
           case "hoidap":
             restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
-            // if (props.currentPage !== "home" && !isStringEmpty(keyword))
-            //   Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
+            if (props.currentPage !== "home" && !isStringEmpty(keyword))
+              Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
             break;
           case "lecttr":
             restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
-            // if (props.currentPage !== "home" && !isStringEmpty(keyword))
-            //   Router.push(
-            //     "/post/" + encodeURIComponent(cleanUpString(keyword)),
-            //   );
+            if (props.currentPage !== "home" && !isStringEmpty(keyword))
+              Router.push(
+                "/post/" + encodeURIComponent(cleanUpString(keyword)),
+              );
             break;
         }
         const res = await fetch(restAPI);
@@ -234,7 +234,7 @@ export const Search = (props) => {
           <DelayInput
             type="text"
             minLength={2}
-            delayTimeout={400}
+            delayTimeout={300}
             className="form-control"
             aria-label={currentSearchLabel}
             placeholder={currentSearchLabel}
@@ -388,7 +388,7 @@ export const Search = (props) => {
             English - English
           </a>
           <a href="#" className="list-group-item list-group-item-action">
-            English - Franch
+            English - French
           </a>
         </div>
         {/* </ModalBody> */}
