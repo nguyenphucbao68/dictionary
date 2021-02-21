@@ -19,6 +19,7 @@ export const Search = (props) => {
   const [keyword, setKeyword] = useState(props.keyword);
   const [listWord, setListWord] = useState([]);
   const [listReactions, setListReactions] = useState({});
+  const [qaSuggest, setQASuggest] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [curLanguage, setCurLanguage] = useState(settings.defaultLanguageData);
   const [modal, setModal] = useState(false);
@@ -39,6 +40,7 @@ export const Search = (props) => {
       currentSearchLabel = "Nhập lý thuyết/bài viết bạn muốn tìm vào đây";
       break;
   }
+
   const isStringEmpty = (string) => {
     if (string?.length === 0 || string?.replace(/\s/g, "").length === 0)
       return true;
@@ -114,14 +116,16 @@ export const Search = (props) => {
             restAPI = `/api/index.php/search/${curLanguage}/${keyword}/8`;
             break;
           case "hoidap":
-            if (props.currentPage !== "home" && !isStringEmpty(keyword))
-              Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
-            return;
+            restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
+            // if (props.currentPage !== "home" && !isStringEmpty(keyword))
+            //   Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
+            break;
           case "lecttr":
-            if (props.currentPage !== "home" && !isStringEmpty(keyword))
-              Router.push(
-                "/post/" + encodeURIComponent(cleanUpString(keyword)),
-              );
+            restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
+            // if (props.currentPage !== "home" && !isStringEmpty(keyword))
+            //   Router.push(
+            //     "/post/" + encodeURIComponent(cleanUpString(keyword)),
+            //   );
             break;
         }
         const res = await fetch(restAPI);
@@ -130,6 +134,8 @@ export const Search = (props) => {
           setListReactions(await obj);
         } else if (currentSearch == "dictionary") {
           setListWord(await obj);
+        } else if (currentSearch == "hoidap") {
+          setQASuggest(await obj);
         }
 
         setShowResults(true);
@@ -168,6 +174,55 @@ export const Search = (props) => {
           </Link>,
         );
       });
+    }
+    return listRecords;
+  };
+
+  const LoadSearchSuggestion = (data) => {
+    var listRecords = [];
+    if (currentSearch == "hoidap") {
+      data &&
+        data.map((item, i) => {
+          listRecords.push(
+            <Link
+              href={`/qa/${encodeURIComponent(
+                cleanUpString(item.fields?.title.toString()),
+              )}`}
+              key={i}
+              onClick={() => setShowResults(false)}
+            >
+              <a className="dropdown-item">
+                {item.fields?.title == keyword ? (
+                  <strong>{item.fields?.title}</strong>
+                ) : (
+                  item.fields?.title
+                )}
+              </a>
+            </Link>,
+          );
+        });
+    } else if (currentSearch == "lecttr") {
+      data &&
+        data.map((item, i) => {
+          console.log(data);
+          listRecords.push(
+            <Link
+              href={`/qa/${encodeURIComponent(
+                cleanUpString(item.fields?.title.toString()),
+              )}`}
+              key={i}
+              onClick={() => setShowResults(false)}
+            >
+              <a className="dropdown-item">
+                {item.fields?.title == keyword ? (
+                  <strong>{item.fields?.title}</strong>
+                ) : (
+                  item.fields?.title
+                )}
+              </a>
+            </Link>,
+          );
+        });
     }
     return listRecords;
   };
@@ -247,6 +302,29 @@ export const Search = (props) => {
             )
             /* eslint-enable */
           }
+          {
+            /* eslint-disable */
+            (currentSearch == "hoidap" && qaSuggest?.hits?.hits?.length == 0) ||
+            (currentSearch == "lecttr" &&
+              qaSuggest?.hits?.hits?.length == 0) ? (
+              <>
+                {/* <div className="col-md-12">
+                  <p>No results</p>
+                </div> */}
+              </>
+            ) : (
+              <>
+                <div className="col-md-12" id="first-col">
+                  {currentSearch == "hoidap"
+                    ? LoadSearchSuggestion(qaSuggest?.hits?.hits)
+                    : currentSearch == "lecttr"
+                    ? LoadSearchSuggestion(qaSuggest?.hits?.hits)
+                    : ""}
+                </div>
+              </>
+            )
+            /* eslint-enable */
+          }
         </div>
       </div>
       <div className="btn-grp mt-4">
@@ -282,7 +360,7 @@ export const Search = (props) => {
           }`}
         >
           <img src={require("../../public/assets/images/icon/selfomy.png")} />
-          Hoi Dap
+          Homeworks
         </button>
         <button
           onClick={setActiveSearch}
@@ -292,7 +370,7 @@ export const Search = (props) => {
           }`}
         >
           <img src={require("../../public/assets/images/icon/lecttr.png")} />
-          Lecttr
+          Lectures
         </button>
       </div>
       <Modal isOpen={modal} toggle={toggle}>

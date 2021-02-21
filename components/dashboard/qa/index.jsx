@@ -105,21 +105,21 @@ const QAResult = ({ result, query }) => {
         ]}
       />
       <NextSeo
-        title={"Tìm kiếm lời giải | Athoni"}
-        canonical={`https://www.athoni.com/hoidap`}
+        title={`${query}| Homework Helper | Athoni`}
+        canonical={`https://www.athoni.com/qa`}
         openGraph={{
           type: "website",
-          url: `https://www.athoni.com/hoidap`,
-          title: "Tìm kiếm lời giải | Athoni",
+          url: `https://www.athoni.com/qa/`,
+          title: `${query}| Homework Helper | Athoni`,
           images: [
             {
               url: "https://www.athoni.com/assets/images/athoni-bg.png",
               width: 800,
               height: 600,
-              alt: "Athoni Lời giải",
+              alt: "Athoni Homework Helper",
             },
           ],
-          site_name: "Athoni Lời giải",
+          site_name: "Athoni Homework Helper",
         }}
         twitter={{
           handle: "@handle",
