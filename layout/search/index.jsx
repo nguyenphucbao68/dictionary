@@ -73,6 +73,10 @@ export const Search = (props) => {
   };
 
   const onSubmitEnter = (e) => {
+    const keyword = e.target?.value;
+    if (!isStringEmpty(keyword)) {
+      setKeyword(keyword);
+    }
     if (e.key === "Enter") {
       switch (currentSearch) {
         case "chemistry":
@@ -175,7 +179,7 @@ export const Search = (props) => {
           <DelayInput
             type="text"
             minLength={2}
-            delayTimeout={300}
+            delayTimeout={400}
             className="form-control"
             aria-label={currentSearchLabel}
             placeholder={currentSearchLabel}
