@@ -155,92 +155,98 @@ const HomePage = () => {
               <img
                 style={{ height: "161px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/ball3-1.png"
+                src={require("../public/assets/images/landing/decorebg/ball3-1.png")}
               />
             </li>
             <li className="sixteen">
               <img
                 style={{ height: "130px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/cube.png"
+                src={require("../public/assets/images/landing/decorebg/cube.png")}
               />
             </li>
             <li className="seventeen">
               <img
                 style={{ height: "120px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/ball1.png"
+                src={require("../public/assets/images/landing/decorebg/ball1.png")}
               />
             </li>
             <li className="eightteen">
               <img
                 style={{ height: "70px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/ball4.png"
+                src={require("../public/assets/images/landing/decorebg/ball4.png")}
               />
             </li>
             <li className="one">
               <img
                 className="img-fluid"
-                src="assets/images/landing/decore/1.png"
+                src={require("../public/assets/images/landing/decore/1.png")}
               />
             </li>
             <li className="two">
               <img
                 className="img-fluid"
-                src="assets/images/landing/decore/2.png"
+                src={require("../public/assets/images/landing/decore/2.png")}
               />
             </li>
             <li className="three">
               <img
                 className="img-fluid"
-                src="assets/images/landing/decore/4.png"
+                src={require("../public/assets/images/landing/decore/4.png")}
               />
             </li>
             <li className="four">
               <img
                 className="img-fluid"
-                src="assets/images/landing/decore/3.png"
+                src={require("../public/assets/images/landing/decore/3.png")}
               />
             </li>
             <li className="five">
-              <img className="img-fluid" src="assets/images/landing/2.png" />
+              <img
+                className="img-fluid"
+                src={require("../public/assets/images/landing/2.png")}
+              />
             </li>
             <li className="six">
               <img
                 className="img-fluid"
-                src="assets/images/landing/decore/cloud.png"
+                src={require("../public/assets/images/landing/decore/cloud.png")}
               />
             </li>
             <li className="seven">
-              <img className="img-fluid" src="assets/images/landing/2.png" />
+              <img
+                className="img-fluid"
+                src={require("../public/assets/images/landing/2.png")}
+              />
             </li>
             <li className="nine">
               <img
                 style={{ height: "161px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/leave1.png"
+                src={require("../public/assets/images/landing/decorebg/leave1.png")}
               />
             </li>
             <li className="ten">
               <img
                 style={{ height: "161px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/leave3.png"
+                src={require("../public/assets/images/landing/decorebg/leave3.png")}
               />
             </li>
             <li className="eleven">
               <img
                 style={{ height: "161px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/leave4.png"
+                src={require("../public/assets/images/landing/decorebg/leave4.png")}
               />
             </li>
             <li className="twelve">
               <img
                 style={{ height: "161px!important" }}
                 className="img-fluid"
-                src="assets/images/landing/decorebg/leave3.png"
+                src={require("../public/assets/images/landing/decorebg/leave3.png")}
               />
             </li>
             <li className="thirdteen">
