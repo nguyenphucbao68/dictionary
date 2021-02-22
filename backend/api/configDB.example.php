@@ -12,3 +12,4 @@ define('ELASTIC_PASSWORD', '');
 define('ELASTIC_PORT', 9200);
 define('ELASTIC_HOIDAP_INDEX', 'hoidap');
 define('ELASTIC_LECTTR_INDEX', 'lecttr');
+define('ELASTIC_HOST', '61.28.123.125');

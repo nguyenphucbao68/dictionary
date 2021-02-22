@@ -186,18 +186,19 @@ const QAResult = ({ result, query }) => {
                           transform: (node) => transformHTML(node),
                         })}
                       </MathJax.Provider>
-
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Tốt nhất",
-                          tooltip:
-                            "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
-                          color: "success",
-                        }}
-                      />
+                      <div>
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Tốt nhất",
+                            tooltip:
+                              "câu trả lời này được cộng đồng lựa chọn tuy nhiên chỉ mang tính chất tham khảo",
+                            color: "success",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -227,17 +228,19 @@ const QAResult = ({ result, query }) => {
                           transform: (node) => transformHTML(node),
                         })}
                       </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Câu hỏi",
-                          tooltip:
-                            "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
-                          color: "info",
-                        }}
-                      />
+                      <div>
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Câu hỏi",
+                            tooltip:
+                              "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
+                            color: "info",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -267,17 +270,19 @@ const QAResult = ({ result, query }) => {
                           transform: (node) => transformHTML(node),
                         })}
                       </MathJax.Provider>
-                      <CategoryBadge
-                        catid1={bestResult.catidpath3}
-                        catid2={bestResult.catidpath2}
-                        catid3={bestResult.catidpath1}
-                        info={{
-                          title: "Tham khảo",
-                          tooltip:
-                            "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
-                          color: "warning",
-                        }}
-                      />
+                      <div>
+                        <CategoryBadge
+                          catid1={bestResult.catidpath3}
+                          catid2={bestResult.catidpath2}
+                          catid3={bestResult.catidpath1}
+                          info={{
+                            title: "Tham khảo",
+                            tooltip:
+                              "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
+                            color: "warning",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -306,11 +311,13 @@ const QAResult = ({ result, query }) => {
                       <p className="search-description">
                         {shortenContent(data._source?.text, 250)}
                       </p>
-                      <CategoryBadge
-                        catid1={data._source?.catidpath3}
-                        catid2={data._source?.catidpath2}
-                        catid3={data._source?.catidpath1}
-                      />
+                      <div>
+                        <CategoryBadge
+                          catid1={data._source?.catidpath3}
+                          catid2={data._source?.catidpath2}
+                          catid3={data._source?.catidpath1}
+                        />
+                      </div>
                     </CardBody>
                   </div>
                 </Card>
