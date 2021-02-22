@@ -173,23 +173,21 @@ const Sidebar = (props) => {
     <>
       <header className="main-nav">
         <div className="logo-wrapper">
-          <Link href={`/`}>
-            <a>
-              <img
-                className="img-fluid for-light"
-                src={require("../../assets/images/logo/logo.png")}
-                alt=""
-              />
-              <img
-                className="img-fluid for-dark"
-                src={require("../../assets/images/logo/logo_dark.png")}
-                alt=""
-              />
-              <div className="back-btn" onClick={() => responsiveSidebar()}>
-                <i className="fa fa-angle-left"></i>
-              </div>
-            </a>
-          </Link>
+          <a href="/">
+            <img
+              className="img-fluid for-light"
+              src={require("../../assets/images/logo/logo.png")}
+              alt=""
+            />
+            <img
+              className="img-fluid for-dark"
+              src={require("../../assets/images/logo/logo_dark.png")}
+              alt=""
+            />
+            <div className="back-btn" onClick={() => responsiveSidebar()}>
+              <i className="fa fa-angle-left"></i>
+            </div>
+          </a>
           <div
             className="toggle-sidebar"
             onClick={() => openCloseSidebar(sidebartoogle)}
@@ -198,15 +196,13 @@ const Sidebar = (props) => {
           </div>
         </div>
         <div className="logo-icon-wrapper">
-          <Link href={`/`}>
-            <a>
-              <img
-                className="img-fluid"
-                src={require("../../assets/images/logo/logo-icon.png")}
-                alt=""
-              />
-            </a>
-          </Link>
+          <a href="/">
+            <img
+              className="img-fluid"
+              src={require("../../assets/images/logo/logo-icon.png")}
+              alt=""
+            />
+          </a>
         </div>
         <nav>
           <div className="main-navbar">
