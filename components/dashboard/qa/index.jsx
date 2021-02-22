@@ -317,11 +317,13 @@ const QAResult = ({ result, query }) => {
                       <p className="search-description">
                         {shortenContent(data._source?.text, 250)}
                       </p>
-                      <CategoryBadge
-                        catid1={data._source?.catidpath3}
-                        catid2={data._source?.catidpath2}
-                        catid3={data._source?.catidpath1}
-                      />
+                      <div>
+                        <CategoryBadge
+                          catid1={data._source?.catidpath3}
+                          catid2={data._source?.catidpath2}
+                          catid3={data._source?.catidpath1}
+                        />
+                      </div>
                     </CardBody>
                   </div>
                 </Card>

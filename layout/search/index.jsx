@@ -204,7 +204,6 @@ export const Search = (props) => {
     } else if (currentSearch == "lecttr") {
       data &&
         data.map((item, i) => {
-          console.log(data);
           listRecords.push(
             <Link
               href={`/qa/${encodeURIComponent(
@@ -331,7 +330,7 @@ export const Search = (props) => {
         <button
           onClick={setActiveSearch}
           area="chemistry"
-          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
             currentSearch === "chemistry" ? "active" : ""
           }`}
         >
@@ -343,7 +342,7 @@ export const Search = (props) => {
         <button
           onClick={setActiveSearch}
           area="dictionary"
-          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
             currentSearch === "dictionary" ? "active" : ""
           }`}
         >
@@ -355,7 +354,7 @@ export const Search = (props) => {
         <button
           onClick={setActiveSearch}
           area="hoidap"
-          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
             currentSearch === "hoidap" ? "active" : ""
           }`}
         >
@@ -365,7 +364,7 @@ export const Search = (props) => {
         <button
           onClick={setActiveSearch}
           area="lecttr"
-          className={`btn btn-pill btn-secondary btn-air-success btn-lg wow pulse mr-3 ${
+          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
             currentSearch === "lecttr" ? "active" : ""
           }`}
         >

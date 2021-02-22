@@ -306,3 +306,6 @@ div.qa-best-answer p, .card-body > p {
         transform: translate(-285px);
     }
 }
+.search-words .btm-grp .btn{
+    margin-bottom: 10;
+}
