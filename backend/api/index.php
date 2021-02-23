@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *'); 
-
+error_reporting(E_ALL);
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -472,6 +472,8 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
   try {
     $parsedBody = $request->getParsedBody();
     $service = $request->getAttribute('service');
+    $from = $parsedBody['from'];
+    $query = urldecode($parsedBody['query']);
     $esClient = new GuzzleHttp\Client([
       'base_uri' => '',
     ]);
@@ -491,10 +493,22 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                           "type": "Q"
                       }
                   },
+                  "must_not": [ 
+                    {
+                        "term": {
+                            "catidpath1": "71"
+                        }
+                    },
+                    {
+                        "term": {
+                          "catidpath1": "12"
+                        }
+                    }
+                  ],
                   "should": [
                       {
                           "multi_match": {
-                              "query": "'.$parsedBody['query'].'",
+                              "query": "'.$query.'",
                               "fields": [
                                   "title",
                                   "text"
@@ -503,7 +517,7 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                       },
                       {
                           "multi_match": {
-                              "query": "'.$parsedBody['query'].'",
+                              "query": "'.$query.'",
                               "fields": [
                                   "title",
                                   "text"
@@ -514,7 +528,7 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                       {
                           "match_phrase": {
                               "content": {
-                                  "query": "'.$parsedBody['query'].'",
+                                  "query": "'.$query.'",
                                   "boost": 2
                               }
                           }
@@ -522,9 +536,9 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
                   ]
               }
           },
-          "min_score": 5,
-          "from": 0,
-          "size": 30
+          "min_score": 50,
+          "from": '.$from.',
+          "size": 10
       }'
       ])->getBody());
     } else if ($service == "lecttr") {
@@ -552,83 +566,12 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
               ],
               "should": {
                 "match": {
-                  "query": "'.$parsedBody['query'].'"
+                  "query": "'.$query.'"
                 }
               }
             }
           },
-          "from": '.$parsedBody['from'].',
-          "size": 30
-        }'
-      ])->getBody());
-    } else if ($service == "hoidap-suggest") {
-      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
-        'headers' => [
-          'Content-Type' => 'application/json'
-        ],
-        'auth' => [
-          ELASTIC_USERNAME, ELASTIC_PASSWORD
-        ],
-        'body' => '{
-          "query": {
-              "bool": {
-                  "filter": {
-                      "term": {
-                          "type": "Q"
-                      }
-                  },
-                  "should": [
-                      {
-                          "multi_match": {
-                              "query": "'.$parsedBody['query'].'",
-                              "fields": [
-                                  "title",
-                                  "title._2gram",
-                                  "title._3gram"
-                              ]
-                          }
-                      }
-                  ]
-              }
-          },
-          "fields": ["title"],
-          "_source": false,
-          "min_score": 5,
-          "from": 0,
-          "size": 4
-      }'
-      ])->getBody());
-    } else if ($service == "hoidap-suggest") {
-      $esResults = json_decode($esClient->post(ELASTIC_HOST.':'.ELASTIC_PORT.'/'.ELASTIC_LECTTR_INDEX.'/_search', [
-        'headers' => [
-          'Content-Type' => 'application/json'
-        ],
-        'auth' => [
-          ELASTIC_USERNAME, ELASTIC_PASSWORD
-        ],
-        'body' => '{
-          "query": {
-            "bool": {
-              "filter": [
-                {
-                  "term": {
-                    "post_status": "publish"
-                  }
-                },
-                {
-                  "term": {
-                    "post_type.raw": "post"
-                  }
-                }
-              ],
-              "should": {
-                "match": {
-                  "query": "'.$parsedBody['query'].'"
-                }
-              }
-            }
-          },
-          "from": '.$parsedBody['from'].',
+          "from": '.$from.',
           "size": 30
         }'
       ])->getBody());
@@ -653,7 +596,6 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
 
 $app->get('/search/{service}-suggest/{keyword}', function (Request $request, Response $response) { 
   try {
-    $parsedBody = $request->getParsedBody();
     $service = $request->getAttribute('service');
     $keyword = $request->getAttribute('keyword');
     $esClient = new GuzzleHttp\Client([
@@ -675,6 +617,18 @@ $app->get('/search/{service}-suggest/{keyword}', function (Request $request, Res
                           "type": "Q"
                       }
                   },
+                  "must_not": [ 
+                    {
+                        "term": {
+                            "catidpath1": "71"
+                        }
+                    },
+                    {
+                        "term": {
+                          "catidpath1": "12"
+                        }
+                    }
+                  ],
                   "should": [
                       {
                           "multi_match": {
@@ -711,6 +665,11 @@ $app->get('/search/{service}-suggest/{keyword}', function (Request $request, Res
                       "term": {
                           "type": "Q"
                       }
+                  },
+                  "must_not": {
+                    "term": {
+                        "catidpath1": "71"
+                    }
                   },
                   "should": [
                       {
