@@ -9,11 +9,11 @@ export const NoResult = ({ keyword, type }) => {
   } else if (type == "NO_RESULT") {
     title = "Không có kết quả nào";
     description =
-      "Rất tiếc, Athoni không tìm thấy câu hỏi hay câu trả lời nào khớp với yêu cầu của bạn.";
+      "Nhưng đừng lo, chúng tôi có thể giúp bạn gửi câu hỏi đến cộng đồng học tập và Biệt đội Chuyên gia để hỏi bài ngay.";
   } else {
     title = "Không có kết quả nào";
     description =
-      "Rất tiếc, Athoni không tìm thấy câu hỏi hay câu trả lời nào khớp với yêu cầu của bạn.";
+      "Nhưng đừng lo, chúng tôi có thể giúp bạn gửi câu hỏi cộng đồng học tập và Biệt đội Chuyên gia để hỏi bài ngay.";
   }
   return (
     <Row>
@@ -71,9 +71,9 @@ export const NoResult = ({ keyword, type }) => {
                   <input
                     name="title"
                     type="text"
-                    value=""
-                    onChange={(e) => e.target.setAttribute.value(keyword)}
+                    value={keyword}
                     hidden
+                    readOnly
                   />
                   <div className="d-flex justify-content-center">
                     <Button
