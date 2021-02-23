@@ -260,7 +260,22 @@ const HomePage = () => {
               <img className="img-fluid" src="test.svg" />
             </li>
           </ul>
-          <div className="container-fluid">
+          <div className="inner landing-cover">
+            <h1 className="wow zoomIn">
+              <img
+                src="assets/images/landing/dictionaries-app-icon.png"
+                style={{ width: 100 }}
+              />{" "}
+              Athoni
+            </h1>
+            <h2 className="txt-secondary wow fadeIn">
+              Faster, Lighter &amp; Dev. Friendly
+            </h2>
+            <div className="landing-main">
+              <Search currentPage="home" searchMode="dictionary" keyword="" />
+            </div>
+          </div>
+          {/* <div className="container-fluid">
             <div className="row layout-row">
               <div className="col-md-12">
                 <div className="content">
@@ -271,9 +286,9 @@ const HomePage = () => {
                         style={{ width: 100 }}
                       />{" "}
                       Athoni
-                    </h1>
-                    {/* <h1 class="wow fadeIn">For all admin template</h1> */}
-                    <h2 className="txt-secondary wow fadeIn">
+                    </h1> */}
+          {/* <h1 class="wow fadeIn">For all admin template</h1> */}
+          {/* <h2 className="txt-secondary wow fadeIn">
                       Faster, Lighter &amp; Dev. Friendly
                     </h2>
                     <Search
@@ -285,7 +300,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

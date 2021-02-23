@@ -16,7 +16,7 @@ const QAPage = ({ result, query }) => {
 
 export async function getServerSideProps({ params }) {
   const { query } = params;
-  const getResults = await getQAResults(query, 0);
+  const getResults = await getQAResults(encodeURIComponent(query), 0);
   return {
     props: {
       result: getResults,

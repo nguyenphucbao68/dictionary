@@ -280,13 +280,49 @@ div.qa-best-answer p, .card-body > p {
   .landing-home h1{
     font-size: 50px!important;
 }
-.landing-home .language-switcher, .landing-home .dropdown .btn-light, .landing-home #keyword-search{
+.landing-home .language-switcher, .landing-home .dropdown .btn-light {
     width: 100%;
 }
 .landing-home .content{
     width: 88%;
 }
 }
+
+ul.nav-pills.nav-link-home.nav > .nav-item > a {
+    color: #fff;
+}
+
+@media only screen and (max-width: 575.98px) {
+    .nav-pills.nav-link-home, .border-tab.nav-link-home {
+        display: flex;
+        text-align: center;
+        border-bottom: none;
+    }
+    .nav-pills.nav-link-home li {
+        width: 50%;
+    }
+}
+
+.dropdown-menu {
+    width: 100%;
+}
+.search-input {
+    padding: 0px;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+}
+.search-input.form-control {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.search-input-btn {
+    padding: 0px;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+}
+
 .landing-home{
     text-align: center;
 }
@@ -294,6 +330,106 @@ div.qa-best-answer p, .card-body > p {
     height: 20px;
     margin-right: 5px;
 }
+
+/*
+ * Cover
+ */
+ .landing-cover {
+    padding: 2rem 1.25rem;
+    position: relative;
+  }
+  
+  /* Styles for wrapping the search box */
+  /* 
+    ##Device = Desktops
+    ##Screen = 1281px to higher resolution desktops
+  */
+  
+  @media (min-width: 1281px) {
+    
+    .landing-main {
+      width: 50%;
+      margin: 50px auto;
+  }
+    
+  }
+  
+  /* 
+    ##Device = Laptops, Desktops
+    ##Screen = B/w 1025px to 1280px
+  */
+  
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    
+    .landing-main {
+      width: 50%;
+      margin: 50px auto;
+  }
+    
+  }
+  
+  /* 
+    ##Device = Tablets, Ipads (portrait)
+    ##Screen = B/w 768px to 1024px
+  */
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    
+    .landing-main {
+      width: 100%;
+      margin: 50px auto;
+  }
+    
+  }
+  
+  /* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+  
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    
+    .landing-main {
+      width: 60%;
+      margin: 50px auto;
+  }
+    
+  }
+  
+  /* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+  
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+     .landing-main {
+      width: 100%;
+      margin: 50px auto;
+      }
+  }
+  
+  /* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+  
+  @media (min-width: 320px) and (max-width: 480px) {
+    
+    .landing-main {
+      width: 100%;
+      margin: 50px auto;
+      }
+  }
+
+
+
+.search-input-v2  {
+	border-top-left-radius: 1.5rem;
+	border-bottom-left-radius: 1.5rem;
+}
+
+
 .search-description {
     overflow: hidden;
     text-overflow: ellipsis;
