@@ -287,6 +287,9 @@ const QAResult = ({ result, query }) => {
               )
               /*eslint-enable */
             }
+            {totalResult > 5 && (
+              <NoResult keyword={query} type={"FINAL_RESULT"} />
+            )}
             {resultList?.slice(1).map((data, i) => (
               <LazyLoad key={i} height={250} offset={170} once={true}>
                 <Card key={i}>
