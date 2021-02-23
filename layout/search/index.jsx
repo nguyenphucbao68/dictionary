@@ -241,8 +241,9 @@ export const Search = (props) => {
           <DelayInput
             type="text"
             minLength={2}
+            maxLength={300}
             delayTimeout={300}
-            className="form-control search-input-v2"
+            className="form-control search-input"
             aria-label={currentSearchLabel}
             placeholder={currentSearchLabel}
             id="keyword-search"
@@ -257,7 +258,7 @@ export const Search = (props) => {
             autoCorrect="off"
             autoFocus
           />
-          <button
+          {/* <button
             type="button"
             className="btn bg-transparent d-block d-sm-none"
             style={{ marginLeft: "-59px", zIndex: 100 }}
@@ -267,30 +268,42 @@ export const Search = (props) => {
               className="icofont icofont-search"
               style={{ fontSize: "31px" }}
             ></i>
-          </button>
+          </button> */}
+          <div className="input-group-append">
+            {currentSearch == "dictionary" ? (
+              <a
+                className="language-switcher d-none d-sm-block"
+                onClick={toggle}
+              >
+                English - English
+              </a>
+            ) : (
+              ""
+            )}
+            <button
+              type="button"
+              className="btn btn-primary search-input-btn"
+              aria-label="Search..."
+              onClick={onSubmitClick}
+            >
+              {/* <img
+              src={require("../../public/assets/images/landing/search-icon.png")}
+              alt="Search Icon"
+              width={31}
+            /> */}
+              <i
+                className="icofont icofont-search"
+                style={{ fontSize: "20px" }}
+              ></i>
+            </button>
+          </div>
           {currentSearch == "dictionary" ? (
-            <a className="language-switcher" onClick={toggle}>
+            <a className="language-switcher d-block d-sm-none" onClick={toggle}>
               English - English
             </a>
           ) : (
             ""
           )}
-          <button
-            type="button"
-            className="btn btn-light search-input-v2-btn d-none d-sm-block"
-            aria-label="Search..."
-            onClick={onSubmitClick}
-          >
-            {/* <img
-              src={require("../../public/assets/images/landing/search-icon.png")}
-              alt="Search Icon"
-              width={31}
-            /> */}
-            <i
-              className="icofont icofont-search"
-              style={{ fontSize: "30px" }}
-            ></i>
-          </button>
         </div>
         <div
           className={`dropdown-menu row ${showResults && "show"}`}
@@ -355,9 +368,9 @@ export const Search = (props) => {
       <div className="mt-3">
         {props.currentPage == "home" ? (
           <Nav className={`nav-pills nav-link-home`}>
-            <NavItem>
+            <NavItem className={`nav-link-home`}>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="chemistry"
                 className={`${currentSearch === "chemistry" ? "active" : ""}`}
@@ -370,9 +383,9 @@ export const Search = (props) => {
                 {`Chemistry`}
               </NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem className={`nav-link-home`}>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="dictionary"
                 className={`${currentSearch === "dictionary" ? "active" : ""}`}
@@ -385,9 +398,9 @@ export const Search = (props) => {
                 Dictionary
               </NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem className={`nav-link-home`}>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="hoidap"
                 className={`${currentSearch === "hoidap" ? "active" : ""}`}
@@ -400,9 +413,9 @@ export const Search = (props) => {
                 {`Homework`}
               </NavLink>
             </NavItem>
-            <NavItem>
+            <NavItem className={`nav-link-home`}>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="lecttr"
                 className={`${currentSearch === "lecttr" ? "active" : ""}`}
@@ -418,9 +431,9 @@ export const Search = (props) => {
           </Nav>
         ) : (
           <Nav className={`border-tab`} tabs>
-            <NavItem>
+            <NavItem className={``}>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="chemistry"
                 className={`${currentSearch === "chemistry" ? "active" : ""}`}
@@ -435,7 +448,7 @@ export const Search = (props) => {
             </NavItem>
             <NavItem>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="dictionary"
                 className={`${currentSearch === "dictionary" ? "active" : ""}`}
@@ -450,7 +463,7 @@ export const Search = (props) => {
             </NavItem>
             <NavItem>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="hoidap"
                 className={`${currentSearch === "hoidap" ? "active" : ""}`}
@@ -465,7 +478,7 @@ export const Search = (props) => {
             </NavItem>
             <NavItem>
               <NavLink
-                href="#javascript"
+                href="#"
                 onClick={setActiveSearch}
                 area="lecttr"
                 className={`${currentSearch === "lecttr" ? "active" : ""}`}
@@ -481,52 +494,6 @@ export const Search = (props) => {
           </Nav>
         )}
       </div>
-      {/* <div className="btn-grp mt-4">
-        <button
-          onClick={setActiveSearch}
-          area="chemistry"
-          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
-            currentSearch === "chemistry" ? "active" : ""
-          }`}
-        >
-          <img
-            src={require("../../public/assets/images/landing/icon/chemistry.webp")}
-          />
-          Chemistry
-        </button>
-        <button
-          onClick={setActiveSearch}
-          area="dictionary"
-          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
-            currentSearch === "dictionary" ? "active" : ""
-          }`}
-        >
-          <img
-            src={require("../../public/assets/images/landing/dictionaries-app-icon.png")}
-          />
-          Dictionary
-        </button>
-        <button
-          onClick={setActiveSearch}
-          area="hoidap"
-          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
-            currentSearch === "hoidap" ? "active" : ""
-          }`}
-        >
-          <img src={require("../../public/assets/images/icon/selfomy.png")} />
-          Homeworks
-        </button>
-        <button
-          onClick={setActiveSearch}
-          area="lecttr"
-          className={`btn btn-pill btn-success btn-air-success btn-lg wow pulse mr-3 ${
-            currentSearch === "lecttr" ? "active" : ""
-          }`}
-        >
-          <img src={require("../../public/assets/images/icon/lecttr.png")} />
-          Lectures
-        </button>
-      </div> */}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>
           <h5 className="modal-title" id="LanguageSwitcherLabel">

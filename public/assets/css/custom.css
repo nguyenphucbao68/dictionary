@@ -280,7 +280,7 @@ div.qa-best-answer p, .card-body > p {
   .landing-home h1{
     font-size: 50px!important;
 }
-.landing-home .language-switcher, .landing-home .dropdown .btn-light, .landing-home #keyword-search{
+.landing-home .language-switcher, .landing-home .dropdown .btn-light {
     width: 100%;
 }
 .landing-home .content{
@@ -292,12 +292,35 @@ ul.nav-pills.nav-link-home.nav > .nav-item > a {
     color: #fff;
 }
 
+@media only screen and (max-width: 575.98px) {
+    .nav-pills.nav-link-home, .border-tab.nav-link-home {
+        display: flex;
+        text-align: center;
+        border-bottom: none;
+    }
+    .nav-pills.nav-link-home li {
+        width: 50%;
+    }
+}
+
 .dropdown-menu {
     width: 100%;
 }
 .search-input {
     padding: 0px;
-    border-radius: 15px;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+}
+.search-input.form-control {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.search-input-btn {
+    padding: 0px;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
 }
 
 .landing-home{
@@ -399,12 +422,6 @@ ul.nav-pills.nav-link-home.nav > .nav-item > a {
       }
   }
 
-
-@media only screen and (max-width: 576px) {
-    .form-control.search-input-v2 {
-        padding-right: 48px;
-    }    
-}
 
 
 .search-input-v2  {
