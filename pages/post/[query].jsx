@@ -16,7 +16,7 @@ const PostPage = ({ result, query }) => {
 
 export async function getServerSideProps({ params }) {
   const { query } = params;
-  const getResults = await getPostResults(query, 0);
+  const getResults = await getPostResults(encodeURIComponent(query), 0);
   return {
     props: {
       result: getResults,

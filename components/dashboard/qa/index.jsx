@@ -55,6 +55,37 @@ const QAResult = ({ result, query }) => {
     ) {
       return null;
     }
+    if (
+      //Codecogs to Latex
+      node?.type === "tag" &&
+      node?.name === "img" &&
+      node?.attribs &&
+      node?.attribs.src.includes("codecogs.com")
+    ) {
+      console.log(node);
+      return (
+        <MathJax.Node
+          key={uuidv4()}
+          inline
+          formula={node?.attribs.alt.replace("\\(", "").replace("\\)", "")}
+        />
+      );
+    }
+    if (
+      //Prevent dangerous Link
+      node?.type === "tag" &&
+      node?.name === "a"
+    ) {
+      return (
+        <a
+          key={uuidv4()}
+          href={node?.attribs.href}
+          rel="noopener noreferrer nofollow"
+        >
+          {node?.children[0].data}
+        </a>
+      );
+    }
   };
 
   const shortenContent = (content, length) => {
@@ -65,6 +96,10 @@ const QAResult = ({ result, query }) => {
       Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")),
     );
     return trimmedString;
+  };
+
+  const decodeHTML = (html) => {
+    return html;
   };
 
   const sanitizeHTMLTag = (string) => {
@@ -128,10 +163,10 @@ const QAResult = ({ result, query }) => {
         }}
       />
       <Container fluid={true}>
-        <Row className="appointment-sec mt-2">
-          <Col md="12" className="chat-default">
-            <Card>
-              <CardBody className="search-words landing-home">
+        <Row className="mt-2">
+          <Col md="12">
+            <Card style={{ backgroundColor: "#f8f8f8", boxShadow: "none" }}>
+              <CardBody className="landing-home pb-0">
                 <Search
                   searchMode={"hoidap"}
                   keyword={query}
@@ -153,7 +188,8 @@ const QAResult = ({ result, query }) => {
               /*eslint-disable */
               totalResult > 0 &&
               bestResult.selchildid &&
-              bestResult.selchildid !== null ? (
+              bestResult.selchildid !== null &&
+              resultList[0]._score >= 70 ? (
                 <LazyLoad height={500} once={true}>
                   <Card
                     key={"bestResult"}
@@ -181,14 +217,12 @@ const QAResult = ({ result, query }) => {
                       </MathJax.Provider>
                       <hr />
                       <p className="f-w-600">Trả lời:</p>
-                      <div>
-                        <MathJax.Provider>
-                          {ReactHtmlParser(bestResult.selchildcontent, {
-                            transform: (node) => transformHTML(node),
-                          })}
-                        </MathJax.Provider>
-                      </div>
-                      <div class="mt-2">
+                      <MathJax.Provider>
+                        {ReactHtmlParser(bestResult.selchildcontent, {
+                          transform: (node) => transformHTML(node),
+                        })}
+                      </MathJax.Provider>
+                      <div className="mt-2">
                         <CategoryBadge
                           catid1={bestResult.catidpath3}
                           catid2={bestResult.catidpath2}
@@ -232,7 +266,7 @@ const QAResult = ({ result, query }) => {
                           })}
                         </MathJax.Provider>
                       </div>
-                      <div class="mt-2">
+                      <div className="mt-2">
                         <CategoryBadge
                           catid1={bestResult.catidpath3}
                           catid2={bestResult.catidpath2}
@@ -240,52 +274,8 @@ const QAResult = ({ result, query }) => {
                           info={{
                             title: "Câu hỏi",
                             tooltip:
-                              "câu hỏi được gửi cho bạn thay vì câu trả lời vì chưa có câu trả lời nào được chọn",
+                              "câu hỏi được gửi cho bạn thay cho câu trả lời vì chưa có câu trả lời nào được chọn",
                             color: "info",
-                          }}
-                        />
-                      </div>
-                    </CardBody>
-                  </Card>
-                </LazyLoad>
-              ) : totalResult > 0 && bestResult.type === "A" ? (
-                <LazyLoad height={500} once={true}>
-                  <Card
-                    key={"bestResult"}
-                    className="card-absolute best-answer"
-                  >
-                    <CardHeader className="bg-secondary">
-                      <h5>Trả lời</h5>
-                    </CardHeader>
-                    <CardBody>
-                      <h5 className="f-w-600">
-                        <a
-                          href={
-                            process.env.NEXT_PUBLIC_HOIDAP_URL +
-                            bestResult.questionid
-                          }
-                          rel="noreferrer noopener"
-                        >
-                          {bestResult.title}
-                        </a>
-                      </h5>
-                      <div>
-                        <MathJax.Provider>
-                          {ReactHtmlParser(bestResult.content, {
-                            transform: (node) => transformHTML(node),
-                          })}
-                        </MathJax.Provider>
-                      </div>
-                      <div class="mt-2">
-                        <CategoryBadge
-                          catid1={bestResult.catidpath3}
-                          catid2={bestResult.catidpath2}
-                          catid3={bestResult.catidpath1}
-                          info={{
-                            title: "Tham khảo",
-                            tooltip:
-                              "câu trả lời này khớp với từ khóa của bạn nhất, tuy nhiên chỉ mang tính chất tham khảo",
-                            color: "warning",
                           }}
                         />
                       </div>
@@ -298,7 +288,7 @@ const QAResult = ({ result, query }) => {
               /*eslint-enable */
             }
             {resultList?.slice(1).map((data, i) => (
-              <LazyLoad height={250} offset={170} once={true}>
+              <LazyLoad key={i} height={250} offset={170} once={true}>
                 <Card key={i}>
                   <div className="qa-record">
                     <CardBody>
@@ -315,7 +305,7 @@ const QAResult = ({ result, query }) => {
                       </h5>
 
                       <p className="search-description">
-                        {shortenContent(data._source?.text, 250)}
+                        {decodeHTML(shortenContent(data._source?.text, 250))}
                       </p>
                       <div>
                         <CategoryBadge

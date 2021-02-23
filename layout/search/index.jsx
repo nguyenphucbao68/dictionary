@@ -1,10 +1,10 @@
 import settings from "../../config/settingsConfig";
 import Link from "next/link";
 import Router from "next/router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useOutsideClick from "../../lib/event";
 import { generateEquation } from "../../service/chemistry";
-import { Modal, ModalHeader } from "reactstrap";
+import { Modal, ModalHeader, Nav, NavItem, NavLink } from "reactstrap";
 import { DelayInput } from "react-delay-input";
 
 export const Search = (props) => {
@@ -101,6 +101,10 @@ export const Search = (props) => {
     setShowResults(false);
   });
 
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
+
   const onChangeKeyWord = async (e) => {
     const keyword = e.target?.value;
     if (!isStringEmpty(keyword)) {
@@ -116,12 +120,16 @@ export const Search = (props) => {
             restAPI = `/api/index.php/search/${curLanguage}/${keyword}/8`;
             break;
           case "hoidap":
-            restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
+            restAPI = `/api/index.php/search/hoidap-suggest/${encodeURIComponent(
+              cleanUpString(keyword),
+            )}`;
             if (props.currentPage !== "home" && !isStringEmpty(keyword))
               Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
             break;
           case "lecttr":
-            restAPI = `/api/index.php/search/hoidap-suggest/${keyword}`;
+            restAPI = `/api/index.php/search/hoidap-suggest/${encodeURIComponent(
+              cleanUpString(keyword),
+            )}}`;
             if (props.currentPage !== "home" && !isStringEmpty(keyword))
               Router.push(
                 "/post/" + encodeURIComponent(cleanUpString(keyword)),
@@ -234,7 +242,7 @@ export const Search = (props) => {
             type="text"
             minLength={2}
             delayTimeout={300}
-            className="form-control"
+            className="form-control search-input-v2"
             aria-label={currentSearchLabel}
             placeholder={currentSearchLabel}
             id="keyword-search"
@@ -245,7 +253,21 @@ export const Search = (props) => {
             forceNotifyByEnter="true"
             onKeyDown={onSubmitEnter}
             autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off"
+            autoFocus
           />
+          <button
+            type="button"
+            className="btn bg-transparent d-block d-sm-none"
+            style={{ marginLeft: "-59px", zIndex: 100 }}
+            onClick={onSubmitClick}
+          >
+            <i
+              className="icofont icofont-search"
+              style={{ fontSize: "31px" }}
+            ></i>
+          </button>
           {currentSearch == "dictionary" ? (
             <a className="language-switcher" onClick={toggle}>
               English - English
@@ -255,15 +277,19 @@ export const Search = (props) => {
           )}
           <button
             type="button"
-            className="btn btn-light"
+            className="btn btn-light search-input-v2-btn d-none d-sm-block"
             aria-label="Search..."
             onClick={onSubmitClick}
           >
-            <img
+            {/* <img
               src={require("../../public/assets/images/landing/search-icon.png")}
               alt="Search Icon"
               width={31}
-            />
+            /> */}
+            <i
+              className="icofont icofont-search"
+              style={{ fontSize: "30px" }}
+            ></i>
           </button>
         </div>
         <div
@@ -326,7 +352,136 @@ export const Search = (props) => {
           }
         </div>
       </div>
-      <div className="btn-grp mt-4">
+      <div className="mt-3">
+        {props.currentPage == "home" ? (
+          <Nav className={`nav-pills nav-link-home`}>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="chemistry"
+                className={`${currentSearch === "chemistry" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/landing/icon/chemistry.webp")}
+                />
+                {`Chemistry`}
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="dictionary"
+                className={`${currentSearch === "dictionary" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/landing/dictionaries-app-icon.png")}
+                />
+                Dictionary
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="hoidap"
+                className={`${currentSearch === "hoidap" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/icon/selfomy.png")}
+                />
+                {`Homework`}
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="lecttr"
+                className={`${currentSearch === "lecttr" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/icon/lecttr.png")}
+                />
+                {`Lectures`}
+              </NavLink>
+            </NavItem>
+          </Nav>
+        ) : (
+          <Nav className={`border-tab`} tabs>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="chemistry"
+                className={`${currentSearch === "chemistry" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/landing/icon/chemistry.webp")}
+                />
+                {`Chemistry`}
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="dictionary"
+                className={`${currentSearch === "dictionary" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/landing/dictionaries-app-icon.png")}
+                />
+                Dictionary
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="hoidap"
+                className={`${currentSearch === "hoidap" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/icon/selfomy.png")}
+                />
+                {`Homework`}
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                href="#javascript"
+                onClick={setActiveSearch}
+                area="lecttr"
+                className={`${currentSearch === "lecttr" ? "active" : ""}`}
+              >
+                <img
+                  className="mr-1"
+                  style={{ height: "19px" }}
+                  src={require("../../public/assets/images/icon/lecttr.png")}
+                />
+                {`Lectures`}
+              </NavLink>
+            </NavItem>
+          </Nav>
+        )}
+      </div>
+      {/* <div className="btn-grp mt-4">
         <button
           onClick={setActiveSearch}
           area="chemistry"
@@ -371,7 +526,7 @@ export const Search = (props) => {
           <img src={require("../../public/assets/images/icon/lecttr.png")} />
           Lectures
         </button>
-      </div>
+      </div> */}
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>
           <h5 className="modal-title" id="LanguageSwitcherLabel">
