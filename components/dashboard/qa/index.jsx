@@ -307,10 +307,10 @@ const QAResult = ({ result, query }) => {
                         </a>
                       </h5>
 
-                      <p className="search-description">
-                        {decodeHTML(shortenContent(data._source?.text, 250))}
-                      </p>
-                      <div>
+                      <div className="search-description">
+                        {decodeHTML(data._source?.text)}
+                      </div>
+                      <div className="mt-2">
                         <CategoryBadge
                           catid1={data._source?.catidpath3}
                           catid2={data._source?.catidpath2}
