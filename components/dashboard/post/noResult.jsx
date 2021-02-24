@@ -2,18 +2,14 @@ import { Row, Col, Card, CardBody, Button } from "reactstrap";
 
 export const NoResult = ({ keyword, type }) => {
   let title, description;
-  if (type == "FINAL_RESULT") {
-    title = "Không thấy bài bạn muốn?";
-    description =
-      "Đặt câu hỏi nhanh trên Selfomy Hỏi Đáp để được hỗ trợ từ cộng đồng hơn 60.000 học sinh năng động, tài năng trên cả nước.";
-  } else if (type == "NO_RESULT") {
+  if (type == "NO_RESULT") {
     title = "Không có kết quả nào";
     description =
-      "Rất tiếc, Athoni không tìm thấy câu hỏi hay câu trả lời nào khớp với yêu cầu của bạn.";
+      "Rất tiếc, Athoni không tìm thấy bài viết nào khớp với yêu cầu của bạn.";
   } else {
     title = "Không có kết quả nào";
     description =
-      "Rất tiếc, Athoni không tìm thấy câu hỏi hay câu trả lời nào khớp với yêu cầu của bạn.";
+      "Rất tiếc, Athoni không tìm thấy bài viết nào khớp với yêu cầu của bạn.";
   }
   return (
     <Row>
