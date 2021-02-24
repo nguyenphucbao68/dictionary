@@ -468,6 +468,151 @@ $app->delete('/words/{id}', function (Request $request, Response $response) {
 //   "size": 5
 // }
 
+// {
+//   "from": 0,
+//   "size": 10,
+//   "sort": [
+//       {
+//           "_score": {
+//               "order": "desc"
+//           }
+//       }
+//   ],
+//   "query": {
+//       "function_score": {
+//           "query": {
+//               "bool": {
+//                   "should": [
+//                       {
+//                           "bool": {
+//                               "must": [
+//                                   {
+//                                       "bool": {
+//                                           "should": [
+//                                               {
+//                                                   "multi_match": {
+//                                                       "query": "elasticpress for wordpress search",
+//                                                       "type": "phrase",
+//                                                       "fields": [
+//                                                           "post_title^1",
+//                                                           "post_excerpt^1",
+//                                                           "post_content^1"
+//                                                       ],
+//                                                       "boost": 3
+//                                                   }
+//                                               },
+//                                               {
+//                                                   "multi_match": {
+//                                                       "query": "elasticpress for wordpress search",
+//                                                       "fields": [
+//                                                           "post_title^1",
+//                                                           "post_excerpt^1",
+//                                                           "post_content^1",
+//                                                           "post_title.suggest^1"
+//                                                       ],
+//                                                       "type": "phrase",
+//                                                       "slop": 5
+//                                                   }
+//                                               }
+//                                           ]
+//                                       }
+//                                   }
+//                               ],
+//                               "filter": [
+//                                   {
+//                                       "match": {
+//                                           "post_type.raw": "post"
+//                                       }
+//                                   }
+//                               ]
+//                           }
+//                       },
+//                       {
+//                           "bool": {
+//                               "must": [
+//                                   {
+//                                       "bool": {
+//                                           "should": [
+//                                               {
+//                                                   "multi_match": {
+//                                                       "query": "elasticpress for wordpress search",
+//                                                       "type": "phrase",
+//                                                       "fields": [
+//                                                           "post_title^1",
+//                                                           "post_excerpt^1",
+//                                                           "post_content^1"
+//                                                       ],
+//                                                       "boost": 3
+//                                                   }
+//                                               },
+//                                               {
+//                                                   "multi_match": {
+//                                                       "query": "elasticpress for wordpress search",
+//                                                       "fields": [
+//                                                           "post_title^1",
+//                                                           "post_excerpt^1",
+//                                                           "post_content^1",
+//                                                           "post_title.suggest^1"
+//                                                       ],
+//                                                       "type": "phrase",
+//                                                       "slop": 5
+//                                                   }
+//                                               }
+//                                           ]
+//                                       }
+//                                   }
+//                               ],
+//                               "filter": [
+//                                   {
+//                                       "match": {
+//                                           "post_type.raw": "page"
+//                                       }
+//                                   }
+//                               ]
+//                           }
+//                       }
+//                   ]
+//               }
+//           },
+//           "functions": [
+//               {
+//                   "exp": {
+//                       "post_date_gmt": {
+//                           "scale": "14d",
+//                           "decay": 0.25,
+//                           "offset": "7d"
+//                       }
+//                   }
+//               }
+//           ],
+//           "score_mode": "avg",
+//           "boost_mode": "sum"
+//       }
+//   },
+//   "post_filter": {
+//       "bool": {
+//           "must": [
+//               {
+//                   "terms": {
+//                       "post_type.raw": [
+//                           "post",
+//                           "page",
+//                           "product"
+//                       ]
+//                   }
+//               },
+//               {
+//                   "terms": {
+//                       "post_status": [
+//                           "publish",
+//                           "closed"
+//                       ]
+//                   }
+//               }
+//           ]
+//       }
+//   }
+// }
 $app->post('/search/{service}', function (Request $request, Response $response) { 
   try {
     $parsedBody = $request->getParsedBody();
@@ -550,30 +695,138 @@ $app->post('/search/{service}', function (Request $request, Response $response) 
           ELASTIC_USERNAME, ELASTIC_PASSWORD
         ],
         'body' => '{
-          "query": {
-            "bool": {
-              "filter": [
-                {
-                  "term": {
-                    "post_status": "publish"
+          "from": 0,
+          "size": 10,
+          "min_score": 15,
+          "sort": [
+              {
+                  "_score": {
+                      "order": "desc"
                   }
-                },
-                {
-                  "term": {
-                    "post_type.raw": "post"
-                  }
-                }
-              ],
-              "should": {
-                "match": {
-                  "query": "'.$query.'"
-                }
               }
-            }
+          ],
+          "query": {
+              "function_score": {
+                  "query": {
+                      "bool": {
+                          "should": [
+                              {
+                                  "bool": {
+                                      "must": [
+                                          {
+                                              "bool": {
+                                                  "should": [
+                                                      {
+                                                          "multi_match": {
+                                                              "query": "'.$query.'",
+                                                              "type": "phrase",
+                                                              "fields": [
+                                                                  "post_title^1",
+                                                                  "post_excerpt^1",
+                                                                  "post_content^1"
+                                                              ],
+                                                              "boost": 3
+                                                          }
+                                                      },
+                                                      {
+                                                          "multi_match": {
+                                                              "query": "'.$query.'",
+                                                              "fields": [
+                                                                  "post_title^1",
+                                                                  "post_excerpt^1",
+                                                                  "post_content^1",
+                                                                  "post_title.suggest^1"
+                                                              ],
+                                                              "type": "phrase",
+                                                              "slop": 5
+                                                          }
+                                                      }
+                                                  ]
+                                              }
+                                          }
+                                      ],
+                                      "filter": [
+                                          {
+                                              "match": {
+                                                  "post_type.raw": "post"
+                                              }
+                                          }
+                                      ]
+                                  }
+                              },
+                              {
+                                  "bool": {
+                                      "must": [
+                                          {
+                                              "bool": {
+                                                  "should": [
+                                                      {
+                                                          "multi_match": {
+                                                              "query": "'.$query.'",
+                                                              "type": "phrase",
+                                                              "fields": [
+                                                                  "post_title^1",
+                                                                  "post_excerpt^1",
+                                                                  "post_content^1"
+                                                              ],
+                                                              "boost": 3
+                                                          }
+                                                      },
+                                                      {
+                                                          "multi_match": {
+                                                              "query": "'.$query.'",
+                                                              "fields": [
+                                                                  "post_title^1",
+                                                                  "post_excerpt^1",
+                                                                  "post_content^1",
+                                                                  "post_title.suggest^1"
+                                                              ],
+                                                              "type": "phrase",
+                                                              "slop": 5
+                                                          }
+                                                      }
+                                                  ]
+                                              }
+                                          }
+                                      ],
+                                      "filter": [
+                                          {
+                                              "match": {
+                                                  "post_type.raw": "page"
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          ]
+                      }
+                  },
+                  "score_mode": "avg",
+                  "boost_mode": "sum"
+              }
           },
-          "from": '.$from.',
-          "size": 30
-        }'
+          "post_filter": {
+              "bool": {
+                  "must": [
+                      {
+                          "terms": {
+                              "post_type.raw": [
+                                  "post"
+                              ]
+                          }
+                      },
+                      {
+                          "terms": {
+                              "post_status": [
+                                  "publish",
+                                  "closed"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          }
+      }'
       ])->getBody());
     } else {
       $response->withStatus(500);

@@ -70,7 +70,9 @@ export const Search = (props) => {
           Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
         return;
       case "lecttr":
-        break;
+        if (!isStringEmpty(keyword))
+          Router.push("/post/" + encodeURIComponent(cleanUpString(keyword)));
+        return;
     }
   };
 
@@ -127,9 +129,6 @@ export const Search = (props) => {
               Router.push("/qa/" + encodeURIComponent(cleanUpString(keyword)));
             break;
           case "lecttr":
-            restAPI = `/api/index.php/search/hoidap-suggest/${encodeURIComponent(
-              cleanUpString(keyword),
-            )}}`;
             if (props.currentPage !== "home" && !isStringEmpty(keyword))
               Router.push(
                 "/post/" + encodeURIComponent(cleanUpString(keyword)),
@@ -189,27 +188,6 @@ export const Search = (props) => {
   const LoadSearchSuggestion = (data) => {
     var listRecords = [];
     if (currentSearch == "hoidap") {
-      data &&
-        data.map((item, i) => {
-          listRecords.push(
-            <Link
-              href={`/qa/${encodeURIComponent(
-                cleanUpString(item.fields?.title.toString()),
-              )}`}
-              key={i}
-              onClick={() => setShowResults(false)}
-            >
-              <a className="dropdown-item">
-                {item.fields?.title == keyword ? (
-                  <strong>{item.fields?.title}</strong>
-                ) : (
-                  item.fields?.title
-                )}
-              </a>
-            </Link>,
-          );
-        });
-    } else if (currentSearch == "lecttr") {
       data &&
         data.map((item, i) => {
           listRecords.push(
@@ -342,9 +320,7 @@ export const Search = (props) => {
           }
           {
             /* eslint-disable */
-            (currentSearch == "hoidap" && qaSuggest?.hits?.hits?.length == 0) ||
-            (currentSearch == "lecttr" &&
-              qaSuggest?.hits?.hits?.length == 0) ? (
+            currentSearch == "hoidap" && qaSuggest?.hits?.hits?.length == 0 ? (
               <>
                 {/* <div className="col-md-12">
                   <p>No results</p>
@@ -354,8 +330,6 @@ export const Search = (props) => {
               <>
                 <div className="col-md-12" id="first-col">
                   {currentSearch == "hoidap"
-                    ? LoadSearchSuggestion(qaSuggest?.hits?.hits)
-                    : currentSearch == "lecttr"
                     ? LoadSearchSuggestion(qaSuggest?.hits?.hits)
                     : ""}
                 </div>

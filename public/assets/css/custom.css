@@ -432,6 +432,17 @@ ul.nav-pills.nav-link-home.nav > .nav-item > a {
 	border-bottom-left-radius: 1.5rem;
 }
 
+.post-excerpt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+}
+
+.mark, mark {
+    background-color: yellow;
+}
 
 .search-description {
     overflow: hidden;

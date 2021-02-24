@@ -23,7 +23,7 @@ const PostResult = ({ result, query }) => {
   //const [showResults, setShowResults] = useState(false);
   const totalResult = result?.hits?.total?.value;
   const resultList = result?.hits?.hits;
-  const bestResult = resultList[0]?._source;
+  const bestResult = resultList[0];
 
   // const onChangeKeyword = (inputKeyWord) => {
   //   if (inputKeyWord.length === 0 || !inputKeyWord.replace(/\s/g, "").length)
@@ -46,6 +46,22 @@ const PostResult = ({ result, query }) => {
       );
     }
     if (
+      //Codecogs to Latex
+      node?.type === "tag" &&
+      node?.name === "img" &&
+      node?.attribs &&
+      node?.attribs.src.includes("codecogs.com")
+    ) {
+      console.log(node);
+      return (
+        <MathJax.Node
+          key={uuidv4()}
+          inline
+          formula={node?.attribs.alt.replace("\\(", "").replace("\\)", "")}
+        />
+      );
+    }
+    if (
       //remove garbage pre tag
       node?.type === "tag" &&
       node?.name === "pre" &&
@@ -55,6 +71,45 @@ const PostResult = ({ result, query }) => {
     ) {
       return null;
     }
+  };
+
+  const transformPostHightlight = (node) => {
+    if (
+      node?.type === "tag" &&
+      node?.name === "span" &&
+      node.attribs.class === "math-tex"
+    ) {
+      return (
+        <MathJax.Node
+          key={uuidv4()}
+          inline
+          formula={node?.children[0].data.replace("\\(", "").replace("\\)", "")}
+        />
+      );
+    }
+    if (
+      //Codecogs to Latex
+      node?.type === "tag" &&
+      node?.name === "img" &&
+      node?.attribs &&
+      node?.attribs.src.includes("codecogs.com")
+    ) {
+      console.log(node);
+      return (
+        <MathJax.Node
+          key={uuidv4()}
+          inline
+          formula={node?.attribs.alt.replace("\\(", "").replace("\\)", "")}
+        />
+      );
+    }
+    // if (
+    //   //remove garbage pre tag
+    //   node?.type === "tag" &&
+    //   ["h1", "h2", "pre", "p", "strong", "img"].includes(node?.name)
+    // ) {
+    //   return <>{`qwe`}</>;
+    // }
   };
 
   const shortenContent = (content, length) => {
@@ -130,8 +185,8 @@ const PostResult = ({ result, query }) => {
       <Container fluid={true}>
         <Row className="appointment-sec mt-2">
           <Col md="12" className="chat-default">
-            <Card>
-              <CardBody className="search-words landing-home">
+            <Card style={{ backgroundColor: "#f8f8f8", boxShadow: "none" }}>
+              <CardBody className="landing-home pb-0">
                 <Search
                   searchMode={"lecttr"}
                   keyword={query}
@@ -163,29 +218,50 @@ const PostResult = ({ result, query }) => {
                     <CardBody>
                       <h5 className="f-w-600">
                         <a
-                          href={bestResult.permalink}
+                          href={bestResult._source.permalink}
                           rel="noreferrer noopener"
                         >
-                          {bestResult.post_title}
+                          {bestResult._source.post_title}
                         </a>
                       </h5>
-                      <MathJax.Provider>
-                        {ReactHtmlParser(bestResult.post_content_filtered, {
-                          transform: (node) => transformHTML(node),
-                        })}
-                      </MathJax.Provider>
+                      <div className="post-excerpt">
+                        <MathJax.Provider>
+                          {ReactHtmlParser(
+                            bestResult._source.post_content_filtered,
+                            {
+                              transform: (node) => transformHTML(node),
+                            },
+                          )}
+                        </MathJax.Provider>
+                      </div>
+                      <div className="mt-3 text-center">
+                        <a
+                          href={bestResult._source.permalink}
+                          rel="noopener noreferrer nofollow"
+                          class="btn btn-outline-primary"
+                        >
+                          Xem thêm tại{" "}
+                          <img
+                            style={{ height: "19px" }}
+                            src={require("../../../public/assets/images/icon/lecttr.png")}
+                          />{" "}
+                          Lecttr
+                        </a>
+                      </div>
                       <hr />
-                      <CategoryBadge
-                        catid1={bestResult.terms?.category[0]}
-                        catid2={bestResult.terms?.category[1]}
-                        catid3={bestResult.terms?.category[2]}
-                        info={{
-                          title: "Phù hợp nhất",
-                          tooltip:
-                            "bài viết này được gửi đến cho bạn vì khớp với từ khóa tìm kiếm của bạn",
-                          color: "success",
-                        }}
-                      />
+                      <div className="mt-2">
+                        <CategoryBadge
+                          catid1={bestResult._source?.terms?.category[0]}
+                          catid2={bestResult._source?.terms?.category[1]}
+                          catid3={bestResult._source?.terms?.category[2]}
+                          info={{
+                            title: "Phù hợp nhất",
+                            tooltip:
+                              "bài viết này được gửi đến cho bạn vì khớp với từ khóa tìm kiếm của bạn",
+                            color: "success",
+                          }}
+                        />
+                      </div>
                     </CardBody>
                   </Card>
                 </LazyLoad>
@@ -207,28 +283,24 @@ const PostResult = ({ result, query }) => {
                           {data?._source?.post_title}
                         </a>
                       </h5>
-
-                      <p>
+                      <div className="search-description">
                         {shortenContent(
                           sanitizeHTMLTag(data._source?.post_content_filtered),
                           250,
                         )}
-                      </p>
-                      <CategoryBadge
-                        catid1={data._source?.terms?.category[0]?.name}
-                        catid2={data._source?.terms?.category[1]?.name}
-                        catid3={data._source?.terms?.category[2]?.name}
-                      />
+                      </div>
+                      <div className="mt-2">
+                        <CategoryBadge
+                          catid1={data._source?.terms?.category[0]}
+                          catid2={data._source?.terms?.category[1]}
+                          catid3={data._source?.terms?.category[2]}
+                        />
+                      </div>
                     </CardBody>
                   </div>
                 </Card>
               </LazyLoad>
             ))}
-            {totalResult > 0 ? (
-              <NoResult keyword={query} type={"FINAL_RESULT"} />
-            ) : (
-              <></>
-            )}
             {/* </Row> */}
           </Col>
         </Row>
