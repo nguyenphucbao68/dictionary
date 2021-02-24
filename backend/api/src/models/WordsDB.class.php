@@ -27,7 +27,7 @@ require __DIR__ . '/../../configDB.php';
       $keyword = str_replace("  ", " ", $keyword);
       $keyword = str_replace("  ", " ", $keyword);
       $keyword = str_replace(" ", " + ", $keyword);
-      $sql = "SELECT * FROM `reactions`  INNER JOIN reactions_detail ON reactions.id = reactions_detail.rid WHERE reaction LIKE '%".$this->mysql_escape_mimic($keyword)."%'";
+      $sql = "SELECT * FROM `reactions`  INNER JOIN reactions_detail ON reactions.id = reactions_detail.rid WHERE reaction LIKE '%".$this->mysql_escape_mimic($keyword)."%' LIMIT 8";
       $this->connect();
 
       $stmt = $this->pdo->prepare($sql);
